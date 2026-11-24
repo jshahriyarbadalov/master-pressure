@@ -3,6 +3,7 @@
 extends RefCounted
 
 var failures: Array[String] = []
+var tree: SceneTree  ## дерево сцен раннера (для тестов интерфейса)
 var _current := ""
 
 
