@@ -1,0 +1,215 @@
+[
+ {
+  "name": "ex1",
+  "level": {
+   "version": 1,
+   "w": 5,
+   "h": 2,
+   "rows": [
+    "SYIYT",
+    "#LIL#"
+   ],
+   "rots": [
+    "00000",
+    "00000"
+   ],
+   "outlets": [
+    1
+   ],
+   "taps": [
+    {
+     "x": 4,
+     "y": 0,
+     "req": 3
+    }
+   ],
+   "H": 8,
+   "L": 2,
+   "meta": {},
+   "solution": [
+    "01110",
+    "00130"
+   ]
+  },
+  "connecting": 35,
+  "winning": 1,
+  "solution_expect": {
+   "leaks": 0,
+   "heff": 8,
+   "wet": 6,
+   "taps": [
+    3
+   ],
+   "connected": true,
+   "win": true
+  },
+  "trap": {
+   "rots": [
+    "01110",
+    "01010"
+   ],
+   "expect": {
+    "leaks": 2,
+    "heff": 4,
+    "wet": 3,
+    "taps": [
+     1
+    ],
+    "connected": true,
+    "win": false
+   }
+  }
+ },
+ {
+  "name": "ex2",
+  "level": {
+   "version": 1,
+   "w": 5,
+   "h": 4,
+   "rows": [
+    "IYI.I",
+    "SLLYT",
+    ".LYYY",
+    "IITLI"
+   ],
+   "rots": [
+    "00000",
+    "00000",
+    "00000",
+    "00000"
+   ],
+   "outlets": [
+    1
+   ],
+   "taps": [
+    {
+     "x": 4,
+     "y": 1,
+     "req": 2
+    },
+    {
+     "x": 2,
+     "y": 3,
+     "req": 2
+    }
+   ],
+   "H": 13,
+   "L": 2,
+   "meta": {},
+   "solution": [
+    "00000",
+    "02110",
+    "00320",
+    "00030"
+   ]
+  },
+  "connecting": 162,
+  "winning": 1,
+  "solution_expect": {
+   "leaks": 0,
+   "heff": 13,
+   "wet": 7,
+   "taps": [
+    2,
+    2
+   ],
+   "connected": true,
+   "win": true
+  },
+  "trap": {
+   "rots": [
+    "00000",
+    "02000",
+    "00112",
+    "00031"
+   ],
+   "expect": {
+    "leaks": 1,
+    "heff": 11,
+    "wet": 6,
+    "taps": [
+     1,
+     4
+    ],
+    "connected": true,
+    "win": false
+   }
+  }
+ },
+ {
+  "name": "ex3",
+  "level": {
+   "version": 1,
+   "w": 5,
+   "h": 4,
+   "rows": [
+    "L.IIT",
+    "SYYIY",
+    "ILLLL",
+    "LYLTL"
+   ],
+   "rots": [
+    "00000",
+    "00000",
+    "00000",
+    "00000"
+   ],
+   "outlets": [
+    1
+   ],
+   "taps": [
+    {
+     "x": 4,
+     "y": 0,
+     "req": 4
+    },
+    {
+     "x": 3,
+     "y": 3,
+     "req": 2
+    }
+   ],
+   "H": 13,
+   "L": 2,
+   "meta": {},
+   "solution": [
+    "00000",
+    "01112",
+    "00213",
+    "00000"
+   ]
+  },
+  "connecting": 144,
+  "winning": 2,
+  "solution_expect": {
+   "leaks": 1,
+   "heff": 11,
+   "wet": 9,
+   "taps": [
+    4,
+    2
+   ],
+   "connected": true,
+   "win": true
+  },
+  "trap": {
+   "rots": [
+    "00000",
+    "01112",
+    "00313",
+    "00000"
+   ],
+   "expect": {
+    "leaks": 0,
+    "heff": 13,
+    "wet": 8,
+    "taps": [
+     5,
+     1
+    ],
+    "connected": true,
+    "win": false
+   }
+  }
+ }
+]
