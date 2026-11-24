@@ -7,3 +7,4 @@ export_credentials.cfg
 build/
 # OS
 .DS_Store
+.godot-bin/
