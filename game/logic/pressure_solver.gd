@@ -35,6 +35,8 @@ var aborted := false       ## упёрлись в предел узлов — р
 var networks := 0          ## полных сетей рассмотрено
 var connecting := 0        ## из них довели воду до всех кранов
 var winners := 0
+var winners_watertight := 0     ## решений без протечек
+var connecting_watertight := 0  ## соединяющих сетей без протечек
 var winner_rots: Array[PackedByteArray] = []
 var winner_leaks := PackedInt32Array()  ## протечки в каждом сохранённом решении
 var best_taps := []        ## лучший напор на каждом кране среди соединяющих сетей
@@ -76,6 +78,8 @@ func solve() -> Dictionary:
 	networks = 0
 	connecting = 0
 	winners = 0
+	winners_watertight = 0
+	connecting_watertight = 0
 	winner_rots.clear()
 	winner_leaks.clear()
 	best_taps = []
@@ -112,6 +116,7 @@ func solve() -> Dictionary:
 func summary() -> Dictionary:
 	return {
 		"winners": winners, "connecting": connecting, "networks": networks,
+		"winners_watertight": winners_watertight, "connecting_watertight": connecting_watertight,
 		"nodes": nodes, "aborted": aborted, "time_ms": time_ms, "best_taps": best_taps,
 	}
 
@@ -245,6 +250,8 @@ func _complete() -> void:
 	if not r["connected"]:
 		return
 	connecting += 1
+	if r["leaks"] == 0:
+		connecting_watertight += 1
 	if connecting >= max_connecting:
 		_stop = true
 	for j in lv.taps.size():
@@ -253,6 +260,8 @@ func _complete() -> void:
 			best_taps[j] = p
 	if r["win"]:
 		winners += 1
+		if r["leaks"] == 0:
+			winners_watertight += 1
 		if winner_rots.size() < store_winners:
 			winner_rots.append(rots)
 			winner_leaks.append(r["leaks"])

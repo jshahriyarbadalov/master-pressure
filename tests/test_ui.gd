@@ -93,3 +93,29 @@ func test_undo_and_reset() -> bool:
 	check_eq(lv.rots, start, "«Заново» вернуло старт")
 	m.queue_free()
 	return ok()
+
+
+func test_pack_and_progress() -> bool:
+	var m := _make()
+	m.save_path = "user://test_progress.json"
+	check_eq(m.levels.size(), 30, "загружен пак прототипа")
+	var sizes := []
+	for d in m.levels:
+		sizes.append(int(d["w"]) * int(d["h"]))
+	var sorted_sizes := sizes.duplicate()
+	sorted_sizes.sort()
+	check_eq(sizes, sorted_sizes, "размеры не убывают (5×5 → 7×9)")
+	m.load_pack(m.levels, 0)
+	var lv = m.level
+	for i in lv.w * lv.h:
+		if lv.is_rotatable(i):
+			var guard := 0
+			while lv.rots[i] != lv.solution[i] and guard < 4 and not m.won:
+				m.tap_cell(i)
+				guard += 1
+	check(m.won, "первый уровень пака решается")
+	m.next_level()
+	check_eq(m.index, 1, "перешли на второй уровень")
+	check_eq(m.load_progress(30), 1, "прогресс сохранён и читается")
+	m.queue_free()
+	return ok()
