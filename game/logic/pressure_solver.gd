@@ -26,6 +26,7 @@ var lv
 var use_bound := true      ## отсекать по требованиям кранов
 var node_limit := 2000000  ## предел узлов перебора
 var max_winners := 1000000 ## остановиться после стольких решений
+var max_connecting := 1000000000 ## остановиться после стольких соединяющих сетей
 var store_winners := 4     ## сколько решений сохранить (повороты)
 
 # --- результат ---
@@ -244,6 +245,8 @@ func _complete() -> void:
 	if not r["connected"]:
 		return
 	connecting += 1
+	if connecting >= max_connecting:
+		_stop = true
 	for j in lv.taps.size():
 		var p = r["taps"][j]
 		if best_taps[j] == null or p > best_taps[j]:
@@ -268,9 +271,14 @@ static func count_winners(level, limit: int = 2000000, stop_after: int = 1000000
 	return res
 
 
-## Полный перебор без отсечения (для метрики «доля проходящих сетей»).
-static func count_all(level, limit: int = 2000000) -> Dictionary:
+## Перебор без отсечения (для метрики «доля проходящих сетей»).
+## stop_connecting — остановиться, найдя столько соединяющих сетей (полный счёт дорог:
+## на 6×7 он съедал 95% времени генерации и всё равно упирался в лимит).
+static func count_all(level, limit: int = 2000000, stop_connecting: int = 1000000000) -> Dictionary:
 	var s = load("res://game/logic/pressure_solver.gd").new(level)
 	s.use_bound = false
 	s.node_limit = limit
-	return s.solve()
+	s.max_connecting = stop_connecting
+	var res: Dictionary = s.solve()
+	res["stopped_early"] = s.connecting >= stop_connecting
+	return res
