@@ -48,3 +48,48 @@ func test_layout_one_hand() -> bool:
 	check(m.board.position.y + m.board.size.y <= 1280, "поле на экране")
 	m.queue_free()
 	return ok()
+
+
+func test_play_example_to_win() -> bool:
+	var m := _make()
+	var ex: Array = load_json("res://tests/fixtures/examples.json")
+	var want := [[3], [2, 2], [4, 2]]
+	for k in 3:
+		m.load_pack([ex[k]["level"]], 0)
+		var lv = m.level
+		check(not m.won, "пример %d: старт не решён" % (k + 1))
+		check(m.btn_next.disabled, "пример %d: «Дальше» выключена до победы" % (k + 1))
+		# докрутить каждую клетку касаниями до решения
+		for i in lv.w * lv.h:
+			if not lv.is_rotatable(i):
+				continue
+			var guard := 0
+			while lv.rots[i] != lv.solution[i] and guard < 4 and not m.won:
+				m.tap_cell(i)
+				guard += 1
+		check(m.won, "пример %d: решён касаниями" % (k + 1))
+		check_eq(str(m.result["taps"]), str(want[k]), "пример %d: напор на кранах как в документе" % (k + 1))
+		check(not m.btn_next.disabled, "пример %d: «Дальше» включилась" % (k + 1))
+		check(not m.tap_cell(0) or not lv.is_rotatable(0), "после победы поле не крутится")
+	m.queue_free()
+	return ok()
+
+
+func test_undo_and_reset() -> bool:
+	var m := _make()
+	var lv = m.level
+	var start: PackedByteArray = lv.rots.duplicate()
+	var cells := []
+	for i in lv.w * lv.h:
+		if lv.is_rotatable(i):
+			cells.append(i)
+	m.tap_cell(cells[0])
+	m.tap_cell(cells[1])
+	m.undo()
+	m.undo()
+	check_eq(lv.rots, start, "два «Отменить» вернули старт")
+	m.tap_cell(cells[0])
+	m.reset()
+	check_eq(lv.rots, start, "«Заново» вернуло старт")
+	m.queue_free()
+	return ok()
