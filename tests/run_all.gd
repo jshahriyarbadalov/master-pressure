@@ -19,6 +19,11 @@ func _init() -> void:
 	var t0 := Time.get_ticks_msec()
 	for f in files:
 		var script: GDScript = load("res://tests/" + f)
+		if script == null or not script.can_instantiate():
+			total += 1
+			failed += 1
+			print("FAIL ", f, ": скрипт не загружается (ошибка разбора)")
+			continue
 		var inst = script.new()
 		for m in inst.get_method_list():
 			var name: String = m["name"]
