@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cin8wm1mngr7a"
+
+[deps]
+
+files=["res://docs/reports/levels_1000.size.translation", "res://docs/reports/levels_1000.seed.translation", "res://docs/reports/levels_1000.verified.translation", "res://docs/reports/levels_1000.winners.translation", "res://docs/reports/levels_1000.solver.translation", "res://docs/reports/levels_1000.bot.translation", "res://docs/reports/levels_1000.bot.translation", "res://docs/reports/levels_1000.bot.translation", "res://docs/reports/levels_1000.score.translation", "res://docs/reports/levels_1000.tier.translation", "res://docs/reports/levels_1000.wet.translation", "res://docs/reports/levels_1000.all.translation", "res://docs/reports/levels_1000.taps.translation", "res://docs/reports/levels_1000.tight.translation", "res://docs/reports/levels_1000.solver.translation", "res://docs/reports/levels_1000.solution.translation", "res://docs/reports/levels_1000.loop.translation", "res://docs/reports/levels_1000.pass.translation"]
+
+source_file="res://docs/reports/levels_1000.csv"
+dest_files=["res://docs/reports/levels_1000.size.translation", "res://docs/reports/levels_1000.seed.translation", "res://docs/reports/levels_1000.verified.translation", "res://docs/reports/levels_1000.winners.translation", "res://docs/reports/levels_1000.solver.translation", "res://docs/reports/levels_1000.bot.translation", "res://docs/reports/levels_1000.bot.translation", "res://docs/reports/levels_1000.bot.translation", "res://docs/reports/levels_1000.score.translation", "res://docs/reports/levels_1000.tier.translation", "res://docs/reports/levels_1000.wet.translation", "res://docs/reports/levels_1000.all.translation", "res://docs/reports/levels_1000.taps.translation", "res://docs/reports/levels_1000.tight.translation", "res://docs/reports/levels_1000.solver.translation", "res://docs/reports/levels_1000.solution.translation", "res://docs/reports/levels_1000.loop.translation", "res://docs/reports/levels_1000.pass.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
