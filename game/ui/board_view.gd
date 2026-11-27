@@ -25,6 +25,7 @@ const COL_LEAK := Color("ff4d6d")
 const UNREACHED := -1000000
 
 var level = null
+var target_tap := -1  ## кран из условия «сильный напор здесь» — золотое кольцо
 var room := "kitchen"  ## помещение клиента: пол под трубами (не «theme» — так называется свойство Control)
 var result := {}  ## результат PressureEval.evaluate для текущих поворотов
 var cell := MIN_CELL
@@ -177,6 +178,10 @@ func _draw_cell(i: int) -> void:
 		var state := "dry"
 		if p != null:
 			state = "ok" if int(p) >= int(level.req[i]) else "low"
+		if i == target_tap:
+			draw_arc(r.get_center(), cell * 0.47, 0.0, TAU, 32, Color("f2c14e"), cell * 0.07)
+			var star: Texture2D = Themes.small("star")
+			draw_texture_rect(star, Rect2(r.position + Vector2(cell * 0.70, cell * 0.02), Vector2.ONE * cell * 0.28), false)
 		draw_texture_rect(PixelArt.gauge(state), r, false)
 		_draw_tap_label(i, r.get_center())
 

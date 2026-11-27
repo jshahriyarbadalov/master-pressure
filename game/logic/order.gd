@@ -5,6 +5,8 @@
 ##  - hard — необязательное жёсткое условие, без него заказ не выполнен:
 ##      {"type": "no_leaks"}            — ни одной протечки («хозяйка придирчивая»);
 ##      {"type": "max_tees", "n": k}    — не больше k развилок (тройник/крест в мокрой сети);
+##      {"type": "tap_min", "tap": i, "n": p} — на отмеченном кране напор ≥ p («на кухне сильный»);
+##      {"type": "max_pipes", "n": k}   — не больше k участков в сети («материал дорогой»);
 ##  - bonus — «уложись в N поворотов» ({"type": "max_moves", "n": N}): оплата ×1.5;
 ##  - pay — базовая оплата.
 ## Условие выбирается так, чтобы оно было выполнимо (проверено решателем) и
@@ -23,6 +25,7 @@ const PressureSolver = preload("res://game/logic/pressure_solver.gd")
 
 const MAX_WINNERS := 64
 const BONUS_MULT := 1.5
+const MAX_OK := 4  ## под условием клиента должно остаться не больше стольких решений
 
 
 ## Все решения уровня с характеристиками: [{rots, wet, leaks, tees, moves}], отсортированы по moves.
@@ -39,13 +42,37 @@ static func analyze(lv) -> Array:
 		for i in lv.w * lv.h:
 			if r["wet"][i] == 1 and (lv.kinds[i] == Pieces.TEE or lv.kinds[i] == Pieces.CROSS):
 				tees += 1
-		var plan := min_plan(lv, lv.rots, m, r["wet"])
-		out.append({
-			"rots": rots, "plan": plan, "wet": r["wet"], "leaks": int(r["leaks"]), "tees": tees,
-			"moves": min_moves(lv, lv.rots, m, r["wet"]),
-		})
-	out.sort_custom(func(a, b): return int(a["moves"]) < int(b["moves"]))
+		out.append({"rots": rots, "mask": m, "wet": r["wet"], "leaks": int(r["leaks"]), "tees": tees,
+			"taps": r["taps"], "tap_list": Array(lv.taps), "pipes": PressureEval.count_wet(r["wet"])})
+	recompute_moves(lv, out)
 	return out
+
+
+## Пересчитать касания от текущих поворотов lv.rots (сети от старта не зависят —
+## решатель второй раз не нужен). Сортирует по числу касаний.
+static func recompute_moves(lv, sols: Array) -> void:
+	for s in sols:
+		s["plan"] = min_plan(lv, lv.rots, s["mask"], s["wet"])
+		s["moves"] = min_moves(lv, lv.rots, s["mask"], s["wet"])
+	sols.sort_custom(func(a, b): return int(a["moves"]) < int(b["moves"]))
+
+
+## Нижняя граница «не слишком легко»: минимум касаний ≥ max(4, половина
+## поворачиваемых клеток в самой короткой сети-решении).
+static func moves_floor(lv, sols: Array) -> int:
+	if sols.is_empty():
+		return 4
+	var wet: PackedByteArray = sols[0]["wet"]
+	var n := 0
+	for i in lv.w * lv.h:
+		if wet[i] == 1 and lv.is_rotatable(i):
+			n += 1
+	return maxi(4, ceili(n / 2.0))
+
+
+static func pay_for(lv) -> int:
+	var score := float(lv.meta.get("difficulty", {}).get("score", 10.0))
+	return 10 * maxi(1, roundi(score / 2.0))
 
 
 ## Минимум касаний (по 90° по часовой) от поворотов start до сети с масками target на мокрых клетках.
@@ -105,8 +132,10 @@ static func _would_connect(lv, target: PackedByteArray, wet: PackedByteArray, i:
 
 
 ## Составить заказ для уровня. rng — SeededRng. Возвращает словарь заказа.
-static func make(lv, rng) -> Dictionary:
-	var sols := analyze(lv)
+## sols — готовый Order.analyze (с касаниями от текущего старта), чтобы не гонять решатель снова.
+static func make(lv, rng, sols: Array = []) -> Dictionary:
+	if sols.is_empty():
+		sols = analyze(lv)
 	var order := {"client_id": rng.rand_int(0, 9999)}
 	if sols.is_empty():
 		return order
@@ -124,6 +153,27 @@ static func make(lv, rng) -> Dictionary:
 		options.append({"type": "no_leaks"})
 	if min_tees < max_tees:
 		options.append({"type": "max_tees", "n": min_tees})
+	var min_pipes := 1 << 30
+	var max_pipes := 0
+	for s in sols:
+		min_pipes = mini(min_pipes, int(s["pipes"]))
+		max_pipes = maxi(max_pipes, int(s["pipes"]))
+	if min_pipes < max_pipes:
+		options.append({"type": "max_pipes", "n": min_pipes})
+	# «сильный напор на отмеченном кране»: максимум по решениям, если не у всех он одинаков
+	var tap_opts := []
+	for j in lv.taps.size():
+		var vmax := -1000000000
+		var vmin := 1000000000
+		for s in sols:
+			vmax = maxi(vmax, int(s["taps"][j]))
+			vmin = mini(vmin, int(s["taps"][j]))
+		if vmin < vmax:
+			tap_opts.append({"type": "tap_min", "tap": lv.taps[j], "n": vmax})
+	if not tap_opts.is_empty():
+		options.append(rng.pick(tap_opts))
+	# условие должно оставлять головоломку точной: под ним ≤ MAX_OK решений
+	options = options.filter(func(o): return _count_ok(o, sols) <= MAX_OK)
 	if not options.is_empty():
 		order["hard"] = rng.pick(options)
 	# бонус: минимум поворотов среди решений, выполняющих жёсткое условие, + небольшой запас
@@ -133,9 +183,16 @@ static func make(lv, rng) -> Dictionary:
 			best = mini(best, int(s["moves"]))
 	order["min_moves"] = best
 	order["bonus"] = {"type": "max_moves", "n": best + rng.rand_int(0, 2)}
-	var score := float(lv.meta.get("difficulty", {}).get("score", 10.0))
-	order["pay"] = 10 * maxi(1, roundi(score / 2.0))
+	order["pay"] = pay_for(lv)
 	return order
+
+
+static func _count_ok(hard: Dictionary, sols: Array) -> int:
+	var c := 0
+	for s in sols:
+		if _hard_ok_solution({"hard": hard}, s):
+			c += 1
+	return c
 
 
 static func _hard_ok_solution(order: Dictionary, s: Dictionary) -> bool:
@@ -147,6 +204,11 @@ static func _hard_ok_solution(order: Dictionary, s: Dictionary) -> bool:
 			return int(s["leaks"]) == 0
 		"max_tees":
 			return int(s["tees"]) <= int(h["n"])
+		"max_pipes":
+			return int(s["pipes"]) <= int(h["n"])
+		"tap_min":
+			var j: int = Array(s["tap_list"]).find(int(h["tap"]))
+			return j >= 0 and s["taps"][j] != null and int(s["taps"][j]) >= int(h["n"])
 	return true
 
 
@@ -165,6 +227,12 @@ static func check(lv, order: Dictionary, r: Dictionary, moves: int) -> Dictionar
 					if r["wet"][i] == 1 and (lv.kinds[i] == Pieces.TEE or lv.kinds[i] == Pieces.CROSS):
 						tees += 1
 				hard_ok = tees <= int(h["n"])
+			"max_pipes":
+				hard_ok = PressureEval.count_wet(r["wet"]) <= int(h["n"])
+			"tap_min":
+				var j: int = Array(lv.taps).find(int(h["tap"]))
+				var p = r["taps"][j] if j >= 0 else null
+				hard_ok = p != null and int(p) >= int(h["n"])
 	var done: bool = r["win"] and hard_ok
 	var bonus_ok := done and order.has("bonus") and moves <= int(order["bonus"]["n"])
 	var pay := 0

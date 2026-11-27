@@ -17,6 +17,8 @@ func _init() -> void:
 	for k in ["loop_prob", "decoy_prob"]:
 		if a.has(k):
 			params[k] = float(a[k])
+	if a.has("order"):
+		params["order"] = true
 	var count := int(a.get("count", 10))
 	var seed0 := int(a.get("seed", 1))
 	var out := String(a.get("out", ""))
@@ -45,6 +47,15 @@ func _init() -> void:
 		JsonIo.write_lines(out, levels, a.has("append"))
 	print("size=%s taps=%d: ok=%d failed=%d attempts=%d total=%.1fs avg=%dms max=%dms" % [a.get("size", "5x5"), params["taps"], levels.size(), failed, attempts, total / 1000.0, total / maxi(1, count), max_ms])
 	print("rejected: ", rejected)
+	if params.get("order", false):
+		var hard := 0
+		var mins := []
+		for d in levels:
+			if d.has("order") and d["order"].has("hard"):
+				hard += 1
+			mins.append(int(d.get("order", {}).get("min_moves", 0)))
+		mins.sort()
+		print("заказы: с условием %d из %d; минимум касаний: min %d, медиана %d" % [hard, levels.size(), mins[0] if mins.size() > 0 else 0, mins[mins.size() / 2] if mins.size() > 0 else 0])
 	quit(0)
 
 
