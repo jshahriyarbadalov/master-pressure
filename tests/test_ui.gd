@@ -14,6 +14,12 @@ func _make() -> Control:
 		scene._ready()
 	scene.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	scene.size = Vector2(720, 1280)
+	# тесты начинают с чистого прогресса и не пишут в настоящий файл
+	scene.save_path = "user://test_progress_ui.json"
+	scene.done = {}
+	scene.money = 0
+	if scene.menu != null:
+		scene.menu.close()
 	scene._layout()
 	return scene
 
@@ -252,3 +258,67 @@ func test_rotation_animation_ends() -> bool:
 	check(over > 1.0, "есть перелёт (пружинка)")
 	m.queue_free()
 	return ok()
+
+
+func test_menu_flow() -> bool:
+	var m := _make()
+	var menu = m.menu
+	menu.open("home")
+	check(menu.visible, "меню открыто")
+	check(menu._buttons.size() == 3, "на главном три кнопки")
+	for b in menu._buttons:
+		check(b.position.y >= 1280 * 2.0 / 3.0 - 1, "кнопка «%s» в нижней трети" % b.text)
+	check(menu._buttons[0].text.contains("заказ 1"), "продолжить с первого заказа")
+	# открыт только первый заказ
+	menu.open("orders")
+	check_eq(menu._tiles.size(), m.levels.size(), "плитки на все заказы")
+	check(not menu._tiles[0].disabled and menu._tiles[1].disabled, "открыт только первый")
+	for t in menu._tiles:
+		check(t.size.x >= 96.0, "плитка ≥ 48 dp")
+	# сыграть первый: после победы открывается второй, прогресс сохраняется
+	menu.play_requested.emit(0)
+	check(not menu.visible, "меню закрылось при выборе заказа")
+	_solve(m)
+	check(m.won, "заказ выполнен")
+	check_eq(m.level_status(0) >= 1, true, "отмечен выполненным")
+	check_eq(m.unlocked_count(), 2, "открылся следующий")
+	var money_after: int = m.money
+	m.load_pack(m.levels, 0)
+	_solve(m)
+	check_eq(m.money, money_after, "повтор заказа денег не даёт")
+	m.queue_free()
+	return ok()
+
+
+func test_settings_and_left_hand() -> bool:
+	var m := _make()
+	m.menu.open("settings")
+	var right_x: float = m.btn_menu.position.x
+	m.menu._toggle("left_hand")
+	check(m.settings["left_hand"], "левша включён")
+	check(m.btn_menu.position.x > right_x, "для левши кнопки зеркальны (≡ справа)")
+	m.menu._toggle("sound")
+	check(not m.sound_on, "звук выключен")
+	m.menu._toggle("vibration")
+	check(not m.vibration_on, "вибрация выключена")
+	check_eq(m.load_progress(m.levels.size()) >= 0, true, "настройки читаются")
+	check(not m.settings["sound"] and m.settings["left_hand"], "настройки сохранились")
+	# сброс прогресса — двойное нажатие
+	m.done = {0: 1}
+	m.money = 50
+	m.menu._reset()
+	check_eq(m.money, 50, "первое нажатие только спрашивает")
+	m.menu._reset()
+	check(m.money == 0 and m.done.is_empty(), "второе — сбрасывает")
+	m.queue_free()
+	return ok()
+
+
+## Решить текущий заказ решением, которое его выполняет.
+func _solve(m) -> void:
+	var Order = load("res://game/logic/order.gd")
+	var lv = m.level
+	for sl in Order.analyze(lv):
+		if Order.check(lv, lv.order, PressureEval.evaluate(lv, sl["mask"]), 0)["done"]:
+			_tap_to(m, sl["plan"])
+			return

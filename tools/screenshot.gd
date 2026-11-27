@@ -9,6 +9,7 @@ var out := "shot.png"
 var series := 0       ## --frames N: снять N кадров (out_000.png …) для GIF
 var every := 3        ## --every K: каждый K-й кадр
 var taps := []        ## --taps "i,j,k": касания по ходу съёмки (для анимации поворота)
+var menu_screen := ""
 
 
 func _initialize() -> void:
@@ -26,6 +27,12 @@ func _initialize() -> void:
 	root.add_child(main)
 	if main.board == null:
 		main._ready()
+	if a.has("menu"):
+		main.done = {0: 2, 1: 1, 2: 1}  # для картинки: пара выполненных заказов
+		main.money = 225
+		menu_screen = String(a["menu"])  # откроем на первом кадре, когда у экрана есть размер
+	else:
+		main.menu.close()
 	if a.has("level"):
 		main.index = int(a["level"])
 		main._load_current()
@@ -71,6 +78,8 @@ func _initialize() -> void:
 
 func _process(_delta: float) -> bool:
 	frames += 1
+	if frames == 1 and menu_screen != "":
+		main.menu.open(menu_screen)
 	if series > 0:
 		var k := frames - 5
 		if k >= 0 and k % every == 0:
