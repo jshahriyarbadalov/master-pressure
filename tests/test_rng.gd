@@ -22,7 +22,7 @@ func test_sequences_match_reference() -> bool:
 	var r42 := SeededRng.new(42)
 	var bad3 := 0
 	for k in 1000:
-		if r42.randi_range(0, 6) != int(g["range_0_6"][k]):
+		if r42.rand_int(0, 6) != int(g["range_0_6"][k]):
 			bad3 += 1
 	check_eq(bad3, 0, "randi_range(0,6)")
 	for key in g["fnv"]:
@@ -34,9 +34,27 @@ func test_range_and_uniformity() -> bool:
 	var r := SeededRng.new(7)
 	var counts := [0, 0, 0, 0, 0, 0]
 	for k in 60000:
-		var v := r.randi_range(0, 5)
+		var v := r.rand_int(0, 5)
 		check(v >= 0 and v <= 5, "вне диапазона")
 		counts[v] += 1
 	for c in counts:
 		check(absi(c - 10000) < 500, "неравномерно: %s" % str(counts))
+	return ok()
+
+
+## Ловит ошибку «вызов без self. уходит во встроенный ГСЧ»: pick/shuffle/chance
+## должны давать одно и то же при одном seed.
+func test_helpers_deterministic() -> bool:
+	var outs := []
+	for run in 2:
+		var r := SeededRng.new(99)
+		var arr := range(20)
+		r.shuffle(arr)
+		var picks := []
+		var chances := []
+		for k in 20:
+			picks.append(r.pick([1, 2, 3, 4, 5, 6, 7]))
+			chances.append(r.chance(0.5))
+		outs.append(str(arr) + str(picks) + str(chances))
+	check_eq(outs[0], outs[1], "shuffle/pick/chance при одном seed")
 	return ok()

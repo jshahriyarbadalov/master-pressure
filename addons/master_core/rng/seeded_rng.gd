@@ -72,7 +72,9 @@ func next_u32() -> int:
 
 
 ## Целое в [lo, hi] без смещения (отбрасывание хвоста).
-func randi_range(lo: int, hi: int) -> int:
+## Имена rand_int/rand_float, а не randi_range/randf: иначе вызов без self.
+## внутри класса уходит во ВСТРОЕННЫЙ глобальный ГСЧ Godot (была такая ошибка).
+func rand_int(lo: int, hi: int) -> int:
 	var n := hi - lo + 1
 	assert(n > 0, "пустой диапазон")
 	var limit := 0x100000000 - (0x100000000 % n)
@@ -83,21 +85,21 @@ func randi_range(lo: int, hi: int) -> int:
 	return lo
 
 
-func randf() -> float:
+func rand_float() -> float:
 	return next_u32() / 4294967296.0
 
 
 func chance(p: float) -> bool:
-	return randf() < p
+	return rand_float() < p
 
 
 func pick(arr: Array) -> Variant:
-	return arr[randi_range(0, arr.size() - 1)]
+	return arr[rand_int(0, arr.size() - 1)]
 
 
 func shuffle(arr: Array) -> void:
 	for i in range(arr.size() - 1, 0, -1):
-		var j := randi_range(0, i)
+		var j := rand_int(0, i)
 		var tmp = arr[i]
 		arr[i] = arr[j]
 		arr[j] = tmp

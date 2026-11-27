@@ -68,8 +68,8 @@ func test_matches_brute_force_100() -> bool:
 	var tries := 0
 	while done < 100 and tries < 2000:
 		tries += 1
-		var w := rng.randi_range(3, 4)
-		var h := rng.randi_range(2, 4)
+		var w := rng.rand_int(3, 4)
+		var h := rng.rand_int(2, 4)
 		var rows := []
 		for y in h:
 			var s := ""
@@ -83,12 +83,12 @@ func test_matches_brute_force_100() -> bool:
 		var srow: String = rows[cells[0] / w]
 		rows[cells[0] / w] = srow.substr(0, cells[0] % w) + "S" + srow.substr(cells[0] % w + 1)
 		var reqs := {}
-		for k in rng.randi_range(1, 2):
+		for k in rng.rand_int(1, 2):
 			var c: int = cells[1 + k]
 			var trow: String = rows[c / w]
 			rows[c / w] = trow.substr(0, c % w) + "T" + trow.substr(c % w + 1)
-			reqs[Vector2i(c % w, c / w)] = rng.randi_range(0, 6)
-		var lv = PressureLevel.from_rows(rows, rng.randi_range(5, 14), [rng.randi_range(0, 3)], reqs, rng.randi_range(1, 3))
+			reqs[Vector2i(c % w, c / w)] = rng.rand_int(0, 6)
+		var lv = PressureLevel.from_rows(rows, rng.rand_int(5, 14), [rng.rand_int(0, 3)], reqs, rng.rand_int(1, 3))
 		var space := 1
 		for i in w * h:
 			if Pieces.is_pipe(lv.kinds[i]):
