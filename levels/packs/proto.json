@@ -7,83 +7,86 @@
    "w": 5,
    "h": 5,
    "rows": [
-    "XLYIL",
-    "IIIXX",
-    "SYIIT",
-    "YILLI",
-    ".LIIT"
+    "YI.II",
+    "ILILI",
+    "LLLIT",
+    "YLSLY",
+    "YILYT"
    ],
    "rots": [
-    "03110",
-    "23000",
-    "01020",
-    "11333",
-    "00030"
+    "30002",
+    "31032",
+    "00030",
+    "30021",
+    "21210"
    ],
    "outlets": [
-    1
+    2
    ],
    "taps": [
     {
      "x": 4,
      "y": 2,
-     "req": 5
+     "req": 2
     },
     {
      "x": 4,
      "y": 4,
-     "req": 1
+     "req": 7
     }
    ],
-   "H": 9,
+   "H": 13,
    "L": 2,
    "meta": {
     "w": 5,
     "h": 5,
     "taps": 2,
     "slack": 0,
-    "winners": 1,
-    "solver_nodes": 31,
-    "solver_ms": 1,
-    "connecting": 63,
+    "winners": 2,
+    "solver_nodes": 30,
+    "connecting": 11,
     "connecting_complete": true,
-    "all_nodes": 1808,
-    "solution_leaks": 0,
+    "all_nodes": 392,
+    "solution_leaks": 1,
     "loop": false,
-    "seed": 10038,
+    "seed": 110011,
     "attempts": 1,
-    "gen_ms": 74,
     "difficulty": {
-     "rotatable": 18,
-     "wet_cells": 7,
-     "wet_bits": 9,
-     "all_bits": 26,
+     "rotatable": 21,
+     "wet_cells": 4,
+     "wet_bits": 8,
+     "all_bits": 34,
      "taps": 2,
      "tight_taps": 2,
-     "solver_log": 1.505,
-     "solution_leaks": 0,
+     "solver_log": 1.491,
+     "solution_leaks": 1,
      "loop": 0,
-     "winners": 1,
-     "connecting": 63,
-     "pass_ratio": 0.016,
-     "score": 9.77
+     "winners": 2,
+     "connecting": 11,
+     "pass_ratio": 0.182,
+     "score": 10.38
     },
-    "bot_moves_median": 15,
+    "bot_moves_median": 9,
     "bot_solved": "3/3"
    },
    "solution": [
     "00000",
-    "11111",
-    "01110",
-    "20121",
-    "00110"
+    "00001",
+    "00010",
+    "02013",
+    "00030"
    ],
    "order": {
-    "client_id": 94,
-    "min_moves": 4,
+    "client_id": 1594,
+    "hard": {
+     "type": "tap_min",
+     "tap": 24,
+     "n": 9
+    },
+    "min_moves": 8,
     "bonus": {
      "type": "max_moves",
-     "n": 4
+     "n": 9
     },
     "pay": 50
    }
@@ -93,290 +96,32 @@
    "w": 5,
    "h": 5,
    "rows": [
-    "L.ILL",
-    ".SYI.",
-    "LYILI",
-    "TLYIY",
-    "YLILT"
+    ".LIXI",
+    ".IIIL",
+    "XTLLL",
+    "YYYYT",
+    "LLSYI"
    ],
    "rots": [
-    "30203",
-    "00010",
-    "03013",
-    "01101",
-    "10020"
+    "01203",
+    "03001",
+    "00213",
+    "00130",
+    "02020"
    ],
    "outlets": [
-    2
+    3
    ],
    "taps": [
     {
-     "x": 0,
-     "y": 3,
+     "x": 1,
+     "y": 2,
      "req": 6
     },
     {
      "x": 4,
-     "y": 4,
-     "req": 2
-    }
-   ],
-   "H": 11,
-   "L": 2,
-   "meta": {
-    "w": 5,
-    "h": 5,
-    "taps": 2,
-    "slack": 0,
-    "winners": 2,
-    "solver_nodes": 248,
-    "solver_ms": 5,
-    "connecting": 38,
-    "connecting_complete": true,
-    "all_nodes": 1479,
-    "solution_leaks": 0,
-    "loop": false,
-    "seed": 10086,
-    "attempts": 1,
-    "gen_ms": 75,
-    "difficulty": {
-     "rotatable": 19,
-     "wet_cells": 6,
-     "wet_bits": 10,
-     "all_bits": 32,
-     "taps": 2,
-     "tight_taps": 2,
-     "solver_log": 2.396,
-     "solution_leaks": 0,
-     "loop": 0,
-     "winners": 2,
-     "connecting": 38,
-     "pass_ratio": 0.053,
-     "score": 11.52
-    },
-    "bot_moves_median": 5,
-    "bot_solved": "3/3"
-   },
-   "solution": [
-    "00000",
-    "00010",
-    "13120",
-    "01001",
-    "10000"
-   ],
-   "order": {
-    "client_id": 4192,
-    "min_moves": 5,
-    "bonus": {
-     "type": "max_moves",
-     "n": 6
-    },
-    "pay": 60
-   }
-  },
-  {
-   "version": 1,
-   "w": 5,
-   "h": 5,
-   "rows": [
-    "LTL.S",
-    "LYIYL",
-    "YIYLY",
-    "YTYIX",
-    "ILYI."
-   ],
-   "rots": [
-    "00100",
-    "23233",
-    "12113",
-    "10010",
-    "01310"
-   ],
-   "outlets": [
-    2
-   ],
-   "taps": [
-    {
-     "x": 1,
-     "y": 0,
-     "req": 3
-    },
-    {
-     "x": 1,
      "y": 3,
-     "req": 2
-    }
-   ],
-   "H": 12,
-   "L": 2,
-   "meta": {
-    "w": 5,
-    "h": 5,
-    "taps": 2,
-    "slack": 0,
-    "winners": 2,
-    "solver_nodes": 2174,
-    "solver_ms": 25,
-    "connecting": 2000,
-    "connecting_complete": false,
-    "all_nodes": 14633,
-    "solution_leaks": 1,
-    "loop": false,
-    "seed": 10154,
-    "attempts": 3,
-    "gen_ms": 921,
-    "difficulty": {
-     "rotatable": 19,
-     "wet_cells": 5,
-     "wet_bits": 8,
-     "all_bits": 33,
-     "taps": 2,
-     "tight_taps": 2,
-     "solver_log": 3.337,
-     "solution_leaks": 1,
-     "loop": 0,
-     "winners": 2,
-     "connecting": 2000,
-     "pass_ratio": 0.001,
-     "score": 13.24
-    },
-    "bot_moves_median": 2,
-    "bot_solved": "3/3"
-   },
-   "solution": [
-    "20000",
-    "20133",
-    "20011",
-    "20000",
-    "01000"
-   ],
-   "order": {
-    "client_id": 4756,
-    "min_moves": 2,
-    "bonus": {
-     "type": "max_moves",
-     "n": 3
-    },
-    "pay": 70
-   }
-  },
-  {
-   "version": 1,
-   "w": 5,
-   "h": 5,
-   "rows": [
-    "YL.YI",
-    "..YYT",
-    "LIYYY",
-    "IISLL",
-    "TILYI"
-   ],
-   "rots": [
-    "32003",
-    "00120",
-    "21220",
-    "20013",
-    "03211"
-   ],
-   "outlets": [
-    0
-   ],
-   "taps": [
-    {
-     "x": 4,
-     "y": 1,
      "req": 1
-    },
-    {
-     "x": 0,
-     "y": 4,
-     "req": 2
-    }
-   ],
-   "H": 9,
-   "L": 2,
-   "meta": {
-    "w": 5,
-    "h": 5,
-    "taps": 2,
-    "slack": 0,
-    "winners": 1,
-    "solver_nodes": 1571,
-    "solver_ms": 25,
-    "connecting": 908,
-    "connecting_complete": false,
-    "all_nodes": 20001,
-    "solution_leaks": 0,
-    "loop": true,
-    "seed": 10075,
-    "attempts": 3,
-    "gen_ms": 1139,
-    "difficulty": {
-     "rotatable": 19,
-     "wet_cells": 8,
-     "wet_bits": 14,
-     "all_bits": 32,
-     "taps": 2,
-     "tight_taps": 2,
-     "solver_log": 3.196,
-     "solution_leaks": 0,
-     "loop": 1,
-     "winners": 1,
-     "connecting": 908,
-     "pass_ratio": 0.001,
-     "score": 14.79
-    },
-    "bot_moves_median": 137,
-    "bot_solved": "3/3"
-   },
-   "solution": [
-    "00001",
-    "00310",
-    "11112",
-    "02003",
-    "00111"
-   ],
-   "order": {
-    "client_id": 3077,
-    "min_moves": 14,
-    "bonus": {
-     "type": "max_moves",
-     "n": 16
-    },
-    "pay": 70
-   }
-  },
-  {
-   "version": 1,
-   "w": 5,
-   "h": 5,
-   "rows": [
-    "YLILY",
-    "LITYL",
-    "ILIYT",
-    "I.YYL",
-    "LYSLX"
-   ],
-   "rots": [
-    "11230",
-    "30001",
-    "23010",
-    "30113",
-    "10010"
-   ],
-   "outlets": [
-    1
-   ],
-   "taps": [
-    {
-     "x": 2,
-     "y": 1,
-     "req": 1
-    },
-    {
-     "x": 4,
-     "y": 2,
-     "req": 3
     }
    ],
    "H": 10,
@@ -387,49 +132,51 @@
     "taps": 2,
     "slack": 0,
     "winners": 2,
-    "solver_nodes": 599,
-    "solver_ms": 11,
-    "connecting": 924,
+    "solver_nodes": 35,
+    "connecting": 1099,
     "connecting_complete": true,
-    "all_nodes": 13148,
+    "all_nodes": 9517,
     "solution_leaks": 0,
     "loop": true,
-    "seed": 10101,
-    "attempts": 2,
-    "gen_ms": 917,
+    "seed": 110006,
+    "attempts": 1,
     "difficulty": {
-     "rotatable": 20,
-     "wet_cells": 11,
-     "wet_bits": 19,
-     "all_bits": 35,
+     "rotatable": 18,
+     "wet_cells": 6,
+     "wet_bits": 12,
+     "all_bits": 30,
      "taps": 2,
      "tight_taps": 2,
-     "solver_log": 2.778,
+     "solver_log": 1.556,
      "solution_leaks": 0,
      "loop": 1,
      "winners": 2,
-     "connecting": 924,
+     "connecting": 1099,
      "pass_ratio": 0.002,
-     "score": 16.28
+     "score": 11.96
     },
-    "bot_moves_median": 26,
+    "bot_moves_median": 7,
     "bot_solved": "3/3"
    },
    "solution": [
-    "21120",
-    "20020",
-    "00120",
-    "00103",
-    "02032"
+    "00000",
+    "01110",
+    "10120",
+    "20330",
+    "20001"
    ],
    "order": {
-    "client_id": 6425,
-    "min_moves": 10,
+    "client_id": 142,
+    "hard": {
+     "type": "max_pipes",
+     "n": 6
+    },
+    "min_moves": 8,
     "bonus": {
      "type": "max_moves",
-     "n": 10
+     "n": 8
     },
-    "pay": 80
+    "pay": 60
    }
   },
   {
@@ -437,292 +184,26 @@
    "w": 5,
    "h": 5,
    "rows": [
-    "YXLYI",
-    "LI.LL",
-    "TLTYI",
-    "YLIYY",
-    "LL.SY"
+    "YL.YI",
+    "XITIL",
+    "LIYYL",
+    "LSLLL",
+    "LLLLT"
    ],
    "rots": [
-    "30312",
-    "11010",
-    "01001",
-    "21302",
-    "32001"
+    "33020",
+    "01020",
+    "31031",
+    "00210",
+    "21110"
    ],
    "outlets": [
-    1
-   ],
-   "taps": [
-    {
-     "x": 0,
-     "y": 2,
-     "req": 2
-    },
-    {
-     "x": 2,
-     "y": 2,
-     "req": 3
-    }
-   ],
-   "H": 16,
-   "L": 2,
-   "meta": {
-    "w": 5,
-    "h": 5,
-    "taps": 2,
-    "slack": 0,
-    "winners": 2,
-    "solver_nodes": 4245,
-    "solver_ms": 156,
-    "connecting": 366,
-    "connecting_complete": true,
-    "all_nodes": 6601,
-    "solution_leaks": 1,
-    "loop": true,
-    "seed": 10153,
-    "attempts": 1,
-    "gen_ms": 465,
-    "difficulty": {
-     "rotatable": 19,
-     "wet_cells": 10,
-     "wet_bits": 18,
-     "all_bits": 34,
-     "taps": 2,
-     "tight_taps": 2,
-     "solver_log": 3.628,
-     "solution_leaks": 1,
-     "loop": 1,
-     "winners": 2,
-     "connecting": 366,
-     "pass_ratio": 0.005,
-     "score": 17.85
-    },
-    "bot_moves_median": 109,
-    "bot_solved": "3/3"
-   },
-   "solution": [
-    "00031",
-    "01012",
-    "02020",
-    "10132",
-    "01003"
-   ],
-   "order": {
-    "client_id": 9108,
-    "min_moves": 13,
-    "bonus": {
-     "type": "max_moves",
-     "n": 15
-    },
-    "pay": 90
-   }
-  },
-  {
-   "version": 1,
-   "w": 6,
-   "h": 6,
-   "rows": [
-    "YITYTL",
-    "YYLIYL",
-    "IIL.IL",
-    "YILSIY",
-    "YLILLL",
-    "YYIILX"
-   ],
-   "rots": [
-    "220300",
-    "300031",
-    "330021",
-    "030022",
-    "222012",
-    "122120"
-   ],
-   "outlets": [
-    2
+    3
    ],
    "taps": [
     {
      "x": 2,
-     "y": 0,
-     "req": 1
-    },
-    {
-     "x": 4,
-     "y": 0,
-     "req": 5
-    }
-   ],
-   "H": 13,
-   "L": 2,
-   "meta": {
-    "w": 6,
-    "h": 6,
-    "taps": 2,
-    "slack": 0,
-    "winners": 1,
-    "solver_nodes": 683,
-    "solver_ms": 17,
-    "connecting": 0,
-    "connecting_complete": false,
-    "all_nodes": 20001,
-    "solution_leaks": 0,
-    "loop": false,
-    "seed": 20199,
-    "attempts": 2,
-    "gen_ms": 1364,
-    "difficulty": {
-     "rotatable": 31,
-     "wet_cells": 7,
-     "wet_bits": 11,
-     "all_bits": 52,
-     "taps": 2,
-     "tight_taps": 2,
-     "solver_log": 2.835,
-     "solution_leaks": 0,
-     "loop": 0,
-     "winners": 1,
-     "connecting": 0,
-     "pass_ratio": 1,
-     "score": 10.21
-    },
-    "bot_moves_median": 11,
-    "bot_solved": "3/3"
-   },
-   "solution": [
-    "000200",
-    "020120",
-    "001000",
-    "002000",
-    "000030",
-    "000110"
-   ],
-   "order": {
-    "client_id": 2480,
-    "min_moves": 6,
-    "bonus": {
-     "type": "max_moves",
-     "n": 8
-    },
-    "pay": 50
-   }
-  },
-  {
-   "version": 1,
-   "w": 6,
-   "h": 6,
-   "rows": [
-    "YXXTLT",
-    "LYIYLY",
-    ".Y.III",
-    "LLLILY",
-    ".LLL.L",
-    "YLSLLY"
-   ],
-   "rots": [
-    "100020",
-    "110003",
-    "030123",
-    "020202",
-    "011001",
-    "310331"
-   ],
-   "outlets": [
-    0
-   ],
-   "taps": [
-    {
-     "x": 3,
-     "y": 0,
-     "req": 8
-    },
-    {
-     "x": 5,
-     "y": 0,
-     "req": 3
-    }
-   ],
-   "H": 16,
-   "L": 2,
-   "meta": {
-    "w": 6,
-    "h": 6,
-    "taps": 2,
-    "slack": 0,
-    "winners": 1,
-    "solver_nodes": 199,
-    "solver_ms": 3,
-    "connecting": 1575,
-    "connecting_complete": true,
-    "all_nodes": 14895,
-    "solution_leaks": 0,
-    "loop": false,
-    "seed": 20048,
-    "attempts": 1,
-    "gen_ms": 994,
-    "difficulty": {
-     "rotatable": 27,
-     "wet_cells": 7,
-     "wet_bits": 12,
-     "all_bits": 49,
-     "taps": 2,
-     "tight_taps": 2,
-     "solver_log": 2.301,
-     "solution_leaks": 0,
-     "loop": 0,
-     "winners": 1,
-     "connecting": 1575,
-     "pass_ratio": 0.001,
-     "score": 13.68
-    },
-    "bot_moves_median": 10,
-    "bot_solved": "3/3"
-   },
-   "solution": [
-    "003010",
-    "000031",
-    "000000",
-    "003000",
-    "021300",
-    "020100"
-   ],
-   "order": {
-    "client_id": 8068,
-    "min_moves": 10,
-    "bonus": {
-     "type": "max_moves",
-     "n": 11
-    },
-    "pay": 70
-   }
-  },
-  {
-   "version": 1,
-   "w": 6,
-   "h": 6,
-   "rows": [
-    "LLYIYT",
-    "ILIIIL",
-    "IYSIYL",
-    "XI.YYL",
-    "L.I.T.",
-    "II...L"
-   ],
-   "rots": [
-    "120330",
-    "102310",
-    "330122",
-    "020131",
-    "003000",
-    "230000"
-   ],
-   "outlets": [
-    0
-   ],
-   "taps": [
-    {
-     "x": 5,
-     "y": 0,
+     "y": 1,
      "req": 7
     },
     {
@@ -734,53 +215,318 @@
    "H": 15,
    "L": 2,
    "meta": {
-    "w": 6,
-    "h": 6,
+    "w": 5,
+    "h": 5,
     "taps": 2,
     "slack": 0,
     "winners": 2,
-    "solver_nodes": 172,
-    "solver_ms": 3,
-    "connecting": 791,
+    "solver_nodes": 1117,
+    "connecting": 27,
     "connecting_complete": true,
-    "all_nodes": 8377,
+    "all_nodes": 2573,
+    "solution_leaks": 0,
+    "loop": false,
+    "seed": 110001,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 20,
+     "wet_cells": 7,
+     "wet_bits": 13,
+     "all_bits": 36,
+     "taps": 2,
+     "tight_taps": 2,
+     "solver_log": 3.048,
+     "solution_leaks": 0,
+     "loop": 0,
+     "winners": 2,
+     "connecting": 27,
+     "pass_ratio": 0.074,
+     "score": 13.59
+    },
+    "bot_moves_median": 22,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "00000",
+    "20000",
+    "11230",
+    "00020",
+    "11200"
+   ],
+   "order": {
+    "client_id": 7426,
+    "hard": {
+     "type": "max_tees",
+     "n": 1
+    },
+    "min_moves": 10,
+    "bonus": {
+     "type": "max_moves",
+     "n": 10
+    },
+    "pay": 70
+   }
+  },
+  {
+   "version": 1,
+   "w": 5,
+   "h": 5,
+   "rows": [
+    ".LXIL",
+    "LIITI",
+    "SYYYY",
+    "LLYTL",
+    "IIIXY"
+   ],
+   "rots": [
+    "01002",
+    "00101",
+    "00330",
+    "33102",
+    "00300"
+   ],
+   "outlets": [
+    1
+   ],
+   "taps": [
+    {
+     "x": 3,
+     "y": 1,
+     "req": 3
+    },
+    {
+     "x": 3,
+     "y": 3,
+     "req": 3
+    }
+   ],
+   "H": 12,
+   "L": 2,
+   "meta": {
+    "w": 5,
+    "h": 5,
+    "taps": 2,
+    "slack": 0,
+    "winners": 13,
+    "solver_nodes": 3366,
+    "connecting": 2000,
+    "connecting_complete": false,
+    "all_nodes": 14248,
     "solution_leaks": 1,
     "loop": true,
-    "seed": 20085,
+    "seed": 110038,
     "attempts": 1,
-    "gen_ms": 584,
     "difficulty": {
-     "rotatable": 25,
-     "wet_cells": 9,
+     "rotatable": 19,
+     "wet_cells": 5,
+     "wet_bits": 10,
+     "all_bits": 31,
+     "taps": 2,
+     "tight_taps": 2,
+     "solver_log": 3.527,
+     "solution_leaks": 1,
+     "loop": 1,
+     "winners": 13,
+     "connecting": 2000,
+     "pass_ratio": 0.007,
+     "score": 14.69
+    },
+    "bot_moves_median": 6,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "00010",
+    "01200",
+    "01120",
+    "20200",
+    "01100"
+   ],
+   "order": {
+    "client_id": 6587,
+    "hard": {
+     "type": "max_pipes",
+     "n": 3
+    },
+    "min_moves": 6,
+    "bonus": {
+     "type": "max_moves",
+     "n": 6
+    },
+    "pay": 70
+   }
+  },
+  {
+   "version": 1,
+   "w": 5,
+   "h": 5,
+   "rows": [
+    "LLYLS",
+    "YLTYI",
+    "LLLYL",
+    "LYYIL",
+    "IYTL."
+   ],
+   "rots": [
+    "23020",
+    "23023",
+    "13213",
+    "13033",
+    "33030"
+   ],
+   "outlets": [
+    3
+   ],
+   "taps": [
+    {
+     "x": 2,
+     "y": 1,
+     "req": 8
+    },
+    {
+     "x": 2,
+     "y": 4,
+     "req": 2
+    }
+   ],
+   "H": 13,
+   "L": 2,
+   "meta": {
+    "w": 5,
+    "h": 5,
+    "taps": 2,
+    "slack": 0,
+    "winners": 3,
+    "solver_nodes": 971,
+    "connecting": 1503,
+    "connecting_complete": false,
+    "all_nodes": 20001,
+    "solution_leaks": 0,
+    "loop": true,
+    "seed": 110021,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 21,
+     "wet_cells": 8,
      "wet_bits": 15,
      "all_bits": 39,
      "taps": 2,
      "tight_taps": 2,
-     "solver_log": 2.238,
-     "solution_leaks": 1,
+     "solver_log": 2.988,
+     "solution_leaks": 0,
      "loop": 1,
-     "winners": 2,
-     "connecting": 791,
-     "pass_ratio": 0.003,
-     "score": 15.55
+     "winners": 3,
+     "connecting": 1503,
+     "pass_ratio": 0.002,
+     "score": 15.45
     },
-    "bot_moves_median": 600,
-    "bot_solved": "1/3"
+    "bot_moves_median": 42,
+    "bot_solved": "3/3"
    },
    "solution": [
-    "020110",
-    "020200",
-    "020002",
-    "000203",
-    "000000",
-    "000000"
+    "00210",
+    "02023",
+    "02132",
+    "02013",
+    "02010"
    ],
    "order": {
-    "client_id": 2043,
-    "min_moves": 8,
+    "client_id": 2435,
+    "hard": {
+     "type": "max_tees",
+     "n": 2
+    },
+    "min_moves": 7,
     "bonus": {
      "type": "max_moves",
-     "n": 10
+     "n": 9
+    },
+    "pay": 80
+   }
+  },
+  {
+   "version": 1,
+   "w": 5,
+   "h": 5,
+   "rows": [
+    "LSLIT",
+    "LYLYL",
+    "LYIII",
+    "TLLLL",
+    ".IL.L"
+   ],
+   "rots": [
+    "30320",
+    "12312",
+    "00131",
+    "03012",
+    "03300"
+   ],
+   "outlets": [
+    3
+   ],
+   "taps": [
+    {
+     "x": 4,
+     "y": 0,
+     "req": 3
+    },
+    {
+     "x": 0,
+     "y": 3,
+     "req": 3
+    }
+   ],
+   "H": 16,
+   "L": 2,
+   "meta": {
+    "w": 5,
+    "h": 5,
+    "taps": 2,
+    "slack": 0,
+    "winners": 9,
+    "solver_nodes": 2951,
+    "connecting": 62,
+    "connecting_complete": true,
+    "all_nodes": 2951,
+    "solution_leaks": 1,
+    "loop": false,
+    "seed": 110027,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 20,
+     "wet_cells": 9,
+     "wet_bits": 17,
+     "all_bits": 35,
+     "taps": 2,
+     "tight_taps": 2,
+     "solver_log": 3.47,
+     "solution_leaks": 1,
+     "loop": 0,
+     "winners": 9,
+     "connecting": 62,
+     "pass_ratio": 0.145,
+     "score": 16.13
+    },
+    "bot_moves_median": 53,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "10110",
+    "01321",
+    "02300",
+    "03000",
+    "01000"
+   ],
+   "order": {
+    "client_id": 678,
+    "hard": {
+     "type": "max_pipes",
+     "n": 8
+    },
+    "min_moves": 12,
+    "bonus": {
+     "type": "max_moves",
+     "n": 14
     },
     "pay": 80
    }
@@ -790,34 +536,121 @@
    "w": 6,
    "h": 6,
    "rows": [
-    "L.LSLY",
-    "L.LLYX",
-    "LI.ILL",
-    "YLTYYY",
-    "LYXLIY",
-    "IL.ITY"
+    "SLLLI.",
+    "LII..I",
+    "LI.LL.",
+    "YYXLYY",
+    "IT.IXL",
+    "TLILXX"
    ],
    "rots": [
-    "103020",
-    "102110",
-    "330013",
-    "120002",
-    "230020",
-    "200001"
+    "030330",
+    "000001",
+    "320210",
+    "000222",
+    "200101",
+    "023200"
+   ],
+   "outlets": [
+    1
+   ],
+   "taps": [
+    {
+     "x": 1,
+     "y": 4,
+     "req": 6
+    },
+    {
+     "x": 0,
+     "y": 5,
+     "req": 2
+    }
+   ],
+   "H": 14,
+   "L": 2,
+   "meta": {
+    "w": 6,
+    "h": 6,
+    "taps": 2,
+    "slack": 0,
+    "winners": 2,
+    "solver_nodes": 25,
+    "connecting": 8,
+    "connecting_complete": true,
+    "all_nodes": 9959,
+    "solution_leaks": 1,
+    "loop": false,
+    "seed": 120009,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 23,
+     "wet_cells": 6,
+     "wet_bits": 9,
+     "all_bits": 38,
+     "taps": 2,
+     "tight_taps": 2,
+     "solver_log": 1.415,
+     "solution_leaks": 1,
+     "loop": 0,
+     "winners": 2,
+     "connecting": 8,
+     "pass_ratio": 0.25,
+     "score": 10.69
+    },
+    "bot_moves_median": 5,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "020000",
+    "200000",
+    "300000",
+    "123000",
+    "000000",
+    "010000"
+   ],
+   "order": {
+    "client_id": 1430,
+    "min_moves": 5,
+    "bonus": {
+     "type": "max_moves",
+     "n": 7
+    },
+    "pay": 50
+   }
+  },
+  {
+   "version": 1,
+   "w": 6,
+   "h": 6,
+   "rows": [
+    "XX.YLL",
+    "ILLXYL",
+    "L.IL.L",
+    "TYLLIS",
+    "LTYLLL",
+    "Y.LYIL"
+   ],
+   "rots": [
+    "000013",
+    "021000",
+    "000201",
+    "031330",
+    "300310",
+    "301012"
    ],
    "outlets": [
     3
    ],
    "taps": [
     {
-     "x": 2,
+     "x": 0,
      "y": 3,
-     "req": 4
+     "req": 3
     },
     {
-     "x": 4,
-     "y": 5,
-     "req": 1
+     "x": 1,
+     "y": 4,
+     "req": 7
     }
    ],
    "H": 16,
@@ -828,48 +661,227 @@
     "taps": 2,
     "slack": 0,
     "winners": 2,
-    "solver_nodes": 19670,
-    "solver_ms": 350,
-    "connecting": 2000,
-    "connecting_complete": false,
-    "all_nodes": 4276,
+    "solver_nodes": 157,
+    "connecting": 22,
+    "connecting_complete": true,
+    "all_nodes": 242,
     "solution_leaks": 1,
     "loop": false,
-    "seed": 20015,
+    "seed": 120019,
     "attempts": 1,
-    "gen_ms": 629,
     "difficulty": {
-     "rotatable": 27,
-     "wet_cells": 7,
-     "wet_bits": 12,
-     "all_bits": 49,
+     "rotatable": 26,
+     "wet_cells": 6,
+     "wet_bits": 11,
+     "all_bits": 48,
      "taps": 2,
      "tight_taps": 2,
-     "solver_log": 4.294,
+     "solver_log": 2.199,
      "solution_leaks": 1,
      "loop": 0,
      "winners": 2,
-     "connecting": 2000,
-     "pass_ratio": 0.001,
-     "score": 17.07
+     "connecting": 22,
+     "pass_ratio": 0.091,
+     "score": 13.76
     },
-    "bot_moves_median": 19,
+    "bot_moves_median": 6,
     "bot_solved": "3/3"
    },
    "solution": [
-    "001000",
-    "000200",
     "000000",
-    "020320",
-    "002200",
-    "000000"
+    "000000",
+    "001000",
+    "032110",
+    "203311",
+    "001100"
    ],
    "order": {
-    "client_id": 7381,
-    "min_moves": 11,
+    "client_id": 8248,
+    "hard": {
+     "type": "no_leaks"
+    },
+    "min_moves": 8,
     "bonus": {
      "type": "max_moves",
-     "n": 13
+     "n": 9
+    },
+    "pay": 70
+   }
+  },
+  {
+   "version": 1,
+   "w": 6,
+   "h": 6,
+   "rows": [
+    "ILII.Y",
+    ".IYTLL",
+    "LI.ILY",
+    "Y.TYLI",
+    "IXLLLY",
+    "SIYILL"
+   ],
+   "rots": [
+    "131202",
+    "012031",
+    "010031",
+    "000013",
+    "002111",
+    "012223"
+   ],
+   "outlets": [
+    1
+   ],
+   "taps": [
+    {
+     "x": 3,
+     "y": 1,
+     "req": 2
+    },
+    {
+     "x": 2,
+     "y": 3,
+     "req": 2
+    }
+   ],
+   "H": 14,
+   "L": 2,
+   "meta": {
+    "w": 6,
+    "h": 6,
+    "taps": 2,
+    "slack": 0,
+    "winners": 2,
+    "solver_nodes": 2137,
+    "connecting": 548,
+    "connecting_complete": false,
+    "all_nodes": 20001,
+    "solution_leaks": 1,
+    "loop": false,
+    "seed": 120034,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 28,
+     "wet_cells": 6,
+     "wet_bits": 10,
+     "all_bits": 46,
+     "taps": 2,
+     "tight_taps": 2,
+     "solver_log": 3.33,
+     "solution_leaks": 1,
+     "loop": 0,
+     "winners": 2,
+     "connecting": 548,
+     "pass_ratio": 0.004,
+     "score": 14.96
+    },
+    "bot_moves_median": 16,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "000100",
+    "002000",
+    "000000",
+    "000200",
+    "101300",
+    "012200"
+   ],
+   "order": {
+    "client_id": 6333,
+    "min_moves": 7,
+    "bonus": {
+     "type": "max_moves",
+     "n": 7
+    },
+    "pay": 70
+   }
+  },
+  {
+   "version": 1,
+   "w": 6,
+   "h": 6,
+   "rows": [
+    "L.II.L",
+    "I.LYLI",
+    "TYYYL.",
+    "YILSI.",
+    "TLYLLL",
+    "LXILYI"
+   ],
+   "rots": [
+    "002102",
+    "003013",
+    "012330",
+    "320010",
+    "023230",
+    "100102"
+   ],
+   "outlets": [
+    0
+   ],
+   "taps": [
+    {
+     "x": 0,
+     "y": 2,
+     "req": 5
+    },
+    {
+     "x": 0,
+     "y": 4,
+     "req": 1
+    }
+   ],
+   "H": 14,
+   "L": 2,
+   "meta": {
+    "w": 6,
+    "h": 6,
+    "taps": 2,
+    "slack": 0,
+    "winners": 14,
+    "solver_nodes": 5794,
+    "connecting": 1407,
+    "connecting_complete": false,
+    "all_nodes": 20001,
+    "solution_leaks": 1,
+    "loop": true,
+    "seed": 120045,
+    "attempts": 4,
+    "difficulty": {
+     "rotatable": 27,
+     "wet_cells": 7,
+     "wet_bits": 13,
+     "all_bits": 46,
+     "taps": 2,
+     "tight_taps": 2,
+     "solver_log": 3.763,
+     "solution_leaks": 1,
+     "loop": 1,
+     "winners": 14,
+     "connecting": 1407,
+     "pass_ratio": 0.01,
+     "score": 17.21
+    },
+    "bot_moves_median": 10,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "001100",
+    "101100",
+    "013200",
+    "201000",
+    "030100",
+    "100000"
+   ],
+   "order": {
+    "client_id": 8791,
+    "hard": {
+     "type": "max_tees",
+     "n": 3
+    },
+    "min_moves": 5,
+    "bonus": {
+     "type": "max_moves",
+     "n": 6
     },
     "pay": 90
    }
@@ -879,37 +891,37 @@
    "w": 6,
    "h": 6,
    "rows": [
-    "LL.TIY",
-    "YYYL.Y",
-    "SIYL.Y",
-    "XILIT.",
-    "ILYLXI",
-    "Y.YIII"
+    "LITLL.",
+    "LIYYYY",
+    "TILY.S",
+    "XIIIIL",
+    "LYXLLL",
+    "LIILYL"
    ],
    "rots": [
-    "200010",
-    "003002",
-    "012202",
-    "000200",
-    "113100",
-    "200121"
+    "030220",
+    "112332",
+    "020300",
+    "021322",
+    "210021",
+    "022120"
    ],
    "outlets": [
     0
    ],
    "taps": [
     {
-     "x": 3,
+     "x": 2,
      "y": 0,
-     "req": 6
+     "req": 3
     },
     {
-     "x": 4,
-     "y": 3,
-     "req": 3
+     "x": 0,
+     "y": 2,
+     "req": 1
     }
    ],
-   "H": 17,
+   "H": 14,
    "L": 2,
    "meta": {
     "w": 6,
@@ -917,428 +929,43 @@
     "taps": 2,
     "slack": 0,
     "winners": 2,
-    "solver_nodes": 19515,
-    "solver_ms": 427,
-    "connecting": 748,
+    "solver_nodes": 15651,
+    "connecting": 428,
     "connecting_complete": false,
     "all_nodes": 20001,
     "solution_leaks": 1,
     "loop": true,
-    "seed": 20140,
-    "attempts": 1,
-    "gen_ms": 1797,
+    "seed": 120015,
+    "attempts": 2,
     "difficulty": {
-     "rotatable": 26,
-     "wet_cells": 9,
-     "wet_bits": 17,
-     "all_bits": 43,
-     "taps": 2,
-     "tight_taps": 2,
-     "solver_log": 4.29,
-     "solution_leaks": 1,
-     "loop": 1,
-     "winners": 2,
-     "connecting": 748,
-     "pass_ratio": 0.003,
-     "score": 19.03
-    },
-    "bot_moves_median": 600,
-    "bot_solved": "1/3"
-   },
-   "solution": [
-    "120000",
-    "031300",
-    "022100",
-    "000100",
-    "001110",
-    "000000"
-   ],
-   "order": {
-    "client_id": 655,
-    "min_moves": 15,
-    "bonus": {
-     "type": "max_moves",
-     "n": 16
-    },
-    "pay": 100
-   }
-  },
-  {
-   "version": 1,
-   "w": 6,
-   "h": 6,
-   "rows": [
-    "TYYL.I",
-    "YITILI",
-    "LLYI.L",
-    ".ILYLI",
-    "ILXIIS",
-    "ILI.LL"
-   ],
-   "rots": [
-    "031301",
-    "020001",
-    "312203",
-    "031011",
-    "200310",
-    "130012"
-   ],
-   "outlets": [
-    2
-   ],
-   "taps": [
-    {
-     "x": 0,
-     "y": 0,
-     "req": 2
-    },
-    {
-     "x": 2,
-     "y": 1,
-     "req": 6
-    }
-   ],
-   "H": 21,
-   "L": 2,
-   "meta": {
-    "w": 6,
-    "h": 6,
-    "taps": 2,
-    "slack": 0,
-    "winners": 2,
-    "solver_nodes": 3928,
-    "solver_ms": 253,
-    "connecting": 1043,
-    "connecting_complete": true,
-    "all_nodes": 5856,
-    "solution_leaks": 1,
-    "loop": true,
-    "seed": 20093,
-    "attempts": 1,
-    "gen_ms": 759,
-    "difficulty": {
-     "rotatable": 28,
-     "wet_cells": 14,
-     "wet_bits": 24,
-     "all_bits": 44,
-     "taps": 2,
-     "tight_taps": 2,
-     "solver_log": 3.594,
-     "solution_leaks": 1,
-     "loop": 1,
-     "winners": 2,
-     "connecting": 1043,
-     "pass_ratio": 0.002,
-     "score": 20.73
-    },
-    "bot_moves_median": 600,
-    "bot_solved": "1/3"
-   },
-   "solution": [
-    "013200",
-    "300000",
-    "202000",
-    "020320",
-    "000300",
-    "000003"
-   ],
-   "order": {
-    "client_id": 849,
-    "hard": {
-     "type": "no_leaks"
-    },
-    "min_moves": 20,
-    "bonus": {
-     "type": "max_moves",
-     "n": 21
-    },
-    "pay": 100
-   }
-  },
-  {
-   "version": 1,
-   "w": 6,
-   "h": 7,
-   "rows": [
-    "LILLL.",
-    "IYYLLL",
-    "LLYSLL",
-    "XLL.II",
-    "IYLIYL",
-    "LIYITY",
-    "TLTIII"
-   ],
-   "rots": [
-    "232120",
-    "201100",
-    "110001",
-    "000031",
-    "220302",
-    "230001",
-    "020112"
-   ],
-   "outlets": [
-    1
-   ],
-   "taps": [
-    {
-     "x": 4,
-     "y": 5,
-     "req": 13
-    },
-    {
-     "x": 0,
-     "y": 6,
-     "req": 3
-    },
-    {
-     "x": 2,
-     "y": 6,
-     "req": 7
-    }
-   ],
-   "H": 18,
-   "L": 2,
-   "meta": {
-    "w": 6,
-    "h": 7,
-    "taps": 3,
-    "slack": 0,
-    "winners": 1,
-    "solver_nodes": 73,
-    "solver_ms": 1,
-    "connecting": 0,
-    "connecting_complete": false,
-    "all_nodes": 20001,
-    "solution_leaks": 0,
-    "loop": false,
-    "seed": 30124,
-    "attempts": 1,
-    "gen_ms": 1695,
-    "difficulty": {
-     "rotatable": 35,
+     "rotatable": 29,
      "wet_cells": 8,
-     "wet_bits": 13,
-     "all_bits": 59,
-     "taps": 3,
-     "tight_taps": 3,
-     "solver_log": 1.869,
-     "solution_leaks": 0,
-     "loop": 0,
-     "winners": 1,
-     "connecting": 0,
-     "pass_ratio": 1,
-     "score": 11.71
+     "wet_bits": 15,
+     "all_bits": 49,
+     "taps": 2,
+     "tight_taps": 2,
+     "solver_log": 4.195,
+     "solution_leaks": 1,
+     "loop": 1,
+     "winners": 2,
+     "connecting": 428,
+     "pass_ratio": 0.005,
+     "score": 18.68
     },
-    "bot_moves_median": 67,
+    "bot_moves_median": 4,
     "bot_solved": "2/3"
    },
    "solution": [
+    "030120",
+    "113331",
+    "011100",
+    "200001",
     "000000",
-    "000000",
-    "002020",
-    "000000",
-    "101120",
-    "112300",
-    "020010"
+    "000000"
    ],
    "order": {
-    "client_id": 711,
-    "min_moves": 11,
-    "bonus": {
-     "type": "max_moves",
-     "n": 12
-    },
-    "pay": 60
-   }
-  },
-  {
-   "version": 1,
-   "w": 6,
-   "h": 7,
-   "rows": [
-    "LISL.I",
-    "IYLLXI",
-    "LLILLL",
-    "YIIITX",
-    "TIYYLI",
-    "YYXLTL",
-    "YYXLXY"
-   ],
-   "rots": [
-    "000103",
-    "101001",
-    "233332",
-    "200000",
-    "003303",
-    "100203",
-    "000202"
-   ],
-   "outlets": [
-    1
-   ],
-   "taps": [
-    {
-     "x": 4,
-     "y": 3,
-     "req": 3
-    },
-    {
-     "x": 0,
-     "y": 4,
-     "req": 6
-    },
-    {
-     "x": 4,
-     "y": 5,
-     "req": 2
-    }
-   ],
-   "H": 18,
-   "L": 2,
-   "meta": {
-    "w": 6,
-    "h": 7,
-    "taps": 3,
-    "slack": 0,
-    "winners": 1,
-    "solver_nodes": 6780,
-    "solver_ms": 111,
-    "connecting": 0,
-    "connecting_complete": false,
-    "all_nodes": 20001,
-    "solution_leaks": 0,
-    "loop": false,
-    "seed": 30167,
-    "attempts": 1,
-    "gen_ms": 2219,
-    "difficulty": {
-     "rotatable": 32,
-     "wet_cells": 10,
-     "wet_bits": 17,
-     "all_bits": 54,
-     "taps": 3,
-     "tight_taps": 3,
-     "solver_log": 3.831,
-     "solution_leaks": 0,
-     "loop": 0,
-     "winners": 1,
-     "connecting": 0,
-     "pass_ratio": 1,
-     "score": 15.07
-    },
-    "bot_moves_median": 460,
-    "bot_solved": "3/3"
-   },
-   "solution": [
-    "000200",
-    "021320",
-    "020100",
-    "330203",
-    "013130",
-    "113000",
-    "000100"
-   ],
-   "order": {
-    "client_id": 336,
-    "min_moves": 13,
-    "bonus": {
-     "type": "max_moves",
-     "n": 15
-    },
-    "pay": 80
-   }
-  },
-  {
-   "version": 1,
-   "w": 6,
-   "h": 7,
-   "rows": [
-    "IY.IIL",
-    "IX.IYL",
-    ".LLTYL",
-    "YITYL.",
-    "XILLLL",
-    ".LYTLI",
-    "SYY.YL"
-   ],
-   "rots": [
-    "020113",
-    "200313",
-    "003023",
-    "020110",
-    "030322",
-    "013012",
-    "022021"
-   ],
-   "outlets": [
-    1
-   ],
-   "taps": [
-    {
-     "x": 3,
-     "y": 2,
-     "req": 4
-    },
-    {
-     "x": 2,
-     "y": 3,
-     "req": 3
-    },
-    {
-     "x": 3,
-     "y": 5,
-     "req": 11
-    }
-   ],
-   "H": 19,
-   "L": 2,
-   "meta": {
-    "w": 6,
-    "h": 7,
-    "taps": 3,
-    "slack": 0,
-    "winners": 2,
-    "solver_nodes": 1997,
-    "solver_ms": 41,
-    "connecting": 212,
-    "connecting_complete": false,
-    "all_nodes": 20001,
-    "solution_leaks": 1,
-    "loop": false,
-    "seed": 30078,
-    "attempts": 1,
-    "gen_ms": 1357,
-    "difficulty": {
-     "rotatable": 30,
-     "wet_cells": 6,
-     "wet_bits": 12,
-     "all_bits": 52,
-     "taps": 3,
-     "tight_taps": 3,
-     "solver_log": 3.301,
-     "solution_leaks": 1,
-     "loop": 0,
-     "winners": 2,
-     "connecting": 212,
-     "pass_ratio": 0.009,
-     "score": 17.48
-    },
-    "bot_moves_median": 2,
-    "bot_solved": "3/3"
-   },
-   "solution": [
-    "000000",
-    "000100",
-    "003000",
-    "000200",
-    "031300",
-    "013000",
-    "022000"
-   ],
-   "order": {
-    "client_id": 782,
-    "min_moves": 2,
+    "client_id": 4255,
+    "min_moves": 4,
     "bonus": {
      "type": "max_moves",
      "n": 4
@@ -1349,46 +976,137 @@
   {
    "version": 1,
    "w": 6,
-   "h": 7,
+   "h": 6,
    "rows": [
-    "XTYYLX",
-    "LYT.XI",
-    "ILLLLY",
-    "LILLYX",
-    "LILY.Y",
-    ".YISLL",
-    "TYL.YY"
+    "XYITLI",
+    "YILLYY",
+    "ILYITI",
+    "LLIIYL",
+    "LYILYI",
+    "IYLSLY"
    ],
    "rots": [
-    "000000",
-    "130003",
-    "233311",
-    "210110",
-    "113303",
-    "000010",
-    "001033"
+    "033001",
+    "023003",
+    "133303",
+    "303312",
+    "033022",
+    "321022"
    ],
    "outlets": [
-    0
+    1
    ],
    "taps": [
     {
-     "x": 1,
+     "x": 3,
      "y": 0,
-     "req": 3
-    },
-    {
-     "x": 2,
-     "y": 1,
      "req": 2
     },
     {
-     "x": 0,
-     "y": 6,
-     "req": 6
+     "x": 4,
+     "y": 2,
+     "req": 12
     }
    ],
-   "H": 17,
+   "H": 20,
+   "L": 2,
+   "meta": {
+    "w": 6,
+    "h": 6,
+    "taps": 2,
+    "slack": 0,
+    "winners": 9,
+    "solver_nodes": 7213,
+    "connecting": 2000,
+    "connecting_complete": false,
+    "all_nodes": 12961,
+    "solution_leaks": 1,
+    "loop": true,
+    "seed": 120022,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 32,
+     "wet_cells": 13,
+     "wet_bits": 22,
+     "all_bits": 53,
+     "taps": 2,
+     "tight_taps": 2,
+     "solver_log": 3.858,
+     "solution_leaks": 1,
+     "loop": 1,
+     "winners": 9,
+     "connecting": 2000,
+     "pass_ratio": 0.005,
+     "score": 21.05
+    },
+    "bot_moves_median": 422,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "000022",
+    "002132",
+    "002000",
+    "000003",
+    "000021",
+    "002030"
+   ],
+   "order": {
+    "client_id": 6489,
+    "hard": {
+     "type": "max_pipes",
+     "n": 9
+    },
+    "min_moves": 9,
+    "bonus": {
+     "type": "max_moves",
+     "n": 10
+    },
+    "pay": 110
+   }
+  },
+  {
+   "version": 1,
+   "w": 6,
+   "h": 7,
+   "rows": [
+    "TYILII",
+    "YIIII.",
+    "LLSYXL",
+    "ILLIXL",
+    "YILILY",
+    "TL.TII",
+    "Y.YY.I"
+   ],
+   "rots": [
+    "021332",
+    "232000",
+    "100301",
+    "220200",
+    "000312",
+    "020022",
+    "303203"
+   ],
+   "outlets": [
+    1
+   ],
+   "taps": [
+    {
+     "x": 0,
+     "y": 0,
+     "req": 9
+    },
+    {
+     "x": 0,
+     "y": 5,
+     "req": 1
+    },
+    {
+     "x": 3,
+     "y": 5,
+     "req": 13
+    }
+   ],
+   "H": 20,
    "L": 2,
    "meta": {
     "w": 6,
@@ -1396,49 +1114,437 @@
     "taps": 3,
     "slack": 0,
     "winners": 2,
-    "solver_nodes": 2953,
-    "solver_ms": 86,
-    "connecting": 8,
+    "solver_nodes": 248,
+    "connecting": 0,
     "connecting_complete": false,
     "all_nodes": 20001,
     "solution_leaks": 1,
     "loop": false,
-    "seed": 30166,
-    "attempts": 2,
-    "gen_ms": 2043,
+    "seed": 130007,
+    "attempts": 1,
     "difficulty": {
-     "rotatable": 30,
-     "wet_cells": 10,
-     "wet_bits": 19,
-     "all_bits": 55,
+     "rotatable": 32,
+     "wet_cells": 12,
+     "wet_bits": 18,
+     "all_bits": 50,
      "taps": 3,
      "tight_taps": 3,
-     "solver_log": 3.47,
+     "solver_log": 2.396,
      "solution_leaks": 1,
      "loop": 0,
      "winners": 2,
-     "connecting": 8,
-     "pass_ratio": 0.25,
-     "score": 19.41
+     "connecting": 0,
+     "pass_ratio": 2,
+     "score": 10.38
     },
-    "bot_moves_median": 176,
+    "bot_moves_median": 39,
     "bot_solved": "3/3"
    },
    "solution": [
-    "002000",
-    "200000",
-    "002000",
-    "020200",
-    "001200",
-    "020000",
-    "013000"
+    "011200",
+    "302000",
+    "130230",
+    "012000",
+    "202000",
+    "000000",
+    "100100"
    ],
    "order": {
-    "client_id": 1890,
+    "client_id": 5391,
     "min_moves": 14,
     "bonus": {
      "type": "max_moves",
-     "n": 14
+     "n": 16
+    },
+    "pay": 50
+   }
+  },
+  {
+   "version": 1,
+   "w": 6,
+   "h": 7,
+   "rows": [
+    ".XLILL",
+    "TIYTYI",
+    "ILLITL",
+    "LYIYYX",
+    "LL..LL",
+    "YYYIII",
+    "LLLILS"
+   ],
+   "rots": [
+    "002003",
+    "011012",
+    "212302",
+    "312000",
+    "000023",
+    "102022",
+    "131120"
+   ],
+   "outlets": [
+    0
+   ],
+   "taps": [
+    {
+     "x": 0,
+     "y": 1,
+     "req": 3
+    },
+    {
+     "x": 3,
+     "y": 1,
+     "req": 6
+    },
+    {
+     "x": 4,
+     "y": 2,
+     "req": 11
+    }
+   ],
+   "H": 20,
+   "L": 2,
+   "meta": {
+    "w": 6,
+    "h": 7,
+    "taps": 3,
+    "slack": 0,
+    "winners": 5,
+    "solver_nodes": 16080,
+    "connecting": 4,
+    "connecting_complete": false,
+    "all_nodes": 20001,
+    "solution_leaks": 1,
+    "loop": false,
+    "seed": 130041,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 33,
+     "wet_cells": 10,
+     "wet_bits": 16,
+     "all_bits": 56,
+     "taps": 3,
+     "tight_taps": 3,
+     "solver_log": 4.206,
+     "solution_leaks": 1,
+     "loop": 0,
+     "winners": 5,
+     "connecting": 4,
+     "pass_ratio": 1.25,
+     "score": 15.33
+    },
+    "bot_moves_median": 24,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "000100",
+    "002010",
+    "003000",
+    "031323",
+    "110002",
+    "000030",
+    "000020"
+   ],
+   "order": {
+    "client_id": 7116,
+    "hard": {
+     "type": "tap_min",
+     "tap": 9,
+     "n": 8
+    },
+    "min_moves": 16,
+    "bonus": {
+     "type": "max_moves",
+     "n": 18
+    },
+    "pay": 80
+   }
+  },
+  {
+   "version": 1,
+   "w": 6,
+   "h": 7,
+   "rows": [
+    "LLLTLT",
+    "LIY.YL",
+    ".SLILL",
+    "LLYYLL",
+    ".IILL.",
+    "LYLITX",
+    "IIYXIX"
+   ],
+   "rots": [
+    "301000",
+    "021030",
+    "000203",
+    "013223",
+    "031100",
+    "132100",
+    "032000"
+   ],
+   "outlets": [
+    2
+   ],
+   "taps": [
+    {
+     "x": 3,
+     "y": 0,
+     "req": 2
+    },
+    {
+     "x": 5,
+     "y": 0,
+     "req": 1
+    },
+    {
+     "x": 4,
+     "y": 5,
+     "req": 7
+    }
+   ],
+   "H": 16,
+   "L": 2,
+   "meta": {
+    "w": 6,
+    "h": 7,
+    "taps": 3,
+    "slack": 0,
+    "winners": 1,
+    "solver_nodes": 1239,
+    "connecting": 3,
+    "connecting_complete": false,
+    "all_nodes": 20001,
+    "solution_leaks": 0,
+    "loop": false,
+    "seed": 130004,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 31,
+     "wet_cells": 11,
+     "wet_bits": 19,
+     "all_bits": 54,
+     "taps": 3,
+     "tight_taps": 3,
+     "solver_log": 3.093,
+     "solution_leaks": 0,
+     "loop": 0,
+     "winners": 1,
+     "connecting": 3,
+     "pass_ratio": 0.333,
+     "score": 17.55
+    },
+    "bot_moves_median": 370,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "002020",
+    "013003",
+    "001131",
+    "202110",
+    "020000",
+    "020102",
+    "001210"
+   ],
+   "order": {
+    "client_id": 9392,
+    "min_moves": 20,
+    "bonus": {
+     "type": "max_moves",
+     "n": 20
+    },
+    "pay": 90
+   }
+  },
+  {
+   "version": 1,
+   "w": 6,
+   "h": 7,
+   "rows": [
+    "TLLI.I",
+    "IILLY.",
+    "YYTXLY",
+    "LI.L.I",
+    "LYIIIL",
+    "IXYLLS",
+    "T.I.YX"
+   ],
+   "rots": [
+    "022100",
+    "122010",
+    "210023",
+    "130002",
+    "030001",
+    "101310",
+    "000010"
+   ],
+   "outlets": [
+    0
+   ],
+   "taps": [
+    {
+     "x": 0,
+     "y": 0,
+     "req": 3
+    },
+    {
+     "x": 2,
+     "y": 2,
+     "req": 7
+    },
+    {
+     "x": 0,
+     "y": 6,
+     "req": 9
+    }
+   ],
+   "H": 21,
+   "L": 2,
+   "meta": {
+    "w": 6,
+    "h": 7,
+    "taps": 3,
+    "slack": 0,
+    "winners": 5,
+    "solver_nodes": 1929,
+    "connecting": 77,
+    "connecting_complete": true,
+    "all_nodes": 18703,
+    "solution_leaks": 1,
+    "loop": false,
+    "seed": 130038,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 29,
+     "wet_cells": 12,
+     "wet_bits": 18,
+     "all_bits": 47,
+     "taps": 3,
+     "tight_taps": 3,
+     "solver_log": 3.286,
+     "solution_leaks": 1,
+     "loop": 0,
+     "winners": 5,
+     "connecting": 77,
+     "pass_ratio": 0.065,
+     "score": 18.94
+    },
+    "bot_moves_median": 16,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "000000",
+    "030000",
+    "010300",
+    "000001",
+    "131112",
+    "021120",
+    "000003"
+   ],
+   "order": {
+    "client_id": 1560,
+    "hard": {
+     "type": "tap_min",
+     "tap": 14,
+     "n": 9
+    },
+    "min_moves": 10,
+    "bonus": {
+     "type": "max_moves",
+     "n": 12
+    },
+    "pay": 90
+   }
+  },
+  {
+   "version": 1,
+   "w": 6,
+   "h": 7,
+   "rows": [
+    "XLXLLL",
+    "YTY.LT",
+    "LIYIII",
+    "YIILYI",
+    "TYIIIY",
+    "YYYXSY",
+    "YILILL"
+   ],
+   "rots": [
+    "020010",
+    "100020",
+    "101303",
+    "101023",
+    "023012",
+    "021002",
+    "111212"
+   ],
+   "outlets": [
+    2
+   ],
+   "taps": [
+    {
+     "x": 1,
+     "y": 1,
+     "req": 1
+    },
+    {
+     "x": 5,
+     "y": 1,
+     "req": 8
+    },
+    {
+     "x": 0,
+     "y": 4,
+     "req": 4
+    }
+   ],
+   "H": 19,
+   "L": 2,
+   "meta": {
+    "w": 6,
+    "h": 7,
+    "taps": 3,
+    "slack": 0,
+    "winners": 2,
+    "solver_nodes": 6889,
+    "connecting": 344,
+    "connecting_complete": false,
+    "all_nodes": 20001,
+    "solution_leaks": 1,
+    "loop": false,
+    "seed": 130016,
+    "attempts": 2,
+    "difficulty": {
+     "rotatable": 34,
+     "wet_cells": 12,
+     "wet_bits": 17,
+     "all_bits": 56,
+     "taps": 3,
+     "tight_taps": 3,
+     "solver_log": 3.838,
+     "solution_leaks": 1,
+     "loop": 0,
+     "winners": 2,
+     "connecting": 344,
+     "pass_ratio": 0.006,
+     "score": 20.21
+    },
+    "bot_moves_median": 85,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "000000",
+    "200020",
+    "200000",
+    "301010",
+    "031112",
+    "111200",
+    "000003"
+   ],
+   "order": {
+    "client_id": 6373,
+    "min_moves": 8,
+    "bonus": {
+     "type": "max_moves",
+     "n": 10
     },
     "pay": 100
    }
@@ -1448,90 +1554,91 @@
    "w": 6,
    "h": 7,
    "rows": [
-    "TI.LLL",
-    "YYLLLI",
-    "YLYITL",
-    "YSYLYI",
-    "I.LITL",
-    "..LILY",
-    "I.IYL."
+    "LXXYLY",
+    "IIYLTY",
+    "YYYIXL",
+    "LLLYT.",
+    "YIILLL",
+    "LIYYIL",
+    "SLYYXT"
    ],
    "rots": [
-    "030001",
-    "320132",
-    "002202",
-    "301232",
-    "101303",
-    "003312",
-    "101210"
+    "000320",
+    "200303",
+    "000002",
+    "310200",
+    "013310",
+    "303020",
+    "031300"
    ],
    "outlets": [
-    1
+    0
    ],
    "taps": [
     {
-     "x": 0,
-     "y": 0,
-     "req": 3
+     "x": 4,
+     "y": 1,
+     "req": 2
     },
     {
      "x": 4,
-     "y": 2,
+     "y": 3,
+     "req": 6
+    },
+    {
+     "x": 5,
+     "y": 6,
      "req": 8
-    },
-    {
-     "x": 4,
-     "y": 4,
-     "req": 9
     }
    ],
-   "H": 17,
+   "H": 19,
    "L": 2,
    "meta": {
     "w": 6,
     "h": 7,
     "taps": 3,
     "slack": 0,
-    "winners": 2,
-    "solver_nodes": 5325,
-    "solver_ms": 95,
-    "connecting": 477,
+    "winners": 3,
+    "solver_nodes": 43902,
+    "connecting": 2000,
     "connecting_complete": false,
-    "all_nodes": 20001,
+    "all_nodes": 13650,
     "solution_leaks": 1,
-    "loop": true,
-    "seed": 30037,
+    "loop": false,
+    "seed": 130026,
     "attempts": 1,
-    "gen_ms": 1436,
     "difficulty": {
-     "rotatable": 32,
-     "wet_cells": 10,
+     "rotatable": 33,
+     "wet_cells": 11,
      "wet_bits": 18,
-     "all_bits": 55,
+     "all_bits": 59,
      "taps": 3,
      "tight_taps": 3,
-     "solver_log": 3.726,
+     "solver_log": 4.642,
      "solution_leaks": 1,
-     "loop": 1,
-     "winners": 2,
-     "connecting": 477,
-     "pass_ratio": 0.004,
-     "score": 21.05
+     "loop": 0,
+     "winners": 3,
+     "connecting": 2000,
+     "pass_ratio": 0.002,
+     "score": 21.78
     },
     "bot_moves_median": 600,
     "bot_solved": "1/3"
    },
    "solution": [
-    "010000",
-    "012000",
-    "030100",
-    "102310",
-    "000100",
-    "001110",
-    "000000"
+    "000300",
+    "002100",
+    "002010",
+    "021300",
+    "310320",
+    "113312",
+    "011120"
    ],
    "order": {
-    "client_id": 2413,
+    "client_id": 6461,
+    "hard": {
+     "type": "no_leaks"
+    },
     "min_moves": 18,
     "bonus": {
      "type": "max_moves",
@@ -1542,638 +1649,46 @@
   },
   {
    "version": 1,
-   "w": 6,
-   "h": 7,
+   "w": 7,
+   "h": 8,
    "rows": [
-    "YLLIL.",
-    "XYTYIL",
-    "LLII.I",
-    "LIIYLI",
-    "TL.ISL",
-    "I.YYLL",
-    "YITYLL"
+    "ITLIIXL",
+    "ILYILX.",
+    ".LIYSLI",
+    "LLYLLL.",
+    "TIYLLLI",
+    "LILIY.I",
+    "IXXTLYX",
+    "IYLYII."
    ],
    "rots": [
-    "100200",
-    "020230",
-    "102302",
-    "003100",
-    "020000",
-    "200110",
-    "030322"
+    "3030100",
+    "0313200",
+    "0013030",
+    "2130030",
+    "0030023",
+    "0233301",
+    "3000200",
+    "0030200"
    ],
    "outlets": [
-    1
+    0
    ],
    "taps": [
     {
-     "x": 2,
-     "y": 1,
-     "req": 13
+     "x": 1,
+     "y": 0,
+     "req": 8
     },
     {
      "x": 0,
      "y": 4,
-     "req": 4
-    },
-    {
-     "x": 2,
-     "y": 6,
-     "req": 3
-    }
-   ],
-   "H": 22,
-   "L": 2,
-   "meta": {
-    "w": 6,
-    "h": 7,
-    "taps": 3,
-    "slack": 0,
-    "winners": 1,
-    "solver_nodes": 4135,
-    "solver_ms": 104,
-    "connecting": 48,
-    "connecting_complete": false,
-    "all_nodes": 20001,
-    "solution_leaks": 0,
-    "loop": true,
-    "seed": 30179,
-    "attempts": 1,
-    "gen_ms": 1751,
-    "difficulty": {
-     "rotatable": 33,
-     "wet_cells": 16,
-     "wet_bits": 25,
-     "all_bits": 55,
-     "taps": 3,
-     "tight_taps": 3,
-     "solver_log": 3.617,
-     "solution_leaks": 0,
-     "loop": 1,
-     "winners": 1,
-     "connecting": 48,
-     "pass_ratio": 0.021,
-     "score": 22.31
-    },
-    "bot_moves_median": 445,
-    "bot_solved": "2/3"
-   },
-   "solution": [
-    "000100",
-    "020112",
-    "001000",
-    "111220",
-    "010003",
-    "103021",
-    "000330"
-   ],
-   "order": {
-    "client_id": 1841,
-    "min_moves": 17,
-    "bonus": {
-     "type": "max_moves",
-     "n": 19
-    },
-    "pay": 110
-   }
-  },
-  {
-   "version": 1,
-   "w": 7,
-   "h": 8,
-   "rows": [
-    ".LILLLL",
-    "L.TYYLX",
-    "L.IIILX",
-    "ILILIIL",
-    "LIXIIL.",
-    "SXILITI",
-    "IYLITLI",
-    "LIIL.LI"
-   ],
-   "rots": [
-    "0312003",
-    "0003200",
-    "0011100",
-    "2120311",
-    "0002220",
-    "0012200",
-    "0100031",
-    "0303031"
-   ],
-   "outlets": [
-    0
-   ],
-   "taps": [
-    {
-     "x": 2,
-     "y": 1,
-     "req": 3
-    },
-    {
-     "x": 5,
-     "y": 5,
-     "req": 2
-    },
-    {
-     "x": 4,
-     "y": 6,
-     "req": 1
-    }
-   ],
-   "H": 12,
-   "L": 2,
-   "meta": {
-    "w": 7,
-    "h": 8,
-    "taps": 3,
-    "slack": 0,
-    "winners": 1,
-    "solver_nodes": 173,
-    "connecting": 1,
-    "connecting_complete": false,
-    "all_nodes": 20001,
-    "solution_leaks": 0,
-    "loop": false,
-    "seed": 40004,
-    "attempts": 1,
-    "difficulty": {
-     "rotatable": 43,
-     "wet_cells": 11,
-     "wet_bits": 13,
-     "all_bits": 66,
-     "taps": 3,
-     "tight_taps": 3,
-     "solver_log": 2.241,
-     "solution_leaks": 0,
-     "loop": 0,
-     "winners": 1,
-     "connecting": 1,
-     "pass_ratio": 1,
-     "score": 12.72
-    },
-    "bot_moves_median": 83,
-    "bot_solved": "3/3"
-   },
-   "solution": [
-    "0010000",
-    "0000000",
-    "0000000",
-    "1300110",
-    "1101120",
-    "0303200",
-    "1201010",
-    "0011000"
-   ],
-   "order": {
-    "client_id": 9953,
-    "min_moves": 7,
-    "bonus": {
-     "type": "max_moves",
-     "n": 9
-    },
-    "pay": 60
-   }
-  },
-  {
-   "version": 1,
-   "w": 7,
-   "h": 8,
-   "rows": [
-    "ILTILXI",
-    "L.L.I.L",
-    "..IYIII",
-    "IL.YYIS",
-    "II.II.Y",
-    "LIYXILI",
-    "YTYYYXY",
-    "IILLTLL"
-   ],
-   "rots": [
-    "1000100",
-    "1030001",
-    "0012320",
-    "3301310",
-    "3102301",
-    "1200023",
-    "0010301",
-    "3200010"
-   ],
-   "outlets": [
-    3
-   ],
-   "taps": [
-    {
-     "x": 2,
-     "y": 0,
-     "req": 5
-    },
-    {
-     "x": 1,
-     "y": 6,
-     "req": 1
-    },
-    {
-     "x": 4,
-     "y": 7,
-     "req": 6
-    }
-   ],
-   "H": 14,
-   "L": 2,
-   "meta": {
-    "w": 7,
-    "h": 8,
-    "taps": 3,
-    "slack": 0,
-    "winners": 1,
-    "solver_nodes": 1054,
-    "connecting": 0,
-    "connecting_complete": false,
-    "all_nodes": 20001,
-    "solution_leaks": 0,
-    "loop": true,
-    "seed": 40186,
-    "attempts": 1,
-    "difficulty": {
-     "rotatable": 41,
-     "wet_cells": 13,
-     "wet_bits": 20,
-     "all_bits": 63,
-     "taps": 3,
-     "tight_taps": 3,
-     "solver_log": 3.023,
-     "solution_leaks": 0,
-     "loop": 1,
-     "winners": 1,
-     "connecting": 0,
-     "pass_ratio": 1,
-     "score": 16.57
-    },
-    "bot_moves_median": 600,
-    "bot_solved": "1/3"
-   },
-   "solution": [
-    "0201230",
-    "0010000",
-    "0002001",
-    "0002010",
-    "0000001",
-    "0132000",
-    "2011210",
-    "0203000"
-   ],
-   "order": {
-    "client_id": 2089,
-    "min_moves": 12,
-    "bonus": {
-     "type": "max_moves",
-     "n": 12
-    },
-    "pay": 80
-   }
-  },
-  {
-   "version": 1,
-   "w": 7,
-   "h": 8,
-   "rows": [
-    ".LYITLI",
-    "LXIILLI",
-    "IYII..I",
-    "ISYY.I.",
-    "LXIXLYY",
-    "LLIIIII",
-    "IIYITXI",
-    "YYLTYII"
-   ],
-   "rots": [
-    "0301010",
-    "0032023",
-    "0200001",
-    "2011010",
-    "1000020",
-    "1312012",
-    "2100003",
-    "0320311"
-   ],
-   "outlets": [
-    1
-   ],
-   "taps": [
-    {
-     "x": 4,
-     "y": 0,
-     "req": 4
-    },
-    {
-     "x": 4,
-     "y": 6,
      "req": 3
     },
     {
      "x": 3,
-     "y": 7,
-     "req": 3
-    }
-   ],
-   "H": 14,
-   "L": 2,
-   "meta": {
-    "w": 7,
-    "h": 8,
-    "taps": 3,
-    "slack": 0,
-    "winners": 2,
-    "solver_nodes": 1744,
-    "connecting": 1820,
-    "connecting_complete": false,
-    "all_nodes": 20001,
-    "solution_leaks": 1,
-    "loop": false,
-    "seed": 40060,
-    "attempts": 1,
-    "difficulty": {
-     "rotatable": 43,
-     "wet_cells": 10,
-     "wet_bits": 14,
-     "all_bits": 63,
-     "taps": 3,
-     "tight_taps": 3,
-     "solver_log": 3.242,
-     "solution_leaks": 1,
-     "loop": 0,
-     "winners": 2,
-     "connecting": 1820,
-     "pass_ratio": 0.001,
-     "score": 19.03
-    },
-    "bot_moves_median": 368,
-    "bot_solved": "3/3"
-   },
-   "solution": [
-    "0211000",
-    "0100100",
-    "0200000",
-    "0020000",
-    "0200000",
-    "0200100",
-    "0001020",
-    "0200200"
-   ],
-   "order": {
-    "client_id": 4990,
-    "min_moves": 6,
-    "bonus": {
-     "type": "max_moves",
-     "n": 6
-    },
-    "pay": 100
-   }
-  },
-  {
-   "version": 1,
-   "w": 7,
-   "h": 8,
-   "rows": [
-    "LITYYII",
-    "LYILLTL",
-    "Y.IILIL",
-    "LLILYYT",
-    "IIYILIL",
-    "ILSXLLI",
-    "YLLLLIL",
-    "XLILYLX"
-   ],
-   "rots": [
-    "1202303",
-    "0231203",
-    "3001232",
-    "2323100",
-    "0013330",
-    "2100121",
-    "2231130",
-    "0301130"
-   ],
-   "outlets": [
-    0
-   ],
-   "taps": [
-    {
-     "x": 2,
-     "y": 0,
-     "req": 9
-    },
-    {
-     "x": 5,
-     "y": 1,
-     "req": 2
-    },
-    {
-     "x": 6,
-     "y": 3,
-     "req": 4
-    }
-   ],
-   "H": 16,
-   "L": 2,
-   "meta": {
-    "w": 7,
-    "h": 8,
-    "taps": 3,
-    "slack": 0,
-    "winners": 2,
-    "solver_nodes": 3258,
-    "connecting": 192,
-    "connecting_complete": false,
-    "all_nodes": 20001,
-    "solution_leaks": 1,
-    "loop": false,
-    "seed": 40134,
-    "attempts": 1,
-    "difficulty": {
-     "rotatable": 48,
-     "wet_cells": 9,
-     "wet_bits": 13,
-     "all_bits": 80,
-     "taps": 3,
-     "tight_taps": 3,
-     "solver_log": 3.513,
-     "solution_leaks": 1,
-     "loop": 0,
-     "winners": 2,
-     "connecting": 192,
-     "pass_ratio": 0.01,
-     "score": 20.32
-    },
-    "bot_moves_median": 21,
-    "bot_solved": "3/3",
-    "surprise": true
-   },
-   "solution": [
-    "0000010",
-    "0200200",
-    "0000300",
-    "0203030",
-    "0001331",
-    "0202100",
-    "0010000",
-    "0000000"
-   ],
-   "order": {
-    "client_id": 5172,
-    "min_moves": 8,
-    "bonus": {
-     "type": "max_moves",
-     "n": 8
-    },
-    "pay": 100
-   }
-  },
-  {
-   "version": 1,
-   "w": 7,
-   "h": 8,
-   "rows": [
-    "ILITL.L",
-    "LILYYIT",
-    "L.ILLLL",
-    "I.ILIYL",
-    "YYIYLLI",
-    "SIYLLXY",
-    "LLLIITX",
-    "LIYL.LI"
-   ],
-   "rots": [
-    "0210200",
-    "0303220",
-    "3013011",
-    "0002002",
-    "0302232",
-    "0211001",
-    "0300000",
-    "0212020"
-   ],
-   "outlets": [
-    1
-   ],
-   "taps": [
-    {
-     "x": 3,
-     "y": 0,
-     "req": 4
-    },
-    {
-     "x": 6,
-     "y": 1,
-     "req": 3
-    },
-    {
-     "x": 5,
      "y": 6,
-     "req": 8
-    }
-   ],
-   "H": 18,
-   "L": 2,
-   "meta": {
-    "w": 7,
-    "h": 8,
-    "taps": 3,
-    "slack": 0,
-    "winners": 4,
-    "solver_nodes": 91200,
-    "connecting": 612,
-    "connecting_complete": false,
-    "all_nodes": 20001,
-    "solution_leaks": 1,
-    "loop": false,
-    "seed": 40183,
-    "attempts": 2,
-    "difficulty": {
-     "rotatable": 46,
-     "wet_cells": 12,
-     "wet_bits": 17,
-     "all_bits": 77,
-     "taps": 3,
-     "tight_taps": 3,
-     "solver_log": 4.96,
-     "solution_leaks": 1,
-     "loop": 0,
-     "winners": 4,
-     "connecting": 612,
-     "pass_ratio": 0.007,
-     "score": 23.24
-    },
-    "bot_moves_median": 118,
-    "bot_solved": "3/3"
-   },
-   "solution": [
-    "0000000",
-    "0013110",
-    "0001111",
-    "0000000",
-    "3000000",
-    "0120030",
-    "1201102",
-    "0011010"
-   ],
-   "order": {
-    "client_id": 1394,
-    "hard": {
-     "type": "max_tees",
-     "n": 3
-    },
-    "min_moves": 8,
-    "bonus": {
-     "type": "max_moves",
-     "n": 8
-    },
-    "pay": 120
-   }
-  },
-  {
-   "version": 1,
-   "w": 7,
-   "h": 8,
-   "rows": [
-    "LTIIYL.",
-    "TYILILL",
-    ".LII.IL",
-    "IYIYSL.",
-    "LXLYLII",
-    "LILYI..",
-    "IXIIXLL",
-    "ITYLIIY"
-   ],
-   "rots": [
-    "3000130",
-    "0303321",
-    "0002023",
-    "1010010",
-    "1023022",
-    "3002300",
-    "0023031",
-    "1031131"
-   ],
-   "outlets": [
-    2
-   ],
-   "taps": [
-    {
-     "x": 1,
-     "y": 0,
-     "req": 2
-    },
-    {
-     "x": 0,
-     "y": 1,
-     "req": 3
-    },
-    {
-     "x": 1,
-     "y": 7,
-     "req": 3
+     "req": 1
     }
    ],
    "H": 17,
@@ -2184,77 +1699,475 @@
     "taps": 3,
     "slack": 0,
     "winners": 2,
-    "solver_nodes": 117427,
-    "connecting": 92,
+    "solver_nodes": 28190,
+    "connecting": 0,
     "connecting_complete": false,
     "all_nodes": 20001,
     "solution_leaks": 1,
-    "loop": true,
-    "seed": 40049,
+    "loop": false,
+    "seed": 140024,
     "attempts": 1,
     "difficulty": {
-     "rotatable": 43,
-     "wet_cells": 13,
-     "wet_bits": 22,
-     "all_bits": 67,
+     "rotatable": 42,
+     "wet_cells": 10,
+     "wet_bits": 16,
+     "all_bits": 68,
      "taps": 3,
      "tight_taps": 3,
-     "solver_log": 5.07,
+     "solver_log": 4.45,
      "solution_leaks": 1,
-     "loop": 1,
+     "loop": 0,
      "winners": 2,
-     "connecting": 92,
-     "pass_ratio": 0.022,
-     "score": 24.96
+     "connecting": 0,
+     "pass_ratio": 2,
+     "score": 13.58
     },
-    "bot_moves_median": 600,
-    "bot_solved": "0/3"
+    "bot_moves_median": 242,
+    "bot_solved": "2/3"
    },
    "solution": [
-    "3011000",
-    "0312000",
-    "0100000",
-    "0002000",
-    "0030300",
-    "0012000",
-    "0300000",
-    "0033000"
+    "0001100",
+    "0011230",
+    "0201000",
+    "0320100",
+    "0132000",
+    "1120000",
+    "0030000",
+    "0001000"
    ],
    "order": {
-    "client_id": 7538,
-    "min_moves": 12,
+    "client_id": 1553,
+    "min_moves": 7,
     "bonus": {
      "type": "max_moves",
-     "n": 13
+     "n": 9
     },
-    "pay": 120
+    "pay": 70
    }
   },
   {
    "version": 1,
    "w": 7,
-   "h": 9,
+   "h": 8,
    "rows": [
-    "TLXYXIL",
-    "IIXIYSX",
-    "LYIIILL",
-    "III.YLX",
-    "YILI.II",
-    "LI.I..X",
-    "YLLIYIL",
-    "LYYIILI",
-    "..LT.TI"
+    "XYIILSL",
+    "LILYIIL",
+    "LITIIII",
+    "LLXIYLI",
+    "IILLILY",
+    "..YXILL",
+    ".LYT.YL",
+    "XTYLYYL"
    ],
    "rots": [
-    "0003003",
-    "2102100",
-    "3000013",
-    "0300000",
-    "3322032",
-    "3303000",
-    "3212031",
-    "3003032",
-    "0020002"
+    "0000101",
+    "1312302",
+    "0301033",
+    "1100122",
+    "1323220",
+    "0030233",
+    "0030000",
+    "0023122"
+   ],
+   "outlets": [
+    1
+   ],
+   "taps": [
+    {
+     "x": 2,
+     "y": 2,
+     "req": 13
+    },
+    {
+     "x": 3,
+     "y": 6,
+     "req": 4
+    },
+    {
+     "x": 1,
+     "y": 7,
+     "req": 2
+    }
+   ],
+   "H": 25,
+   "L": 2,
+   "meta": {
+    "w": 7,
+    "h": 8,
+    "taps": 3,
+    "slack": 0,
+    "winners": 2,
+    "solver_nodes": 5443,
+    "connecting": 0,
+    "connecting_complete": false,
+    "all_nodes": 20001,
+    "solution_leaks": 1,
+    "loop": false,
+    "seed": 140015,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 44,
+     "wet_cells": 13,
+     "wet_bits": 22,
+     "all_bits": 72,
+     "taps": 3,
+     "tight_taps": 3,
+     "solver_log": 3.736,
+     "solution_leaks": 1,
+     "loop": 0,
+     "winners": 2,
+     "connecting": 0,
+     "pass_ratio": 2,
+     "score": 15.14
+    },
+    "bot_moves_median": 19,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "0011302",
+    "0011113",
+    "0000011",
+    "0030000",
+    "0013000",
+    "0021000",
+    "0130000",
+    "2021000"
+   ],
+   "order": {
+    "client_id": 3739,
+    "hard": {
+     "type": "max_tees",
+     "n": 3
+    },
+    "min_moves": 14,
+    "bonus": {
+     "type": "max_moves",
+     "n": 16
+    },
+    "pay": 80
+   }
+  },
+  {
+   "version": 1,
+   "w": 7,
+   "h": 8,
+   "rows": [
+    "..XY.YI",
+    "LYS.YXI",
+    "LYYILLI",
+    "LLIIIYL",
+    "ILILTLL",
+    "IYYT.I.",
+    "XLILIIL",
+    "X.TILXI"
+   ],
+   "rots": [
+    "0001030",
+    "2100101",
+    "2331022",
+    "1320212",
+    "1101032",
+    "3010000",
+    "0030230",
+    "0002300"
+   ],
+   "outlets": [
+    3
+   ],
+   "taps": [
+    {
+     "x": 4,
+     "y": 4,
+     "req": 3
+    },
+    {
+     "x": 3,
+     "y": 5,
+     "req": 1
+    },
+    {
+     "x": 2,
+     "y": 7,
+     "req": 1
+    }
+   ],
+   "H": 15,
+   "L": 2,
+   "meta": {
+    "w": 7,
+    "h": 8,
+    "taps": 3,
+    "slack": 0,
+    "winners": 1,
+    "solver_nodes": 42092,
+    "connecting": 1,
+    "connecting_complete": false,
+    "all_nodes": 20001,
+    "solution_leaks": 0,
+    "loop": true,
+    "seed": 140005,
+    "attempts": 2,
+    "difficulty": {
+     "rotatable": 40,
+     "wet_cells": 12,
+     "wet_bits": 19,
+     "all_bits": 64,
+     "taps": 3,
+     "tight_taps": 3,
+     "solver_log": 4.624,
+     "solution_leaks": 0,
+     "loop": 1,
+     "winners": 1,
+     "connecting": 1,
+     "pass_ratio": 1,
+     "score": 18.22
+    },
+    "bot_moves_median": 327,
+    "bot_solved": "2/3"
+   },
+   "solution": [
+    "0000000",
+    "1100300",
+    "0311200",
+    "1200000",
+    "0201000",
+    "0200000",
+    "0201000",
+    "0000000"
+   ],
+   "order": {
+    "client_id": 7240,
+    "min_moves": 13,
+    "bonus": {
+     "type": "max_moves",
+     "n": 15
+    },
+    "pay": 90
+   }
+  },
+  {
+   "version": 1,
+   "w": 7,
+   "h": 8,
+   "rows": [
+    ".LL.LLX",
+    "Y.LLLIL",
+    "ILSYLIL",
+    "LLLYIII",
+    "Y.LIYTY",
+    "LIL.I.L",
+    "YLLYIYX",
+    "XLTIYIT"
+   ],
+   "rots": [
+    "0020230",
+    "1001222",
+    "0100021",
+    "2211023",
+    "0010200",
+    "3130003",
+    "0100230",
+    "0201320"
+   ],
+   "outlets": [
+    1
+   ],
+   "taps": [
+    {
+     "x": 5,
+     "y": 4,
+     "req": 6
+    },
+    {
+     "x": 2,
+     "y": 7,
+     "req": 1
+    },
+    {
+     "x": 6,
+     "y": 7,
+     "req": 1
+    }
+   ],
+   "H": 15,
+   "L": 2,
+   "meta": {
+    "w": 7,
+    "h": 8,
+    "taps": 3,
+    "slack": 0,
+    "winners": 3,
+    "solver_nodes": 10465,
+    "connecting": 168,
+    "connecting_complete": false,
+    "all_nodes": 20001,
+    "solution_leaks": 1,
+    "loop": false,
+    "seed": 140047,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 43,
+     "wet_cells": 9,
+     "wet_bits": 13,
+     "all_bits": 74,
+     "taps": 3,
+     "tight_taps": 3,
+     "solver_log": 4.02,
+     "solution_leaks": 1,
+     "loop": 0,
+     "winners": 3,
+     "connecting": 168,
+     "pass_ratio": 0.018,
+     "score": 20.42
+    },
+    "bot_moves_median": 234,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "0000000",
+    "0000000",
+    "0203200",
+    "0012000",
+    "0000000",
+    "0000000",
+    "0000000",
+    "0201310"
+   ],
+   "order": {
+    "client_id": 5112,
+    "hard": {
+     "type": "max_pipes",
+     "n": 9
+    },
+    "min_moves": 6,
+    "bonus": {
+     "type": "max_moves",
+     "n": 7
+    },
+    "pay": 100
+   }
+  },
+  {
+   "version": 1,
+   "w": 7,
+   "h": 8,
+   "rows": [
+    "IILLYTY",
+    "SILILYX",
+    "LIIYI.Y",
+    "IYLIYIY",
+    "L.IYL.I",
+    "LILTIII",
+    "XL.YLLL",
+    "IYILITY"
+   ],
+   "rots": [
+    "2100203",
+    "0221130",
+    "2220303",
+    "3221002",
+    "3023200",
+    "0300003",
+    "0303121",
+    "0312300"
+   ],
+   "outlets": [
+    2
+   ],
+   "taps": [
+    {
+     "x": 5,
+     "y": 0,
+     "req": 9
+    },
+    {
+     "x": 3,
+     "y": 5,
+     "req": 10
+    },
+    {
+     "x": 5,
+     "y": 7,
+     "req": 2
+    }
+   ],
+   "H": 22,
+   "L": 2,
+   "meta": {
+    "w": 7,
+    "h": 8,
+    "taps": 3,
+    "slack": 0,
+    "winners": 2,
+    "solver_nodes": 2677,
+    "connecting": 377,
+    "connecting_complete": false,
+    "all_nodes": 20001,
+    "solution_leaks": 1,
+    "loop": false,
+    "seed": 140006,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 46,
+     "wet_cells": 13,
+     "wet_bits": 21,
+     "all_bits": 73,
+     "taps": 3,
+     "tight_taps": 3,
+     "solver_log": 3.428,
+     "solution_leaks": 1,
+     "loop": 0,
+     "winners": 2,
+     "connecting": 377,
+     "pass_ratio": 0.005,
+     "score": 22.48
+    },
+    "bot_moves_median": 64,
+    "bot_solved": "3/3"
+   },
+   "solution": [
+    "1021300",
+    "0030110",
+    "0112000",
+    "1120200",
+    "0000200",
+    "0020030",
+    "0003020",
+    "0000300"
+   ],
+   "order": {
+    "client_id": 6674,
+    "min_moves": 14,
+    "bonus": {
+     "type": "max_moves",
+     "n": 15
+    },
+    "pay": 110
+   }
+  },
+  {
+   "version": 1,
+   "w": 7,
+   "h": 8,
+   "rows": [
+    "YIL.LIL",
+    "YXYIXLI",
+    "TLLITYI",
+    "YIIILIL",
+    "ILIIILL",
+    "YTL.X.L",
+    "LYILLSL",
+    "LLIYYLL"
+   ],
+   "rots": [
+    "0000121",
+    "1023032",
+    "0302021",
+    "2103130",
+    "3202301",
+    "1010000",
+    "0231102",
+    "3222000"
    ],
    "outlets": [
     2
@@ -2262,71 +2175,176 @@
    "taps": [
     {
      "x": 0,
-     "y": 0,
-     "req": 12
+     "y": 2,
+     "req": 7
+    },
+    {
+     "x": 4,
+     "y": 2,
+     "req": 1
+    },
+    {
+     "x": 1,
+     "y": 5,
+     "req": 14
+    }
+   ],
+   "H": 27,
+   "L": 2,
+   "meta": {
+    "w": 7,
+    "h": 8,
+    "taps": 3,
+    "slack": 0,
+    "winners": 2,
+    "solver_nodes": 9966,
+    "connecting": 648,
+    "connecting_complete": false,
+    "all_nodes": 20001,
+    "solution_leaks": 1,
+    "loop": true,
+    "seed": 140039,
+    "attempts": 1,
+    "difficulty": {
+     "rotatable": 46,
+     "wet_cells": 16,
+     "wet_bits": 27,
+     "all_bits": 76,
+     "taps": 3,
+     "tight_taps": 3,
+     "solver_log": 3.999,
+     "solution_leaks": 1,
+     "loop": 1,
+     "winners": 2,
+     "connecting": 648,
+     "pass_ratio": 0.003,
+     "score": 26.22
+    },
+    "bot_moves_median": 600,
+    "bot_solved": "1/3"
+   },
+   "solution": [
+    "0000000",
+    "3000000",
+    "0000000",
+    "0111300",
+    "0311100",
+    "2000000",
+    "0211200",
+    "2013330"
+   ],
+   "order": {
+    "client_id": 8648,
+    "hard": {
+     "type": "tap_min",
+     "tap": 14,
+     "n": 8
+    },
+    "min_moves": 20,
+    "bonus": {
+     "type": "max_moves",
+     "n": 22
+    },
+    "pay": 130
+   }
+  },
+  {
+   "version": 1,
+   "w": 7,
+   "h": 9,
+   "rows": [
+    "L.IX..I",
+    "IIIIIII",
+    "LL.IYTL",
+    "YIXTIIX",
+    "LIIIYIL",
+    "LTIYYLL",
+    "LXY.ILY",
+    "Y.LIIIY",
+    "ILYLSIY"
+   ],
+   "rots": [
+    "3010002",
+    "1123123",
+    "1303103",
+    "3000130",
+    "0130100",
+    "3020123",
+    "0030311",
+    "0020233",
+    "2131030"
+   ],
+   "outlets": [
+    0
+   ],
+   "taps": [
+    {
+     "x": 5,
+     "y": 2,
+     "req": 3
     },
     {
      "x": 3,
-     "y": 8,
-     "req": 4
+     "y": 3,
+     "req": 3
     },
     {
-     "x": 5,
-     "y": 8,
-     "req": 1
+     "x": 1,
+     "y": 5,
+     "req": 4
     }
    ],
-   "H": 23,
+   "H": 12,
    "L": 2,
    "meta": {
     "w": 7,
     "h": 9,
     "taps": 3,
     "slack": 0,
-    "winners": 2,
-    "solver_nodes": 1491,
+    "winners": 1,
+    "solver_nodes": 848,
     "connecting": 0,
     "connecting_complete": false,
     "all_nodes": 20001,
     "solution_leaks": 0,
     "loop": false,
-    "seed": 50197,
+    "seed": 150013,
     "attempts": 1,
     "difficulty": {
-     "rotatable": 45,
-     "wet_cells": 17,
-     "wet_bits": 25,
-     "all_bits": 68,
+     "rotatable": 49,
+     "wet_cells": 9,
+     "wet_bits": 12,
+     "all_bits": 74,
      "taps": 3,
      "tight_taps": 3,
-     "solver_log": 3.174,
+     "solver_log": 2.929,
      "solution_leaks": 0,
      "loop": 0,
-     "winners": 2,
+     "winners": 1,
      "connecting": 0,
-     "pass_ratio": 2,
-     "score": 14.2
+     "pass_ratio": 1,
+     "score": 13.83
     },
-    "bot_moves_median": 300,
-    "bot_solved": "2/3"
+    "bot_moves_median": 10,
+    "bot_solved": "3/3"
    },
    "solution": [
-    "0220010",
-    "0001303",
-    "2011130",
-    "0020110",
-    "2000000",
-    "2000000",
-    "2021310",
-    "0201120",
-    "0000000"
+    "0000000",
+    "0000010",
+    "0001200",
+    "0020001",
+    "0120200",
+    "2013130",
+    "0010010",
+    "0000000",
+    "0002000"
    ],
    "order": {
-    "client_id": 8137,
-    "min_moves": 19,
+    "client_id": 3697,
+    "min_moves": 7,
     "bonus": {
      "type": "max_moves",
-     "n": 19
+     "n": 8
     },
     "pay": 70
    }
@@ -2336,100 +2354,105 @@
    "w": 7,
    "h": 9,
    "rows": [
-    "LLI.LII",
-    "LTXLYL.",
-    "LI.YLYI",
-    "TYLLYLT",
-    "IIXILYY",
-    "IIYIILL",
-    "LILIIIL",
-    "LYIIILX",
-    ".LSI.LY"
+    "LTITYLL",
+    "YYILILL",
+    "LILI.LL",
+    "LYL..L.",
+    "IISILXX",
+    "IYLYYYX",
+    "LLLI.II",
+    "ILI.LLL",
+    "TLIYI.L"
    ],
    "rots": [
-    "0100321",
-    "1002210",
-    "1200020",
-    "0001310",
-    "3200221",
-    "2111333",
-    "2211011",
-    "0031110",
-    "0002033"
+    "1000102",
+    "3132223",
+    "2030031",
+    "3030020",
+    "2102100",
+    "1101200",
+    "2121003",
+    "3210303",
+    "0102100"
    ],
    "outlets": [
-    3
+    0
    ],
    "taps": [
     {
      "x": 1,
-     "y": 1,
-     "req": 8
+     "y": 0,
+     "req": 7
+    },
+    {
+     "x": 3,
+     "y": 0,
+     "req": 3
     },
     {
      "x": 0,
-     "y": 3,
-     "req": 8
-    },
-    {
-     "x": 6,
-     "y": 3,
+     "y": 8,
      "req": 2
     }
    ],
-   "H": 20,
+   "H": 17,
    "L": 2,
    "meta": {
     "w": 7,
     "h": 9,
     "taps": 3,
     "slack": 0,
-    "winners": 2,
-    "solver_nodes": 42021,
-    "connecting": 0,
+    "winners": 8,
+    "solver_nodes": 7421,
+    "connecting": 5,
     "connecting_complete": false,
     "all_nodes": 20001,
     "solution_leaks": 1,
     "loop": false,
-    "seed": 50143,
+    "seed": 150024,
     "attempts": 1,
     "difficulty": {
-     "rotatable": 51,
-     "wet_cells": 15,
-     "wet_bits": 22,
+     "rotatable": 49,
+     "wet_cells": 12,
+     "wet_bits": 19,
      "all_bits": 82,
      "taps": 3,
      "tight_taps": 3,
-     "solver_log": 4.623,
+     "solver_log": 3.871,
      "solution_leaks": 1,
      "loop": 0,
-     "winners": 2,
-     "connecting": 0,
-     "pass_ratio": 2,
-     "score": 17.01
+     "winners": 8,
+     "connecting": 5,
+     "pass_ratio": 1.6,
+     "score": 16.65
     },
-    "bot_moves_median": 204,
-    "bot_solved": "3/3"
+    "bot_moves_median": 600,
+    "bot_solved": "1/3"
    },
    "solution": [
+    "2030000",
+    "2013000",
+    "2021000",
+    "2020000",
     "0000000",
-    "2010000",
-    "3000001",
-    "0200020",
-    "3000022",
-    "0000013",
-    "2001101",
-    "2011132",
-    "0003010"
+    "1210000",
+    "1300000",
+    "0100000",
+    "0000000"
    ],
    "order": {
-    "client_id": 4046,
-    "min_moves": 9,
+    "client_id": 8696,
+    "hard": {
+     "type": "tap_min",
+     "tap": 56,
+     "n": 3
+    },
+    "min_moves": 16,
     "bonus": {
      "type": "max_moves",
-     "n": 10
+     "n": 18
     },
-    "pay": 90
+    "pay": 80
    }
   },
   {
@@ -2437,48 +2460,48 @@
    "w": 7,
    "h": 9,
    "rows": [
-    "..LYIYT",
-    "L.SYILL",
-    "IIXLLLY",
-    "IYYLLLL",
-    "YXYLLYT",
-    "I.ILIIY",
-    "YIYLIII",
-    "YIYY.T.",
-    "LLLLXLL"
+    "LYLYIIL",
+    "LIYLTL.",
+    "YXLLLYI",
+    ".ILIIIL",
+    "LITYYYL",
+    ".ILII.I",
+    "LLILI.S",
+    "LILYILI",
+    "XTL.IX."
    ],
    "rots": [
-    "0011220",
-    "2002310",
-    "2002021",
-    "2011022",
-    "1023300",
-    "1002322",
-    "3331013",
-    "1131000",
-    "1230030"
+    "1033200",
+    "3333030",
+    "0003223",
+    "0213121",
+    "0101033",
+    "0102302",
+    "0213300",
+    "3213100",
+    "0030000"
    ],
    "outlets": [
     0
    ],
    "taps": [
     {
-     "x": 6,
-     "y": 0,
-     "req": 14
+     "x": 4,
+     "y": 1,
+     "req": 7
     },
     {
-     "x": 6,
+     "x": 2,
      "y": 4,
-     "req": 3
+     "req": 9
     },
     {
-     "x": 5,
-     "y": 7,
-     "req": 2
+     "x": 1,
+     "y": 8,
+     "req": 1
     }
    ],
-   "H": 21,
+   "H": 18,
    "L": 2,
    "meta": {
     "w": 7,
@@ -2486,49 +2509,49 @@
     "taps": 3,
     "slack": 0,
     "winners": 1,
-    "solver_nodes": 618,
-    "connecting": 1,
+    "solver_nodes": 4479,
+    "connecting": 0,
     "connecting_complete": false,
     "all_nodes": 20001,
     "solution_leaks": 0,
     "loop": true,
-    "seed": 50186,
-    "attempts": 1,
+    "seed": 150019,
+    "attempts": 2,
     "difficulty": {
-     "rotatable": 50,
-     "wet_cells": 14,
+     "rotatable": 49,
+     "wet_cells": 15,
      "wet_bits": 24,
-     "all_bits": 86,
+     "all_bits": 79,
      "taps": 3,
      "tight_taps": 3,
-     "solver_log": 2.792,
+     "solver_log": 3.651,
      "solution_leaks": 0,
      "loop": 1,
      "winners": 1,
-     "connecting": 1,
+     "connecting": 0,
      "pass_ratio": 1,
-     "score": 19.53
+     "score": 20
     },
-    "bot_moves_median": 141,
+    "bot_moves_median": 139,
     "bot_solved": "3/3"
    },
    "solution": [
-    "0011110",
-    "0000131",
-    "0010230",
+    "0000110",
     "0002020",
-    "0000200",
-    "0000001",
+    "0002120",
     "0000000",
-    "0000000",
-    "0000010"
+    "0001332",
+    "0120000",
+    "2113000",
+    "2011001",
+    "0000000"
    ],
    "order": {
-    "client_id": 594,
-    "min_moves": 13,
+    "client_id": 3864,
+    "min_moves": 16,
     "bonus": {
      "type": "max_moves",
-     "n": 14
+     "n": 17
     },
     "pay": 100
    }
@@ -2538,98 +2561,103 @@
    "w": 7,
    "h": 9,
    "rows": [
-    "YILXYS.",
-    "TILILYI",
-    "LLLIIYL",
-    "LY...IL",
-    "YLI.LII",
-    "IXLXLYI",
-    "XXLIITY",
-    "LIITL.L",
-    "IIXLI.Y"
+    "Y.LILLY",
+    "LLIILLL",
+    "LIIYLSY",
+    "LXILILI",
+    "XXLLIIL",
+    ".YIILI.",
+    "LIXYTI.",
+    "TYILL.I",
+    "LLTLLLL"
    ],
    "rots": [
-    "3030000",
-    "0031021",
-    "3203011",
-    "3200031",
-    "3130223",
-    "1030020",
-    "0021202",
-    "0100300",
-    "3301103"
+    "3012103",
+    "3331021",
+    "1012002",
+    "2001202",
+    "0010200",
+    "0210320",
+    "0103020",
+    "0213200",
+    "0303132"
    ],
    "outlets": [
     2
    ],
    "taps": [
     {
+     "x": 4,
+     "y": 6,
+     "req": 5
+    },
+    {
      "x": 0,
-     "y": 1,
+     "y": 7,
      "req": 3
     },
     {
-     "x": 5,
-     "y": 6,
-     "req": 7
-    },
-    {
-     "x": 3,
-     "y": 7,
-     "req": 1
+     "x": 2,
+     "y": 8,
+     "req": 6
     }
    ],
-   "H": 16,
+   "H": 22,
    "L": 2,
    "meta": {
     "w": 7,
     "h": 9,
     "taps": 3,
     "slack": 0,
-    "winners": 2,
-    "solver_nodes": 1840,
-    "connecting": 51,
+    "winners": 3,
+    "solver_nodes": 1818,
+    "connecting": 702,
     "connecting_complete": false,
     "all_nodes": 20001,
     "solution_leaks": 1,
     "loop": false,
-    "seed": 50000,
+    "seed": 150029,
     "attempts": 1,
     "difficulty": {
-     "rotatable": 46,
-     "wet_cells": 13,
-     "wet_bits": 20,
-     "all_bits": 73,
+     "rotatable": 50,
+     "wet_cells": 11,
+     "wet_bits": 16,
+     "all_bits": 83,
      "taps": 3,
      "tight_taps": 3,
-     "solver_log": 3.265,
+     "solver_log": 3.26,
      "solution_leaks": 1,
      "loop": 0,
-     "winners": 2,
-     "connecting": 51,
-     "pass_ratio": 0.039,
-     "score": 21.8
+     "winners": 3,
+     "connecting": 702,
+     "pass_ratio": 0.004,
+     "score": 21.33
     },
-    "bot_moves_median": 25,
+    "bot_moves_median": 21,
     "bot_solved": "3/3"
    },
    "solution": [
-    "3100200",
-    "0123320",
-    "1201120",
     "0000000",
-    "0000300",
-    "0001120",
-    "0001000",
-    "0000300",
-    "0001100"
+    "0000000",
+    "0003300",
+    "0001130",
+    "0113110",
+    "0203000",
+    "1101000",
+    "0001100",
+    "1200000"
    ],
    "order": {
-    "client_id": 2427,
-    "min_moves": 10,
+    "client_id": 7137,
+    "hard": {
+     "type": "tap_min",
+     "tap": 58,
+     "n": 8
+    },
+    "min_moves": 14,
     "bonus": {
      "type": "max_moves",
-     "n": 11
+     "n": 16
     },
     "pay": 110
    }
@@ -2639,95 +2667,95 @@
    "w": 7,
    "h": 9,
    "rows": [
-    "ILYS.LI",
-    "YILYI.I",
-    "YILYYYT",
-    "YLYIIIL",
-    "ILIITLT",
-    "LLLLYLY",
-    "Y.YLYXI",
-    "LXYYLIY",
-    "IL..L.Y"
+    "YYXY.II",
+    "TXLYITI",
+    "YILTXYY",
+    "IYLLLI.",
+    "LLL.ILL",
+    "YI.ILLL",
+    "IYSYIXI",
+    "LLLLIII",
+    "L.XLLIL"
    ],
    "rots": [
-    "2010031",
-    "1100300",
-    "1330030",
-    "1221202",
-    "1322010",
-    "3230020",
-    "3020303",
-    "1021212",
-    "3300001"
+    "1003021",
+    "0032302",
+    "3000012",
+    "0013210",
+    "3120202",
+    "3000103",
+    "2202001",
+    "1132033",
+    "2001002"
    ],
    "outlets": [
     2
    ],
    "taps": [
     {
-     "x": 6,
+     "x": 0,
+     "y": 1,
+     "req": 12
+    },
+    {
+     "x": 5,
+     "y": 1,
+     "req": 3
+    },
+    {
+     "x": 3,
      "y": 2,
-     "req": 5
-    },
-    {
-     "x": 4,
-     "y": 4,
-     "req": 5
-    },
-    {
-     "x": 6,
-     "y": 4,
-     "req": 1
+     "req": 3
     }
    ],
-   "H": 14,
+   "H": 27,
    "L": 2,
    "meta": {
     "w": 7,
     "h": 9,
     "taps": 3,
     "slack": 0,
-    "winners": 1,
-    "solver_nodes": 73724,
-    "connecting": 2000,
-    "connecting_complete": false,
-    "all_nodes": 3507,
-    "solution_leaks": 0,
-    "loop": true,
-    "seed": 50157,
-    "attempts": 1,
+    "winners": 2,
+    "solver_nodes": 2123,
+    "connecting": 1107,
+    "connecting_complete": true,
+    "all_nodes": 16400,
+    "solution_leaks": 1,
+    "loop": false,
+    "seed": 150009,
+    "attempts": 2,
     "difficulty": {
-     "rotatable": 51,
-     "wet_cells": 9,
-     "wet_bits": 16,
-     "all_bits": 87,
+     "rotatable": 49,
+     "wet_cells": 13,
+     "wet_bits": 22,
+     "all_bits": 81,
      "taps": 3,
      "tight_taps": 3,
-     "solver_log": 4.868,
-     "solution_leaks": 0,
-     "loop": 1,
-     "winners": 1,
-     "connecting": 2000,
-     "pass_ratio": 0.001,
-     "score": 23.3
+     "solver_log": 3.327,
+     "solution_leaks": 1,
+     "loop": 0,
+     "winners": 2,
+     "connecting": 1107,
+     "pass_ratio": 0.002,
+     "score": 23.37
     },
-    "bot_moves_median": 336,
-    "bot_solved": "3/3"
+    "bot_moves_median": 275,
+    "bot_solved": "2/3"
    },
    "solution": [
-    "0000000",
-    "0012001",
-    "0003110",
-    "0013003",
-    "0000000",
-    "0000111",
-    "0000000",
-    "0000000",
-    "0000000"
+    "3003010",
+    "0211100",
+    "0130110",
+    "0111000",
+    "0200000",
+    "2000000",
+    "0200000",
+    "2030000",
+    "0010000"
    ],
    "order": {
-    "client_id": 8325,
-    "min_moves": 13,
+    "client_id": 1005,
+    "min_moves": 15,
     "bonus": {
      "type": "max_moves",
      "n": 15
@@ -2740,45 +2768,45 @@
    "w": 7,
    "h": 9,
    "rows": [
-    ".LLLLYI",
-    ".TYITYL",
-    "IILYY.L",
-    ".LILILL",
-    "Y.LLIYS",
-    "LLILYIL",
-    "LYYTXLL",
-    "LYIIIYL",
-    "LILYLIL"
+    "IYXXY.L",
+    ".I.IX.I",
+    "LTLLXIY",
+    "XILIILL",
+    "YIYL.XI",
+    "LILLITL",
+    "IYYYYXL",
+    "LLLYYTL",
+    "ISILILI"
    ],
    "rots": [
-    "0130213",
-    "0012023",
-    "3313000",
-    "0111233",
-    "0000010",
-    "0222210",
-    "2100010",
-    "3012003",
-    "0011031"
+    "2100301",
+    "0201003",
+    "1013030",
+    "0330330",
+    "3012002",
+    "2123301",
+    "2300200",
+    "3233101",
+    "2011332"
    ],
    "outlets": [
-    2
+    1
    ],
    "taps": [
     {
      "x": 1,
-     "y": 1,
+     "y": 2,
      "req": 2
     },
     {
-     "x": 4,
-     "y": 1,
-     "req": 10
+     "x": 5,
+     "y": 5,
+     "req": 8
     },
     {
-     "x": 3,
-     "y": 6,
-     "req": 13
+     "x": 5,
+     "y": 7,
+     "req": 10
     }
    ],
    "H": 20,
@@ -2788,50 +2816,54 @@
     "h": 9,
     "taps": 3,
     "slack": 0,
-    "winners": 4,
-    "solver_nodes": 28524,
-    "connecting": 1105,
+    "winners": 7,
+    "solver_nodes": 88153,
+    "connecting": 2000,
     "connecting_complete": false,
-    "all_nodes": 20001,
-    "solution_leaks": 0,
+    "all_nodes": 13693,
+    "solution_leaks": 1,
     "loop": true,
-    "seed": 50091,
-    "attempts": 2,
+    "seed": 150028,
+    "attempts": 5,
     "difficulty": {
-     "rotatable": 53,
-     "wet_cells": 13,
-     "wet_bits": 22,
-     "all_bits": 92,
+     "rotatable": 47,
+     "wet_cells": 15,
+     "wet_bits": 24,
+     "all_bits": 77,
      "taps": 3,
      "tight_taps": 3,
-     "solver_log": 4.455,
-     "solution_leaks": 0,
+     "solver_log": 4.945,
+     "solution_leaks": 1,
      "loop": 1,
-     "winners": 4,
-     "connecting": 1105,
+     "winners": 7,
+     "connecting": 2000,
      "pass_ratio": 0.004,
-     "score": 25.29
+     "score": 26.38
     },
-    "bot_moves_median": 485,
-    "bot_solved": "2/3"
+    "bot_moves_median": 600,
+    "bot_solved": "0/3"
    },
    "solution": [
-    "0312000",
-    "0020000",
-    "0103200",
-    "0012000",
-    "0003010",
-    "0001313",
-    "0020211",
-    "0001000",
-    "0000000"
+    "0000000",
+    "0100000",
+    "2000000",
+    "3000000",
+    "2000020",
+    "2021100",
+    "0012020",
+    "2030100",
+    "0013010"
    ],
    "order": {
-    "client_id": 9779,
-    "min_moves": 17,
+    "client_id": 7469,
+    "hard": {
+     "type": "max_pipes",
+     "n": 14
+    },
+    "min_moves": 13,
     "bonus": {
      "type": "max_moves",
-     "n": 18
+     "n": 14
     },
     "pay": 130
    }
