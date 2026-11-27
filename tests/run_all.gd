@@ -25,6 +25,7 @@ func _init() -> void:
 			print("FAIL ", f, ": скрипт не загружается (ошибка разбора)")
 			continue
 		var inst = script.new()
+		inst.tree = self
 		for m in inst.get_method_list():
 			var name: String = m["name"]
 			if not name.begins_with("test_"):
