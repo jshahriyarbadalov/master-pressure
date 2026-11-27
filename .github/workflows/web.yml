@@ -1,9 +1,10 @@
 name: web
 # Веб-сборка прототипа → GitHub Pages (играть с телефона по ссылке).
-# Требует: Settings → Pages → Source: GitHub Actions.
+# Запуск вручную: Actions → web → Run workflow.
+# Перед первым запуском: Settings → Pages → Source: GitHub Actions и
+# Settings → Environments → github-pages → разрешить ветку develop.
+# (Автозапуск на пуш выключен: Pages не включены, и прогон падал на публикации.)
 on:
-  push:
-    branches: [develop]
   workflow_dispatch:
 permissions:
   contents: read
