@@ -1,11 +1,11 @@
 name: android
-# Debug-APK прототипа на каждый пуш в develop:
-#  - артефакт сборки (Actions → прогон → Artifacts);
-#  - pre-release «proto-latest» с прямой ссылкой на .apk (удобно с телефона).
+# Debug-APK прототипа: на PR — только артефакт; на пуш в develop — ещё и
+# pre-release «proto-latest» с прямой ссылкой на .apk (удобно с телефона).
 # Debug-ключ хранится в кэше Actions, чтобы новые сборки ставились поверх старых.
 on:
   push:
     branches: [develop]
+  pull_request:
   workflow_dispatch:
 permissions:
   contents: write
@@ -51,6 +51,7 @@ jobs:
           name: davlenie-proto-debug
           path: build/davlenie-proto-debug.apk
       - name: Pre-release proto-latest
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
