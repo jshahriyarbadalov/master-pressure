@@ -45,3 +45,20 @@ static func write_lines(path: String, items: Array, append: bool = false) -> boo
 	for it in items:
 		f.store_line(JSON.stringify(it, "", false))
 	return true
+
+
+## JSON-парсер Godot возвращает все числа как float; вернуть целым числам тип int.
+static func ints(x: Variant) -> Variant:
+	if x is float and x == floorf(x) and absf(x) < 1e15:
+		return int(x)
+	if x is Array:
+		var out := []
+		for v in x:
+			out.append(ints(v))
+		return out
+	if x is Dictionary:
+		var out := {}
+		for k in x:
+			out[k] = ints(x[k])
+		return out
+	return x

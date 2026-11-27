@@ -7,6 +7,7 @@
 extends RefCounted
 
 const Pieces = preload("res://game/logic/pieces.gd")
+const JsonIo = preload("res://addons/master_core/level/json_io.gd")
 
 var w := 0
 var h := 0
@@ -20,6 +21,7 @@ var H := 10
 var L := 2
 var solution := PackedByteArray()  ## повороты задуманного решения (может быть пустым)
 var meta := {}
+var order := {}  ## заказ клиента (game/logic/order.gd), может быть пустым
 
 
 func size() -> int:
@@ -62,6 +64,7 @@ func clone():
 	c.L = L
 	c.solution = solution.duplicate()
 	c.meta = meta.duplicate(true)
+	c.order = order.duplicate(true)
 	return c
 
 
@@ -126,6 +129,8 @@ func to_dict() -> Dictionary:
 	}
 	if solution.size() == w * h:
 		d["solution"] = rows_of(solution, false)
+	if not order.is_empty():
+		d["order"] = order
 	return d
 
 
@@ -140,7 +145,8 @@ static func from_dict(d: Dictionary):
 		for y in lv.h:
 			for x in lv.w:
 				lv.solution[y * lv.w + x] = int((d["solution"][y] as String)[x])
-	lv.meta = d.get("meta", {})
+	lv.meta = JsonIo.ints(d.get("meta", {}))
+	lv.order = JsonIo.ints(d.get("order", {}))
 	return lv
 
 
