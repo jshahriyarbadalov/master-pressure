@@ -209,3 +209,36 @@ func test_rooms_change_every_level() -> bool:
 	check_eq(clients.size(), 30, "все 30 клиентов разные")
 	m.queue_free()
 	return ok()
+
+
+func test_sounds_synthesized() -> bool:
+	var Sfx = load("res://game/ui/sfx.gd")
+	for n in ["rotate", "plink", "win", "coin", "undo", "fail"]:
+		var st: AudioStreamWAV = Sfx.get_stream(n)
+		check(st.data.size() > 1000, "звук %s не пустой" % n)
+		check(st.get_length() < 1.0, "звук %s короткий: %.2f с" % [n, st.get_length()])
+		var peak := 0
+		for i in range(0, st.data.size(), 2):
+			peak = maxi(peak, absi(st.data.decode_s16(i)))
+		check(peak < 32767 and peak > 2000, "звук %s без перегруза и слышен (пик %d)" % [n, peak])
+	return ok()
+
+
+func test_rotation_animation_ends() -> bool:
+	var m := _make()
+	var lv = m.level
+	var cell := -1
+	for i in lv.w * lv.h:
+		if lv.is_rotatable(i):
+			cell = i
+			break
+	m.tap_cell(cell)
+	check(m.board._rot_start.has(cell), "поворот анимируется")
+	var BoardView = load("res://game/ui/board_view.gd")
+	check(absf(BoardView.back_out(1.0) - 1.0) < 0.001, "пружинка заканчивается ровно в положении")
+	var over := 0.0
+	for k in 20:
+		over = maxf(over, BoardView.back_out(k / 20.0))
+	check(over > 1.0, "есть перелёт (пружинка)")
+	m.queue_free()
+	return ok()

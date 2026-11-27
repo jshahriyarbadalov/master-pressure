@@ -11,6 +11,7 @@ const OrderTexts = preload("res://game/logic/order_texts.gd")
 const PixelArt = preload("res://game/ui/pixel_art.gd")
 const Themes = preload("res://game/ui/themes.gd")
 const OrderCard = preload("res://game/ui/order_card.gd")
+const Sfx = preload("res://game/ui/sfx.gd")
 
 const BAR_H := 140.0
 const PACK_PATH := "res://levels/packs/proto.json"
@@ -30,6 +31,11 @@ var money := 0        ## кошелёк мастера, сохраняется
 var paid := false     ## оплата за текущий заказ уже начислена
 var order_state := {} ## Order.check для текущего положения
 var texts = null
+var sound_on := true      ## переключатели — в меню (T-22)
+var vibration_on := true
+var _players: Array[AudioStreamPlayer] = []
+var _prev_ok := 0          ## кранов в норме на прошлом шаге (для «плинк»)
+var _prev_hard_fail := false
 
 var board: BoardView
 var info: Label
@@ -57,6 +63,10 @@ func _ready() -> void:
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD
 	info.clip_text = true
 	add_child(info)
+	for k in 3:
+		var pl := AudioStreamPlayer.new()
+		add_child(pl)
+		_players.append(pl)
 	card = OrderCard.new()
 	add_child(card)
 	debug = Label.new()
@@ -155,6 +165,8 @@ func _load_current() -> void:
 	moves = 0
 	won = false
 	paid = false
+	_prev_ok = 0
+	_prev_hard_fail = false
 	var th := Themes.by_index(index)
 	if not level.order.is_empty():
 		th = String(texts.client(level.order).get("theme", th))
@@ -171,6 +183,9 @@ func tap_cell(i: int) -> bool:
 	level.rotate_cell(i)
 	undo_stack.append(i)
 	moves += 1
+	board.animate_rotate(i)
+	play("rotate")
+	vibrate(12)
 	_refresh()
 	return true
 
@@ -182,6 +197,7 @@ func undo() -> void:
 	undo_stack.remove_at(undo_stack.size() - 1)
 	level.rots[i] = (level.rots[i] + 3) & 3
 	moves -= 1  # отмена возвращает поворот
+	play("undo")
 	_refresh()
 
 
@@ -209,7 +225,10 @@ func _refresh() -> void:
 	result = PressureEval.evaluate(level, level.masks())
 	if level.order.is_empty():
 		order_state = {}
+		var was := won
 		won = result["win"]
+		if won and not was:
+			_celebrate(false)
 	else:
 		order_state = Order.check(level, level.order, result, moves)
 		won = order_state["done"]
@@ -217,7 +236,17 @@ func _refresh() -> void:
 			paid = true
 			money += int(order_state["pay"])
 			save_progress()
+			_celebrate(true)
+		var hard_fail: bool = result["win"] and not won
+		if hard_fail and not _prev_hard_fail:
+			play("fail")
+			vibrate(40)
+		_prev_hard_fail = hard_fail
 	board.set_result(result)
+	var ok_now := _count_ok()
+	if ok_now > _prev_ok and not won:
+		play("plink")
+	_prev_ok = ok_now
 	btn_next.disabled = not won
 	btn_undo.disabled = won or undo_stack.is_empty()
 	_update_info()
@@ -253,6 +282,42 @@ func _update_info() -> void:
 		lines.append("Решено! Жми «Дальше»." if won else "Участок −1, поворот −1, развилка −1 за лишний конец.")
 	info.text = "\n".join(lines)
 	debug.text = _debug_line()
+
+
+func _count_ok() -> int:
+	var ok := 0
+	for j in level.taps.size():
+		var p = result["taps"][j]
+		if p != null and int(p) >= int(level.req[level.taps[j]]):
+			ok += 1
+	return ok
+
+
+## Победа: аккорд, кольца от кранов, вибрация; за оплату — звон монет.
+func _celebrate(with_coins: bool) -> void:
+	play("win")
+	board.animate_win()
+	vibrate(60)
+	if with_coins and is_inside_tree():
+		get_tree().create_timer(0.4).timeout.connect(func(): play("coin"))
+
+
+func play(name: String) -> void:
+	# вне дерева сцен (headless-тесты до запуска цикла) играть нельзя — молча пропускаем
+	if not sound_on or _players.is_empty() or not _players[0].is_inside_tree():
+		return
+	for pl in _players:
+		if not pl.playing:
+			pl.stream = Sfx.get_stream(name)
+			pl.play()
+			return
+	_players[0].stream = Sfx.get_stream(name)
+	_players[0].play()
+
+
+func vibrate(ms: int) -> void:
+	if vibration_on:
+		Input.vibrate_handheld(ms)
 
 
 func _taps_line() -> String:

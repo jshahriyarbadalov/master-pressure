@@ -30,9 +30,41 @@ var result := {}  ## результат PressureEval.evaluate для текущ�
 var cell := MIN_CELL
 var origin := Vector2.ZERO
 
+## Анимации (только отрисовка, на логику не влияют).
+const ROT_TIME := 0.18      ## поворот с пружинкой, секунды
+const WIN_TIME := 0.9       ## кольца от кранов при победе
+var _rot_start := {}        ## клетка -> время начала поворота
+var _win_start := -100.0
+
 
 func _init() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST  # пиксели без сглаживания
+
+
+static func now() -> float:
+	return Time.get_ticks_msec() / 1000.0
+
+
+## Клетка только что повернулась: показать докрутку из прежнего положения.
+func animate_rotate(i: int) -> void:
+	_rot_start[i] = now()
+
+
+func animate_win() -> void:
+	_win_start = now()
+
+
+## «Перелёт» в конце: 0 → чуть больше 1 → 1 (пружинка).
+static func back_out(t: float) -> float:
+	var c1 := 1.70158
+	var c3 := c1 + 1.0
+	return 1.0 + c3 * pow(t - 1.0, 3) + c1 * pow(t - 1.0, 2)
+
+
+func _process(_delta: float) -> void:
+	# вода течёт и капли летят всегда, когда есть мокрая сеть
+	if level != null and (not result.is_empty() or not _rot_start.is_empty()):
+		queue_redraw()
 
 
 func set_level(lv) -> void:
@@ -93,6 +125,21 @@ func _draw() -> void:
 	for i in level.w * level.h:
 		_draw_cell(i)
 	_draw_leaks()
+	_draw_win_rings()
+
+
+## Победа: от каждого крана расходятся кольца воды.
+func _draw_win_rings() -> void:
+	var t := (now() - _win_start) / WIN_TIME
+	if t < 0.0 or t > 1.0:
+		return
+	for tap in level.taps:
+		var c := cell_rect(tap).get_center()
+		for k in 2:
+			var tk := clampf(t * 1.3 - k * 0.3, 0.0, 1.0)
+			if tk <= 0.0 or tk >= 1.0:
+				continue
+			draw_arc(c, cell * (0.45 + 0.9 * tk), 0.0, TAU, 32, Color(PixelArt.C["water_hi"], 1.0 - tk), cell * 0.06)
 
 
 func _draw_cell(i: int) -> void:
@@ -107,9 +154,20 @@ func _draw_cell(i: int) -> void:
 	draw_texture_rect(Themes.floor_tile(room, true), r, false)
 	if Pieces.is_pipe(k):
 		var m := Pieces.mask(k, level.rots[i])
-		draw_texture_rect(PixelArt.pipe(m), r, false)
+		var angle := 0.0
+		if _rot_start.has(i):
+			var t := (now() - float(_rot_start[i])) / ROT_TIME
+			if t >= 1.0:
+				_rot_start.erase(i)
+			else:
+				angle = -PI / 2.0 * (1.0 - back_out(clampf(t, 0.0, 1.0)))
+		var c := r.get_center()
+		draw_set_transform(c, angle)
+		var local := Rect2(-r.size / 2.0, r.size)
+		draw_texture_rect(PixelArt.pipe(m), local, false)
 		if not result.is_empty() and result["wet"][i] == 1:
-			draw_texture_rect(PixelArt.channel(m), r, false, pipe_color(i))
+			draw_texture_rect(PixelArt.channel(m), local, false, flow_color(i))
+		draw_set_transform(Vector2.ZERO, 0.0)
 	elif k == Pieces.SOURCE:
 		draw_texture_rect(PixelArt.pipe(level.outlets), r, false)
 		draw_texture_rect(PixelArt.channel(level.outlets), r, false, PixelArt.water_color(1.0))
@@ -133,6 +191,16 @@ func pipe_color(i: int) -> Color:
 	return PixelArt.water_color(float(p) / maxf(1.0, float(level.H)))
 
 
+## Вода «бежит»: яркость пульсирует волнами от высокого напора к низкому
+## (от источника к кранам); чем выше напор, тем быстрее волны.
+func flow_color(i: int) -> Color:
+	var base := pipe_color(i)
+	var p := float(result["cell_p"][i])
+	var speed := 3.0 + 5.0 * clampf(p / maxf(1.0, float(level.H)), 0.0, 1.0)
+	var k := 0.82 + 0.18 * sin(now() * speed + p * 0.9)
+	return Color(base.r * k, base.g * k, base.b * k, 1.0).lerp(Color.WHITE, 0.08 * (1.0 + sin(now() * speed + p * 0.9)))
+
+
 func tap_pressure(i: int) -> Variant:
 	if result.is_empty():
 		return null
@@ -148,9 +216,16 @@ func _draw_leaks() -> void:
 		var d: int = code & 3
 		var c := cell_rect(i).get_center()
 		var px := cell / PixelArt.T
-		var tip := c + Vector2(Dir.DX[d], Dir.DY[d]) * cell * 0.5
+		var dir := Vector2(Dir.DX[d], Dir.DY[d])
+		var tip := c + dir * cell * 0.5
 		var sz := Vector2(4, 5) * px
 		draw_texture_rect(PixelArt.drop(), Rect2(tip - sz / 2.0, sz), false)
+		# брызги: две капли вылетают из конца и падают вниз
+		for j in 2:
+			var ph := fposmod(now() * 1.6 + float(code) * 0.37 + j * 0.5, 1.0)
+			var pos := tip + dir * cell * 0.28 * ph + Vector2(0, cell * 0.35 * ph * ph)
+			var dsz := sz * (0.7 - 0.4 * ph)
+			draw_texture_rect(PixelArt.drop(), Rect2(pos - dsz / 2.0, dsz), false, Color(1, 1, 1, 1.0 - ph))
 
 
 ## Подпись крана: «есть/нужно» («–» — вода не дошла).
