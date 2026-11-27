@@ -39,8 +39,9 @@ static func analyze(lv) -> Array:
 		for i in lv.w * lv.h:
 			if r["wet"][i] == 1 and (lv.kinds[i] == Pieces.TEE or lv.kinds[i] == Pieces.CROSS):
 				tees += 1
+		var plan := min_plan(lv, lv.rots, m, r["wet"])
 		out.append({
-			"rots": rots, "wet": r["wet"], "leaks": int(r["leaks"]), "tees": tees,
+			"rots": rots, "plan": plan, "wet": r["wet"], "leaks": int(r["leaks"]), "tees": tees,
 			"moves": min_moves(lv, lv.rots, m, r["wet"]),
 		})
 	out.sort_custom(func(a, b): return int(a["moves"]) < int(b["moves"]))
@@ -48,29 +49,43 @@ static func analyze(lv) -> Array:
 
 
 ## Минимум касаний (по 90° по часовой) от поворотов start до сети с масками target на мокрых клетках.
-## Сухая клетка не должна подключаться к мокрой сети или к выходу источника.
-## (Конец сухой трубы в кран — можно: кран воду дальше не передаёт, труба остаётся сухой.)
 static func min_moves(lv, start: PackedByteArray, target: PackedByteArray, wet: PackedByteArray) -> int:
+	var plan := min_plan(lv, start, target, wet)
+	if plan.is_empty():
+		return 1 << 30  # недостижимо (не должно случаться для решений решателя)
 	var total := 0
+	for i in lv.w * lv.h:
+		total += (plan[i] - start[i]) & 3
+	return total
+
+
+## Повороты, к которым ведёт минимум касаний (пусто, если недостижимо).
+## Мокрая клетка — ближайший поворот с нужной маской (у прямой 0 и 2 одинаковы).
+## Сухая — ближайший поворот, который не подключает её к мокрой сети или выходу
+## источника. (Конец сухой трубы в кран — можно: кран воду дальше не передаёт.)
+## Пригодится и для подсказки: «повернуть клетку к ближайшему решению».
+static func min_plan(lv, start: PackedByteArray, target: PackedByteArray, wet: PackedByteArray) -> PackedByteArray:
+	var plan := start.duplicate()
 	for i in lv.w * lv.h:
 		var k: int = lv.kinds[i]
 		if not Pieces.is_pipe(k) or k == Pieces.CROSS:
 			continue
-		var best := 99
+		var found := false
 		for step in 4:
-			var m := Pieces.mask(k, (start[i] + step) & 3)
+			var r := (start[i] + step) & 3
+			var m := Pieces.mask(k, r)
 			var ok: bool
 			if wet[i] == 1:
 				ok = m == target[i]
 			else:
 				ok = not _would_connect(lv, target, wet, i, m)
 			if ok:
-				best = step
+				plan[i] = r
+				found = true
 				break
-		if best == 99:
-			return 1 << 30  # недостижимо (не должно случаться для решений решателя)
-		total += best
-	return total
+		if not found:
+			return PackedByteArray()
+	return plan
 
 
 static func _would_connect(lv, target: PackedByteArray, wet: PackedByteArray, i: int, m: int) -> bool:

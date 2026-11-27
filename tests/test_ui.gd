@@ -119,3 +119,79 @@ func test_pack_and_progress() -> bool:
 	check_eq(m.load_progress(30), 1, "прогресс сохранён и читается")
 	m.queue_free()
 	return ok()
+
+
+## Докрутить клетки касаниями до заданных поворотов.
+func _tap_to(m, rots: PackedByteArray) -> void:
+	var lv = m.level
+	for i in lv.w * lv.h:
+		if lv.is_rotatable(i):
+			var guard := 0
+			while lv.rots[i] != rots[i] and guard < 4 and not m.won:
+				m.tap_cell(i)
+				guard += 1
+
+
+func test_order_screen_pay_and_bonus() -> bool:
+	var Order = load("res://game/logic/order.gd")
+	var m := _make()
+	m.save_path = "user://test_progress_orders.json"
+	m.money = 0
+	m.load_pack(m.levels, 0)
+	var lv = m.level
+	check(not lv.order.is_empty(), "у уровня пака есть заказ")
+	check(m.info.text.contains("«"), "на экране реплика клиента")
+	var sols: Array = Order.analyze(lv)
+	_tap_to(m, sols[0]["plan"])
+	check(m.won, "заказ выполнен самым коротким решением")
+	check(m.order_state["bonus_ok"], "бонус за минимум поворотов: %d ≤ %d" % [m.moves, int(lv.order["bonus"]["n"])])
+	check_eq(m.money, roundi(int(lv.order["pay"]) * 1.5), "оплата с премией в кошельке")
+	m.next_level()
+	check_eq(m.money, roundi(int(lv.order["pay"]) * 1.5), "оплата не начислена повторно")
+	# «Отменить» возвращает поворот
+	var lv2 = m.level
+	var cell := -1
+	for i in lv2.w * lv2.h:
+		if lv2.is_rotatable(i):
+			cell = i
+			break
+	m.tap_cell(cell)
+	m.tap_cell(cell)
+	m.undo()
+	check_eq(m.moves, 1, "отмена вернула поворот")
+	m.queue_free()
+	return ok()
+
+
+func test_order_hard_condition_blocks_win() -> bool:
+	var Order = load("res://game/logic/order.gd")
+	var m := _make()
+	m.save_path = "user://test_progress_orders.json"
+	var idx := -1
+	for k in m.levels.size():
+		var o: Dictionary = m.levels[k].get("order", {})
+		if o.has("hard") and o["hard"]["type"] == "no_leaks":
+			idx = k
+			break
+	check(idx >= 0, "в паке есть заказ «без протечек»")
+	if idx < 0:
+		return ok()
+	m.load_pack(m.levels, idx)
+	var sols: Array = Order.analyze(m.level)
+	var leaky := -1
+	var clean := -1
+	for k in sols.size():
+		if int(sols[k]["leaks"]) > 0 and leaky < 0:
+			leaky = k
+		if int(sols[k]["leaks"]) == 0 and clean < 0:
+			clean = k
+	check(leaky >= 0 and clean >= 0, "есть решение с протечкой и без")
+	_tap_to(m, sols[leaky]["plan"])
+	check(m.result["win"], "напор в норме")
+	check(not m.won, "но условие «без протечек» не выполнено — заказ не засчитан")
+	check(m.info.text.contains("условие клиента"), "игроку сказано, что не так")
+	m.reset()
+	_tap_to(m, sols[clean]["plan"])
+	check(m.won, "без протечек — заказ выполнен")
+	m.queue_free()
+	return ok()
