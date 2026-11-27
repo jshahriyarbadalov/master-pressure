@@ -6,6 +6,7 @@ signal cell_tapped(index: int)
 
 const Pieces = preload("res://game/logic/pieces.gd")
 const Dir = preload("res://addons/master_core/grid/dir.gd")
+const PixelArt = preload("res://game/ui/pixel_art.gd")
 
 ## Минимальный размер клетки в пикселях дизайна (ширина 720): ≈48 dp на телефоне 360 dp.
 const MIN_CELL := 96.0
@@ -26,6 +27,10 @@ var level = null
 var result := {}  ## результат PressureEval.evaluate для текущих поворотов
 var cell := MIN_CELL
 var origin := Vector2.ZERO
+
+
+func _init() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST  # пиксели без сглаживания
 
 
 func set_level(lv) -> void:
@@ -80,7 +85,7 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO, size), COL_BG)
+	draw_rect(Rect2(Vector2.ZERO, size), PixelArt.C["bg"])
 	if level == null or cell < 8.0:
 		return
 	for i in level.w * level.h:
@@ -91,31 +96,29 @@ func _draw() -> void:
 func _draw_cell(i: int) -> void:
 	var r := cell_rect(i)
 	var k: int = level.kinds[i]
-	var c := r.get_center()
 	if k == Pieces.WALL:
-		draw_rect(r.grow(-2), COL_WALL)
+		draw_texture_rect(PixelArt.cell_tile("wall"), r, false)
 		return
-	draw_rect(r.grow(-2), COL_CELL)
+	if k == Pieces.EMPTY:
+		draw_texture_rect(PixelArt.cell_tile("empty"), r, false)
+		return
+	draw_texture_rect(PixelArt.cell_tile("floor"), r, false)
 	if Pieces.is_pipe(k):
-		_draw_arms(c, Pieces.mask(k, level.rots[i]), pipe_color(i), cell * 0.22)
+		var m := Pieces.mask(k, level.rots[i])
+		draw_texture_rect(PixelArt.pipe(m), r, false)
+		if not result.is_empty() and result["wet"][i] == 1:
+			draw_texture_rect(PixelArt.channel(m), r, false, pipe_color(i))
 	elif k == Pieces.SOURCE:
-		_draw_arms(c, level.outlets, COL_SOURCE, cell * 0.22)
-		draw_rect(Rect2(c - Vector2.ONE * cell * 0.28, Vector2.ONE * cell * 0.56), COL_SOURCE)
+		draw_texture_rect(PixelArt.pipe(level.outlets), r, false)
+		draw_texture_rect(PixelArt.channel(level.outlets), r, false, PixelArt.water_color(1.0))
+		draw_texture_rect(PixelArt.tank(), r, false)
 	elif k == Pieces.TAP:
 		var p = tap_pressure(i)
-		var col := COL_TAP
+		var state := "dry"
 		if p != null:
-			col = COL_TAP_OK if int(p) >= int(level.req[i]) else COL_TAP_LOW
-		draw_circle(c, cell * 0.40, col)
-		_draw_tap_label(i, c)
-
-
-func _draw_arms(c: Vector2, mask: int, col: Color, width: float) -> void:
-	for d in 4:
-		if mask >> d & 1:
-			var tip := c + Vector2(Dir.DX[d], Dir.DY[d]) * cell * 0.5
-			draw_line(c, tip, col, width)
-	draw_circle(c, width * 0.5, col)
+			state = "ok" if int(p) >= int(level.req[i]) else "low"
+		draw_texture_rect(PixelArt.gauge(state), r, false)
+		_draw_tap_label(i, r.get_center())
 
 
 ## Цвет трубы: сухая — серая; мокрая — синяя, тем ярче, чем выше напор.
@@ -124,9 +127,8 @@ func pipe_color(i: int) -> Color:
 		return COL_PIPE
 	var p: int = result["cell_p"][i]
 	if p == UNREACHED:
-		return COL_WATER_LO
-	var t := clampf(float(p) / maxf(1.0, float(level.H)), 0.0, 1.0)
-	return COL_WATER_LO.lerp(COL_WATER_HI, t)
+		return PixelArt.water_color(0.0)
+	return PixelArt.water_color(float(p) / maxf(1.0, float(level.H)))
 
 
 func tap_pressure(i: int) -> Variant:
@@ -143,8 +145,10 @@ func _draw_leaks() -> void:
 		var i: int = code >> 2
 		var d: int = code & 3
 		var c := cell_rect(i).get_center()
+		var px := cell / PixelArt.T
 		var tip := c + Vector2(Dir.DX[d], Dir.DY[d]) * cell * 0.5
-		draw_circle(tip, cell * 0.12, COL_LEAK)
+		var sz := Vector2(4, 5) * px
+		draw_texture_rect(PixelArt.drop(), Rect2(tip - sz / 2.0, sz), false)
 
 
 ## Подпись крана: «есть/нужно» («–» — вода не дошла).
@@ -152,6 +156,6 @@ func _draw_tap_label(i: int, c: Vector2) -> void:
 	var font := get_theme_default_font()
 	var p = tap_pressure(i)
 	var txt := "%s/%d" % ["–" if p == null else str(maxi(int(p), 0)), int(level.req[i])]
-	var fs := int(cell * 0.26)
+	var fs := int(cell * 0.21)
 	var w := font.get_string_size(txt, HORIZONTAL_ALIGNMENT_CENTER, -1, fs).x
-	draw_string(font, c + Vector2(-w / 2.0, fs * 0.35), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color.BLACK)
+	draw_string(font, c + Vector2(-w / 2.0, fs * 0.35), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color("2a1f1d"))

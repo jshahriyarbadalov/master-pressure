@@ -21,6 +21,18 @@ func _initialize() -> void:
 	if a.has("level"):
 		main.index = int(a["level"])
 		main._load_current()
+	if a.has("win"):
+		# докрутить до ближайшего решения заказа (минимум касаний)
+		var Order = load("res://game/logic/order.gd")
+		var sols: Array = Order.analyze(main.level)
+		if not sols.is_empty():
+			var plan: PackedByteArray = sols[0]["plan"]
+			var lvw = main.level
+			for i in lvw.w * lvw.h:
+				var guard := 0
+				while lvw.is_rotatable(i) and lvw.rots[i] != plan[i] and guard < 4 and not main.won:
+					main.tap_cell(i)
+					guard += 1
 	if a.has("solve"):
 		var k := int(a["solve"])
 		var lv = main.level
