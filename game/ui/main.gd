@@ -8,8 +8,11 @@ const BoardView = preload("res://game/ui/board_view.gd")
 const JsonIo = preload("res://addons/master_core/level/json_io.gd")
 
 const BAR_H := 140.0
+const PACK_PATH := "res://levels/packs/proto.json"
+const SAVE_PATH := "user://progress.json"
 const PAD := 16.0
 
+var save_path := SAVE_PATH  ## тесты подменяют, чтобы не трогать настоящий прогресс
 var levels: Array = []      ## словари уровней (JSON)
 var index := 0
 var level = null
@@ -47,7 +50,8 @@ func _ready() -> void:
 	btn_next = _button("Дальше", next_level)
 	resized.connect(_layout)
 	_layout()
-	load_pack(_default_levels())
+	var pack := _load_pack_levels()
+	load_pack(pack, _load_progress(pack.size()))
 
 
 func _button(text: String, cb: Callable) -> Button:
@@ -60,12 +64,33 @@ func _button(text: String, cb: Callable) -> Button:
 	return b
 
 
-## Уровни по умолчанию: три примера из GAME_DESIGN (T-12 заменит их паком).
-func _default_levels() -> Array:
+## Пак прототипа (levels/packs/proto.json); если его нет — три примера из GAME_DESIGN.
+func _load_pack_levels() -> Array:
+	if FileAccess.file_exists(PACK_PATH):
+		var p = JsonIo.read(PACK_PATH)
+		if p is Dictionary and p.has("levels") and not p["levels"].is_empty():
+			return p["levels"]
 	var out := []
 	for e in JsonIo.read("res://tests/fixtures/examples.json"):
 		out.append(e["level"])
 	return out
+
+
+func load_progress(n: int) -> int:
+	return _load_progress(n)
+
+
+func _load_progress(n: int) -> int:
+	if not FileAccess.file_exists(save_path):
+		return 0
+	var d = JsonIo.read(save_path)
+	if d is Dictionary:
+		return clampi(int(d.get("index", 0)), 0, maxi(0, n - 1))
+	return 0
+
+
+func save_progress() -> void:
+	JsonIo.write(save_path, {"index": index, "total": levels.size()})
 
 
 func _layout() -> void:
@@ -132,6 +157,7 @@ func next_level() -> void:
 	if not won:
 		return
 	index = (index + 1) % levels.size()
+	save_progress()
 	_load_current()
 
 
@@ -159,7 +185,20 @@ func _update_info() -> void:
 	lines.append("Напор источника %d − протечки %d×%d = %d" % [level.H, result["leaks"], level.L, result["heff"]])
 	lines.append("Краны с нужным напором: %d из %d" % [ok, level.taps.size()])
 	if won:
-		lines.append("Решено! Жми «Дальше».")
+		var extra := ""
+		if level.meta.get("surprise", false):
+			extra = " Это уровень-сюрприз: здесь выгодно оставить протечку."
+		lines.append("Решено! Жми «Дальше»." + extra)
 	else:
 		lines.append("Участок −1, поворот −1, развилка −1 за лишний конец.")
+	lines.append(_debug_line())
 	info.text = "\n".join(lines)
+
+
+## Отладочная строка для прототипа: по seed уровень можно воспроизвести.
+func _debug_line() -> String:
+	var m: Dictionary = level.meta
+	var d: Dictionary = m.get("difficulty", {})
+	if not m.has("seed"):
+		return "[пример из документа]"
+	return "[seed %d · оценка %.1f · бот %s, %d касаний]" % [int(m["seed"]), float(d.get("score", 0)), str(m.get("bot_solved", "—")), int(m.get("bot_moves_median", 0))]
