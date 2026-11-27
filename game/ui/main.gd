@@ -6,6 +6,8 @@ const PressureLevel = preload("res://game/logic/pressure_level.gd")
 const PressureEval = preload("res://game/logic/pressure_eval.gd")
 const BoardView = preload("res://game/ui/board_view.gd")
 const JsonIo = preload("res://addons/master_core/level/json_io.gd")
+const Order = preload("res://game/logic/order.gd")
+const OrderTexts = preload("res://game/logic/order_texts.gd")
 
 const BAR_H := 140.0
 const PACK_PATH := "res://levels/packs/proto.json"
@@ -20,10 +22,15 @@ var start_rots := PackedByteArray()
 var undo_stack := PackedInt32Array()
 var result := {}
 var won := false
-var moves := 0
+var moves := 0        ## поворотов: касание +1, «Отменить» −1, «Заново» — 0
+var money := 0        ## кошелёк мастера, сохраняется
+var paid := false     ## оплата за текущий заказ уже начислена
+var order_state := {} ## Order.check для текущего положения
+var texts = null
 
 var board: BoardView
 var info: Label
+var debug: Label
 var btn_undo: Button
 var btn_reset: Button
 var btn_next: Button
@@ -33,15 +40,21 @@ func _ready() -> void:
 	if board != null:
 		return  # уже инициализирован (тесты вызывают _ready вручную)
 	set_anchors_preset(Control.PRESET_FULL_RECT)
+	texts = OrderTexts.new("ru")
 	var bg := ColorRect.new()
 	bg.color = Color("161a23")
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
 	info = Label.new()
-	info.add_theme_font_size_override("font_size", 32)
+	info.add_theme_font_size_override("font_size", 26)
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD
+	info.clip_text = true
 	add_child(info)
+	debug = Label.new()
+	debug.add_theme_font_size_override("font_size", 18)
+	debug.add_theme_color_override("font_color", Color("6b7385"))
+	add_child(debug)
 	board = BoardView.new()
 	add_child(board)
 	board.cell_tapped.connect(_on_cell_tapped)
@@ -85,18 +98,21 @@ func _load_progress(n: int) -> int:
 		return 0
 	var d = JsonIo.read(save_path)
 	if d is Dictionary:
+		money = int(d.get("money", 0))
 		return clampi(int(d.get("index", 0)), 0, maxi(0, n - 1))
 	return 0
 
 
 func save_progress() -> void:
-	JsonIo.write(save_path, {"index": index, "total": levels.size()})
+	JsonIo.write(save_path, {"index": index, "total": levels.size(), "money": money})
 
 
 func _layout() -> void:
 	var top := floorf(size.y / 3.0)
-	info.position = Vector2(24, 24)
-	info.size = Vector2(size.x - 48, top - 48)
+	info.position = Vector2(24, 20)
+	info.size = Vector2(size.x - 48, top - 52)
+	debug.position = Vector2(24, top - 30)
+	debug.size = Vector2(size.x - 48, 24)
 	board.position = Vector2(0, top)
 	board.size = Vector2(size.x, size.y - top - BAR_H)
 	board.refit()
@@ -121,6 +137,7 @@ func _load_current() -> void:
 	undo_stack.clear()
 	moves = 0
 	won = false
+	paid = false
 	board.set_level(level)
 	_refresh()
 
@@ -142,13 +159,14 @@ func undo() -> void:
 	var i: int = undo_stack[undo_stack.size() - 1]
 	undo_stack.remove_at(undo_stack.size() - 1)
 	level.rots[i] = (level.rots[i] + 3) & 3
-	moves += 1
+	moves -= 1  # отмена возвращает поворот
 	_refresh()
 
 
 func reset() -> void:
 	level.rots = start_rots.duplicate()
 	undo_stack.clear()
+	moves = 0
 	won = false
 	_refresh()
 
@@ -167,7 +185,16 @@ func _on_cell_tapped(i: int) -> void:
 
 func _refresh() -> void:
 	result = PressureEval.evaluate(level, level.masks())
-	won = result["win"]
+	if level.order.is_empty():
+		order_state = {}
+		won = result["win"]
+	else:
+		order_state = Order.check(level, level.order, result, moves)
+		won = order_state["done"]
+		if won and not paid:
+			paid = true
+			money += int(order_state["pay"])
+			save_progress()
 	board.set_result(result)
 	btn_next.disabled = not won
 	btn_undo.disabled = won or undo_stack.is_empty()
@@ -175,24 +202,40 @@ func _refresh() -> void:
 
 
 func _update_info() -> void:
+	var lines := PackedStringArray()
+	if not level.order.is_empty():
+		var o: Dictionary = level.order
+		var c: Dictionary = texts.client(o)
+		lines.append("%s · %s" % [c["name"], c["place"]])
+		lines.append("«%s»" % c["complaint"])
+		var hard: String = texts.hard_text(o)
+		if hard != "":
+			lines.append("⚠ " + hard)
+		lines.append("★ " + texts.bonus_text(o))
+		lines.append("Поворотов %d из %d · %s · %s" % [moves, int(o["bonus"]["n"]), texts.ui("pay", {"pay": o.get("pay", 0)}), texts.ui("wallet", {"money": money})])
+		if won:
+			var key := "done_bonus" if order_state["bonus_ok"] else "done"
+			lines.append("«%s» %s" % [c["thanks"], texts.ui(key, {"pay": order_state["pay"]})])
+		elif result["win"]:
+			lines.append(texts.ui("hard_failed"))
+		else:
+			lines.append(_taps_line())
+	else:
+		lines.append("Уровень %d/%d · поле %d×%d · ходов %d" % [index + 1, levels.size(), level.w, level.h, moves])
+		lines.append("Напор источника %d − протечки %d×%d = %d" % [level.H, result["leaks"], level.L, result["heff"]])
+		lines.append(_taps_line())
+		lines.append("Решено! Жми «Дальше»." if won else "Участок −1, поворот −1, развилка −1 за лишний конец.")
+	info.text = "\n".join(lines)
+	debug.text = _debug_line()
+
+
+func _taps_line() -> String:
 	var ok := 0
 	for j in level.taps.size():
 		var p = result["taps"][j]
 		if p != null and int(p) >= int(level.req[level.taps[j]]):
 			ok += 1
-	var lines := PackedStringArray()
-	lines.append("Уровень %d/%d · поле %d×%d · ходов %d" % [index + 1, levels.size(), level.w, level.h, moves])
-	lines.append("Напор источника %d − протечки %d×%d = %d" % [level.H, result["leaks"], level.L, result["heff"]])
-	lines.append("Краны с нужным напором: %d из %d" % [ok, level.taps.size()])
-	if won:
-		var extra := ""
-		if level.meta.get("surprise", false):
-			extra = " Это уровень-сюрприз: здесь выгодно оставить протечку."
-		lines.append("Решено! Жми «Дальше»." + extra)
-	else:
-		lines.append("Участок −1, поворот −1, развилка −1 за лишний конец.")
-	lines.append(_debug_line())
-	info.text = "\n".join(lines)
+	return "Напор %d − протечки %d×%d = %d · краны %d/%d" % [level.H, result["leaks"], level.L, result["heff"], ok, level.taps.size()]
 
 
 ## Отладочная строка для прототипа: по seed уровень можно воспроизвести.
@@ -200,5 +243,5 @@ func _debug_line() -> String:
 	var m: Dictionary = level.meta
 	var d: Dictionary = m.get("difficulty", {})
 	if not m.has("seed"):
-		return "[пример из документа]"
-	return "[seed %d · оценка %.1f · бот %s, %d касаний]" % [int(m["seed"]), float(d.get("score", 0)), str(m.get("bot_solved", "—")), int(m.get("bot_moves_median", 0))]
+		return "пример из документа"
+	return "%d/%d · seed %d · оценка %.1f · минимум %d" % [index + 1, levels.size(), int(m["seed"]), float(d.get("score", 0)), int(level.order.get("min_moves", -1))]
