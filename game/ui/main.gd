@@ -8,6 +8,7 @@ const BoardView = preload("res://game/ui/board_view.gd")
 const JsonIo = preload("res://addons/master_core/level/json_io.gd")
 const Order = preload("res://game/logic/order.gd")
 const OrderTexts = preload("res://game/logic/order_texts.gd")
+const PixelArt = preload("res://game/ui/pixel_art.gd")
 
 const BAR_H := 140.0
 const PACK_PATH := "res://levels/packs/proto.json"
@@ -42,18 +43,19 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	texts = OrderTexts.new("ru")
 	var bg := ColorRect.new()
-	bg.color = Color("161a23")
+	bg.color = PixelArt.C["bg"]
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
 	info = Label.new()
 	info.add_theme_font_size_override("font_size", 26)
+	info.add_theme_color_override("font_color", PixelArt.C["text"])
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD
 	info.clip_text = true
 	add_child(info)
 	debug = Label.new()
 	debug.add_theme_font_size_override("font_size", 18)
-	debug.add_theme_color_override("font_color", Color("6b7385"))
+	debug.add_theme_color_override("font_color", PixelArt.C["text_dim"])
 	add_child(debug)
 	board = BoardView.new()
 	add_child(board)
@@ -71,6 +73,12 @@ func _button(text: String, cb: Callable) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.add_theme_font_size_override("font_size", 34)
+	var st := PixelArt.button_styles()
+	for k in st:
+		b.add_theme_stylebox_override(k, st[k])
+	b.add_theme_color_override("font_color", PixelArt.C["text"])
+	b.add_theme_color_override("font_pressed_color", PixelArt.C["copper_ui"])
+	b.add_theme_color_override("font_disabled_color", PixelArt.C["text_dim"])
 	b.focus_mode = Control.FOCUS_NONE
 	b.pressed.connect(cb)
 	add_child(b)
