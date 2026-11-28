@@ -96,6 +96,7 @@ func _rebuild() -> void:
 		"home": _build_home()
 		"orders": _build_orders()
 		"settings": _build_settings()
+		"howto": _build_howto()
 	queue_redraw()
 
 
@@ -138,9 +139,26 @@ func _build_settings() -> void:
 	var snd := _button("Звук: " + ("вкл" if s["sound"] else "выкл"), func(): _toggle("sound"))
 	var vib := _button("Вибрация: " + ("вкл" if s["vibration"] else "выкл"), func(): _toggle("vibration"))
 	var hand := _button("Рука: " + ("левая" if s["left_hand"] else "правая"), func(): _toggle("left_hand"))
+	var how := _button("Как играть", func(): open("howto"))
 	var reset := _button("Сбросить прогресс" if not _confirm_reset else "Точно сбросить? Нажми ещё раз", _reset)
 	var back := _button("Назад", func(): open("home"))
-	_stack([snd, vib, hand, reset, back])
+	_stack([snd, vib, hand, how, reset, back])
+
+
+## «Как играть»: показывается при первом запуске и из настроек.
+func _build_howto() -> void:
+	var ok := _button("Понятно", _howto_done, true)
+	_stack([ok])
+
+
+func _howto_done() -> void:
+	var first: bool = not game.settings.get("seen_howto", false)
+	game.settings["seen_howto"] = true
+	game.save_progress()
+	if first:
+		play_requested.emit(game.next_unsolved())
+	else:
+		open("settings")
 
 
 func _toggle(key: String) -> void:
@@ -173,6 +191,8 @@ func _draw() -> void:
 			_draw_tiles(font)
 		"settings":
 			_draw_header(font, "Настройки", "")
+		"howto":
+			_draw_howto(font)
 
 
 func _draw_header(font: Font, title: String, sub: String) -> void:
@@ -246,3 +266,49 @@ func _draw_tiles(font: Font) -> void:
 		elif locked:
 			draw_rect(Rect2(r.position + Vector2(r.size.x - 34, r.size.y - 36), Vector2(20, 16)), PixelArt.C["text_dim"])
 			draw_arc(r.position + Vector2(r.size.x - 24, r.size.y - 38), 7, PI, TAU, 8, PixelArt.C["text_dim"], 3)
+
+
+const HOWTO := [
+	["tank_pipe_gauge", "Крути трубы касанием — доведи воду от бака до всех кранов."],
+	["corner", "Каждая труба отнимает 1 напора, поворот воды — ещё 1, развилка — ещё 1."],
+	["gauge", "На кране «есть / нужно». Зелёный — напора хватает, оранжевый — мало."],
+	["drop", "Протечка снижает напор всей сети на 2. Закрывай лишние концы труб."],
+	["star", "Выполни условие клиента и уложись в повороты — получишь премию."],
+]
+
+
+func _draw_howto(font: Font) -> void:
+	draw_string(font, Vector2(32, 90), "Как играть", HORIZONTAL_ALIGNMENT_LEFT, -1, 56, PixelArt.C["text"])
+	var y := 150.0
+	var row := 150.0
+	for item in HOWTO:
+		var pic: String = item[0]
+		var r := Rect2(32, y + 10, 96, 96)
+		match pic:
+			"tank_pipe_gauge":
+				var s3 := 48.0
+				var rr := Rect2(24, y + 34, s3, s3)
+				draw_texture_rect(PixelArt.pipe(0b0010), rr, false)
+				draw_texture_rect(PixelArt.channel(0b0010), rr, false, PixelArt.water_color(1.0))
+				draw_texture_rect(PixelArt.tank(), rr, false)
+				rr.position.x += s3
+				draw_texture_rect(PixelArt.pipe(0b1010), rr, false)
+				draw_texture_rect(PixelArt.channel(0b1010), rr, false, PixelArt.water_color(0.7))
+				rr.position.x += s3
+				draw_texture_rect(PixelArt.gauge("ok"), rr, false)
+			"corner":
+				draw_texture_rect(PixelArt.pipe(0b0110), r, false)
+				draw_texture_rect(PixelArt.channel(0b0110), r, false, PixelArt.water_color(0.5))
+			"gauge":
+				draw_texture_rect(PixelArt.gauge("ok"), r, false)
+				var t := "3/2"
+				var tw := font.get_string_size(t, HORIZONTAL_ALIGNMENT_LEFT, -1, 24).x
+				draw_string(font, r.get_center() + Vector2(-tw / 2, 8), t, HORIZONTAL_ALIGNMENT_LEFT, -1, 24, Color("2a1f1d"))
+			"drop":
+				draw_texture_rect(PixelArt.pipe(0b0101), r, false)
+				draw_texture_rect(PixelArt.drop(), Rect2(r.get_center() + Vector2(-12, -64), Vector2(24, 30)), false)
+			"star":
+				draw_texture_rect(Themes.small("star"), Rect2(r.position + Vector2(16, 16), Vector2(64, 64)), false)
+		var tx := 176.0 if pic != "tank_pipe_gauge" else 176.0
+		draw_multiline_string(font, Vector2(tx, y + 50), item[1], HORIZONTAL_ALIGNMENT_LEFT, size.x - tx - 32, 28, 3, PixelArt.C["text"])
+		y += row

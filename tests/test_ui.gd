@@ -314,6 +314,27 @@ func test_settings_and_left_hand() -> bool:
 	return ok()
 
 
+func test_howto_first_launch() -> bool:
+	var m := _make()
+	m.settings["seen_howto"] = false
+	m.menu.open("howto")
+	check(m.menu.visible, "«Как играть» открыт")
+	check_eq(m.menu._buttons.size(), 1, "одна кнопка «Понятно»")
+	var b: Button = m.menu._buttons[0]
+	check(b.position.y >= 1280 * 2.0 / 3.0 - 1 and b.size.y >= 96.0, "«Понятно» в нижней трети и ≥ 48 dp")
+	b.pressed.emit()
+	check(m.settings["seen_howto"], "отмечено как показанное")
+	check(not m.menu.visible, "после первого показа сразу игра")
+	check_eq(m.load_progress(m.levels.size()) >= 0, true, "прогресс читается")
+	check(m.settings["seen_howto"], "отметка сохранилась в файл")
+	# повторный показ из настроек возвращает в настройки
+	m.menu.open("howto")
+	m.menu._buttons[0].pressed.emit()
+	check(m.menu.visible and m.menu.screen == "settings", "из настроек — обратно в настройки")
+	m.queue_free()
+	return ok()
+
+
 ## Решить текущий заказ решением, которое его выполняет.
 func _solve(m) -> void:
 	var Order = load("res://game/logic/order.gd")
