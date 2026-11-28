@@ -6,6 +6,9 @@ extends SceneTree
 var main: Control
 var frames := 0
 var out := "shot.png"
+var series := 0       ## --frames N: снять N кадров (out_000.png …) для GIF
+var every := 3        ## --every K: каждый K-й кадр
+var taps := []        ## --taps "i,j,k": касания по ходу съёмки (для анимации поворота)
 
 
 func _initialize() -> void:
@@ -14,6 +17,11 @@ func _initialize() -> void:
 	for i in range(0, args.size() - 1, 2):
 		a[args[i].trim_prefix("--")] = args[i + 1]
 	out = a.get("out", out)
+	series = int(a.get("frames", 0))
+	every = int(a.get("every", 3))
+	if a.has("taps"):
+		for t in String(a["taps"]).split(","):
+			taps.append(int(t))
 	main = load("res://game/ui/main.tscn").instantiate()
 	root.add_child(main)
 	if main.board == null:
@@ -21,6 +29,20 @@ func _initialize() -> void:
 	if a.has("level"):
 		main.index = int(a["level"])
 		main._load_current()
+	if a.has("almost"):
+		# решить заказ, кроме последнего касания — его сделаем в кадре (видно пружинку и победу)
+		var Order2 = load("res://game/logic/order.gd")
+		var sols2: Array = Order2.analyze(main.level)
+		var plan2: PackedByteArray = sols2[0]["plan"]
+		var lv2 = main.level
+		var need := []
+		for i in lv2.w * lv2.h:
+			if lv2.is_rotatable(i):
+				for k in (plan2[i] - lv2.rots[i]) & 3:
+					need.append(i)
+		for k in need.size() - 1:
+			main.tap_cell(need[k])
+		taps = [need[need.size() - 1]]
 	if a.has("win"):
 		# докрутить до ближайшего решения заказа (минимум касаний)
 		var Order = load("res://game/logic/order.gd")
@@ -49,6 +71,17 @@ func _initialize() -> void:
 
 func _process(_delta: float) -> bool:
 	frames += 1
+	if series > 0:
+		var k := frames - 5
+		if k >= 0 and k % every == 0:
+			var n := k / every
+			if n < taps.size() * 0 + 1000 and taps.size() > 0 and n % 6 == 0 and n / 6 < taps.size():
+				main.tap_cell(taps[n / 6])
+			root.get_texture().get_image().save_png(out.get_basename() + "_%03d.png" % n)
+			if n + 1 >= series:
+				print("saved %d frames" % series)
+				return true
+		return false
 	if frames == 5:
 		var img := root.get_texture().get_image()
 		img.save_png(out)
