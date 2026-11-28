@@ -22,6 +22,8 @@ var said_l: Label
 var hard_l: Label
 var bonus_l: Label
 var moves_l: Label
+var meas_l: Label
+var hard_lines := 1
 var pay_l: Label
 var wallet_l: Label
 var status_l: Label
@@ -36,6 +38,8 @@ func _init() -> void:
 	hard_l = _label(20, Color.WHITE, true)
 	bonus_l = _label(20, INK, true)
 	moves_l = _label(20, INK)
+	meas_l = _label(20, Color.WHITE)
+	meas_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	pay_l = _label(26, INK)
 	wallet_l = _label(18, INK_DIM)
 	status_l = _label(18, INK_DIM)
@@ -62,6 +66,8 @@ func show_order(d: Dictionary) -> void:
 	said_l.add_theme_color_override("font_color", RED if d.get("said_is_error", false) else INK)
 	hard_l.text = d.get("hard", "")
 	hard_l.visible = hard_l.text != ""
+	meas_l.text = d.get("measure", "")
+	meas_l.visible = hard_l.visible and meas_l.text != ""
 	bonus_l.text = "≤ %d поворотов ×1,5" % int(d.get("bonus_n", 0))
 	moves_l.text = "поворотов %d/%d" % [int(d.get("moves", 0)), int(d.get("bonus_n", 0))]
 	pay_l.text = "%d ₼" % int(d.get("pay", 0))
@@ -89,6 +95,15 @@ func _place(l: Label, pos: Vector2, w: float) -> void:
 	l.size = Vector2(maxf(w, 10.0), 0)
 
 
+## Число строк считаем шрифтом сами: get_line_count() у Label
+## отстаёт на кадр после смены текста и ширины.
+func _lines(l: Label, width: float) -> int:
+	var font := l.get_theme_font("font")
+	var fs := l.get_theme_font_size("font_size")
+	var sz := font.get_multiline_string_size(l.text, HORIZONTAL_ALIGNMENT_LEFT, width, fs)
+	return maxi(1, roundi(sz.y / font.get_height(fs)))
+
+
 func _layout() -> void:
 	var w := size.x
 	if w < 100:
@@ -98,9 +113,12 @@ func _layout() -> void:
 	_place(place_l, Vector2(x0, 60), w - x0 - 40)
 	_place(said_l, Vector2(40, 106), w - 80)
 	var y := 192.0
-	_place(hard_l, Vector2(58, y), w - 100)
+	var hard_w := w - 100 - (150.0 if meas_l.visible else 0.0)
+	_place(hard_l, Vector2(58, y), hard_w)
+	_place(meas_l, Vector2(w - 190, y), 150)
+	hard_lines = _lines(hard_l, hard_w) if hard_l.visible else 0
 	if hard_l.visible:
-		y += 44 + 26 * maxi(0, hard_l.get_line_count() - 1)
+		y += 44 + 26 * maxi(0, hard_lines - 1)
 	_place(bonus_l, Vector2(58, y), 270)
 	_place(moves_l, Vector2(w - 250, y), 220)
 	y += 46
@@ -133,8 +151,8 @@ func _draw() -> void:
 	draw_colored_polygon(PackedVector2Array([Vector2(52, 101), Vector2(60, 86), Vector2(72, 101)]), BUBBLE)
 	# плашки: условие (красная), бонус (золотая)
 	if hard_l.visible:
-		var hr := Rect2(30, hard_l.position.y - 4, w - 60, 34 + 26 * maxi(0, hard_l.get_line_count() - 1))
-		draw_rect(hr, RED)
+		var hr := Rect2(30, hard_l.position.y - 4, w - 60, 34 + 26 * maxi(0, hard_lines - 1))
+		draw_rect(hr, GREEN if data.get("measure_ok", false) else RED)
 		draw_texture_rect(Themes.small("warn"), Rect2(36, hr.position.y + 8, 16, 16), false)
 	var br := Rect2(30, bonus_l.position.y - 4, 300, 36)
 	draw_rect(br, GOLD)

@@ -214,25 +214,38 @@ static func _hard_ok_solution(order: Dictionary, s: Dictionary) -> bool:
 
 ## Проверка в игре: r — PressureEval.evaluate текущих поворотов, moves — сделано поворотов.
 ## Возвращает {done, hard_ok, bonus_ok, pay}.
+## Текущее значение жёсткого условия для живого счётчика на карточке:
+## {type, value, n, ok}. Пусто, если условия нет.
+static func measure(lv, order: Dictionary, r: Dictionary) -> Dictionary:
+	if not order.has("hard"):
+		return {}
+	var h: Dictionary = order["hard"]
+	var t := String(h["type"])
+	var n := int(h.get("n", 0))
+	var v := 0
+	var ok := true
+	match t:
+		"no_leaks":
+			v = int(r["leaks"])
+			ok = v == 0
+		"max_tees":
+			for i in lv.w * lv.h:
+				if r["wet"][i] == 1 and (lv.kinds[i] == Pieces.TEE or lv.kinds[i] == Pieces.CROSS):
+					v += 1
+			ok = v <= n
+		"max_pipes":
+			v = PressureEval.count_wet(r["wet"])
+			ok = v <= n
+		"tap_min":
+			var j: int = Array(lv.taps).find(int(h["tap"]))
+			var p = r["taps"][j] if j >= 0 else null
+			v = maxi(0, int(p)) if p != null else 0
+			ok = p != null and int(p) >= n
+	return {"type": t, "value": v, "n": n, "ok": ok}
+
+
 static func check(lv, order: Dictionary, r: Dictionary, moves: int) -> Dictionary:
-	var hard_ok := true
-	if order.has("hard"):
-		var h: Dictionary = order["hard"]
-		match String(h["type"]):
-			"no_leaks":
-				hard_ok = int(r["leaks"]) == 0
-			"max_tees":
-				var tees := 0
-				for i in lv.w * lv.h:
-					if r["wet"][i] == 1 and (lv.kinds[i] == Pieces.TEE or lv.kinds[i] == Pieces.CROSS):
-						tees += 1
-				hard_ok = tees <= int(h["n"])
-			"max_pipes":
-				hard_ok = PressureEval.count_wet(r["wet"]) <= int(h["n"])
-			"tap_min":
-				var j: int = Array(lv.taps).find(int(h["tap"]))
-				var p = r["taps"][j] if j >= 0 else null
-				hard_ok = p != null and int(p) >= int(h["n"])
+	var hard_ok: bool = measure(lv, order, r).get("ok", true)
 	var done: bool = r["win"] and hard_ok
 	var bonus_ok := done and order.has("bonus") and moves <= int(order["bonus"]["n"])
 	var pay := 0

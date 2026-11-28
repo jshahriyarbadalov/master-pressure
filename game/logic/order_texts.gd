@@ -36,5 +36,18 @@ func bonus_text(order: Dictionary) -> String:
 	return _variant(data["bonus"], order, 1).format({"n": order["bonus"]["n"]})
 
 
+## Короткий счётчик условия для плашки: «труб 7/6».
+func measure_text(m: Dictionary) -> String:
+	if m.is_empty():
+		return ""
+	return String(data["ui"]["measure"][m["type"]]).format({"v": m["value"], "n": m["n"]})
+
+
+## Реплика при победе без выполненного условия — с конкретными числами.
+func fail_text(m: Dictionary) -> String:
+	var what := String(data["ui"]["fail_what"][m["type"]]).format({"v": m["value"], "n": m["n"]})
+	return String(data["ui"]["hard_failed_detail"]).format({"what": what})
+
+
 func ui(key: String, args: Dictionary = {}) -> String:
 	return String(data["ui"][key]).format(args)
