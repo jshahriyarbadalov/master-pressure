@@ -48,6 +48,9 @@ func _init() -> void:
 				var c: Dictionary = group[cand_i]
 				if s == "5x5" and int(c["bot_solved"]) < int(c["bot_runs"]):
 					continue
+				# каждый второй уровень — с условием клиента, если такой есть поблизости
+				if qi % 2 == 1 and String(c.get("order_hard", "")) == "" and off < group.size() / 5:
+					continue
 				picked[cand_i] = true
 				break
 		# сюрприз: на средних и больших размерах заменить один уровень на «с протечкой в решении»

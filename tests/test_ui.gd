@@ -4,6 +4,7 @@ extends "res://tests/test_case.gd"
 ## поворачивает участок, касание мимо/по неповорачиваемой ничего не делает.
 
 const Pieces = preload("res://game/logic/pieces.gd")
+const PressureEval = preload("res://game/logic/pressure_eval.gd")
 
 
 func _make() -> Control:
@@ -107,10 +108,19 @@ func test_pack_and_progress() -> bool:
 	check_eq(sizes, sorted_sizes, "размеры не убывают (5×5 → 7×9)")
 	m.load_pack(m.levels, 0)
 	var lv = m.level
+	# решаем решением, которое выполняет заказ (задуманное генератором может нарушать условие клиента)
+	var Order = load("res://game/logic/order.gd")
+	var plan: PackedByteArray = PackedByteArray()
+	for sl in Order.analyze(lv):
+		var rr = PressureEval.evaluate(lv, sl["mask"])
+		if Order.check(lv, lv.order, rr, 0)["done"]:
+			plan = sl["plan"]
+			break
+	check(not plan.is_empty(), "у первого заказа есть решение под условием")
 	for i in lv.w * lv.h:
-		if lv.is_rotatable(i):
+		if lv.is_rotatable(i) and not plan.is_empty():
 			var guard := 0
-			while lv.rots[i] != lv.solution[i] and guard < 4 and not m.won:
+			while lv.rots[i] != plan[i] and guard < 4 and not m.won:
 				m.tap_cell(i)
 				guard += 1
 	check(m.won, "первый уровень пака решается")

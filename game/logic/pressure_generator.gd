@@ -21,6 +21,7 @@ const SeededRng = preload("res://addons/master_core/rng/seeded_rng.gd")
 const PressureLevel = preload("res://game/logic/pressure_level.gd")
 const PressureEval = preload("res://game/logic/pressure_eval.gd")
 const PressureSolver = preload("res://game/logic/pressure_solver.gd")
+const Order = preload("res://game/logic/order.gd")
 
 ## Параметры по умолчанию; перекрываются словарём params.
 const DEFAULTS := {
@@ -39,6 +40,8 @@ const DEFAULTS := {
 	"all_stop": 2000,        ## хватит стольких соединяющих сетей
 	"min_cut": 2,            ## напор должен отсечь хотя бы столько соединяющих сетей
 	"attempts": 60,
+	"order": false,          ## режим заказа (T-18): уровень сразу с заказом клиента
+	"order_max_winners": 16, ## в режиме заказа решений может быть больше — их отсекает условие
 }
 
 var params := {}
@@ -206,14 +209,16 @@ func _try(rng):
 		return null
 
 	# --- 5. проверка решателем и фильтры ---
-	var sol := PressureSolver.count_winners(lv, int(params["solver_nodes"]), int(params["max_winners"]) + 1)
+	var order_mode: bool = params["order"]
+	var win_cap: int = int(params["order_max_winners"]) if order_mode else int(params["max_winners"])
+	var sol := PressureSolver.count_winners(lv, int(params["solver_nodes"]), win_cap + 1)
 	if sol["aborted"]:
 		_reject("решатель не уложился")
 		return null
 	if int(sol["winners"]) < 1:
 		_reject("решатель не нашёл решения (ошибка!)")
 		return null
-	if int(sol["winners"]) > int(params["max_winners"]):
+	if int(sol["winners"]) > win_cap:
 		_reject("слишком много решений")
 		return null
 	var all := PressureSolver.count_all(lv, int(params["all_nodes"]), int(params["all_stop"]))
@@ -231,9 +236,20 @@ func _try(rng):
 		return null
 
 	# --- 6. перемешивание ---
-	if not _scramble(rng.fork("scramble"), lv):
+	var sols := []
+	if order_mode:
+		sols = Order.analyze(lv)  # сети не зависят от старта — решатель один раз
+	if not _scramble(rng.fork("scramble"), lv, sols):
 		_reject("не удалось перемешать")
 		return null
+
+	# --- 7. заказ клиента (режим заказа) ---
+	var order := {}
+	if order_mode:
+		order = Order.make(lv, rng.fork("order"), sols)
+		if not order.has("hard") and int(sol["winners"]) > int(params["max_winners"]):
+			_reject("много решений, а условия клиента нет")
+			return null
 
 	lv.meta = {
 		"w": w, "h": h, "taps": taps.size(), "slack": params["slack"],
@@ -242,6 +258,7 @@ func _try(rng):
 		"all_nodes": all["nodes"], "solution_leaks": r2["leaks"],
 		"loop": _has_loop(lv, r2["wet"]),
 	}
+	lv.order = order
 	return lv
 
 
@@ -411,14 +428,20 @@ func _dry_fill(lv, net: PackedByteArray) -> void:
 				break
 
 
-func _scramble(rng, lv) -> bool:
-	for attempt in 20:
+## sols (режим заказа) — решения от Order.analyze: тогда ещё требуем, чтобы
+## минимум касаний был не меньше Order.moves_floor («не слишком легко»).
+func _scramble(rng, lv, sols: Array = []) -> bool:
+	for attempt in 30:
 		for i in lv.w * lv.h:
 			lv.rots[i] = rng.rand_int(0, 3) if lv.is_rotatable(i) else 0
 		if PressureEval.evaluate(lv, lv.masks())["win"]:
 			continue
 		if _one_tap_win(lv):
 			continue
+		if not sols.is_empty():
+			Order.recompute_moves(lv, sols)
+			if int(sols[0]["moves"]) < Order.moves_floor(lv, sols):
+				continue
 		return true
 	return false
 

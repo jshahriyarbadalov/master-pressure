@@ -171,6 +171,9 @@ func _load_current() -> void:
 	if not level.order.is_empty():
 		th = String(texts.client(level.order).get("theme", th))
 	board.room = th
+	board.target_tap = -1
+	if level.order.get("hard", {}).get("type", "") == "tap_min":
+		board.target_tap = int(level.order["hard"]["tap"])
 	bg.color = Themes.BG.get(th, PixelArt.C["bg"])
 	board.set_level(level)
 	_refresh()

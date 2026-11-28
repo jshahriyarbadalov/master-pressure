@@ -12,6 +12,7 @@ const PressureEval = preload("res://game/logic/pressure_eval.gd")
 const PressureSolver = preload("res://game/logic/pressure_solver.gd")
 const Difficulty = preload("res://game/logic/difficulty.gd")
 const BotPlayer = preload("res://game/logic/bot_player.gd")
+const Order = preload("res://game/logic/order.gd")
 const JsonIo = preload("res://addons/master_core/level/json_io.gd")
 
 
@@ -40,7 +41,18 @@ func _init() -> void:
 		for rots in cw["winner_rots"]:
 			if not PressureEval.evaluate(lv, lv.masks_for(rots))["win"]:
 				solver_ok = false
-		var verified := sol_ok and start_ok and solver_ok
+		# заказ (если есть) выполним: есть решение под условием клиента, а старт его не выполняет
+		var order_ok := true
+		if not lv.order.is_empty():
+			order_ok = false
+			for sl in Order.analyze(lv):
+				var rr := PressureEval.evaluate(lv, sl["mask"])
+				if Order.check(lv, lv.order, rr, int(sl["moves"]))["done"]:
+					order_ok = true
+					break
+			if Order.check(lv, lv.order, PressureEval.evaluate(lv, lv.masks()), 0)["done"]:
+				order_ok = false
+		var verified := sol_ok and start_ok and solver_ok and order_ok
 		if not verified:
 			bad += 1
 		var f := Difficulty.annotate(lv)
@@ -54,7 +66,8 @@ func _init() -> void:
 		moves.sort()
 		out.append({
 			"idx": idx, "size": "%dx%d" % [lv.w, lv.h], "seed": lv.meta.get("seed", -1),
-			"verified": verified, "sol_ok": sol_ok, "start_ok": start_ok, "solver_ok": solver_ok,
+			"verified": verified, "sol_ok": sol_ok, "start_ok": start_ok, "solver_ok": solver_ok, "order_ok": order_ok,
+			"order_hard": String(lv.order.get("hard", {}).get("type", "")), "order_min_moves": int(lv.order.get("min_moves", -1)),
 			"winners": cw["winners"], "solver_nodes": cw["nodes"],
 			"bot_solved": solved, "bot_runs": runs, "bot_moves_median": moves[moves.size() / 2],
 			"features": f,

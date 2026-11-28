@@ -21,7 +21,10 @@ func _init() -> void:
 	var k := 0
 	for d in pack["levels"]:
 		var lv = PressureLevel.from_dict(d)
-		lv.order = Order.make(lv, SeededRng.new(int(lv.meta.get("seed", 1)) ^ 0x4F52))
+		if lv.order.is_empty():
+			lv.order = Order.make(lv, SeededRng.new(int(lv.meta.get("seed", 1)) ^ 0x4F52))
+		else:
+			lv.order["pay"] = Order.pay_for(lv)  # заказ из генератора; оплата — по сложности
 		# клиент: каждый по разу, соседние уровни — в разных помещениях
 		var cid: int = int(lv.order["client_id"])
 		lv.order["client_id"] = cid - cid % clients.size() + int(order_of[k % order_of.size()])
