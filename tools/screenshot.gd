@@ -62,6 +62,19 @@ func _initialize() -> void:
 				while lvw.is_rotatable(i) and lvw.rots[i] != plan[i] and guard < 4 and not main.won:
 					main.tap_cell(i)
 					guard += 1
+	if a.has("violate"):
+		# напор в норме, но условие клиента нарушено (для скриншота счётчика)
+		var Order3 = load("res://game/logic/order.gd")
+		var PE3 = load("res://game/logic/pressure_eval.gd")
+		var lv3 = main.level
+		for s3 in Order3.analyze(lv3):
+			if not Order3.measure(lv3, lv3.order, PE3.evaluate(lv3, s3["mask"])).get("ok", true):
+				for i in lv3.w * lv3.h:
+					var guard := 0
+					while lv3.is_rotatable(i) and lv3.rots[i] != s3["plan"][i] and guard < 4:
+						main.tap_cell(i)
+						guard += 1
+				break
 	if a.has("solve"):
 		var k := int(a["solve"])
 		var lv = main.level

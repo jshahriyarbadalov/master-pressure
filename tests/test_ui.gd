@@ -205,7 +205,8 @@ func test_order_hard_condition_blocks_win() -> bool:
 	_tap_to(m, sols[leaky]["plan"])
 	check(m.result["win"], "напор в норме")
 	check(not m.won, "но условие «без протечек» не выполнено — заказ не засчитан")
-	check(m.card.said_l.text.contains("условие клиента"), "игроку сказано, что не так")
+	check(m.card.said_l.text.contains("без протечек"), "игроку сказано, что не так")
+	check(m.card.meas_l.text.begins_with("протечек") and not m.card.data["measure_ok"], "живой счётчик протечек красный")
 	m.reset()
 	_tap_to(m, sols[clean]["plan"])
 	check(m.won, "без протечек — заказ выполнен")
@@ -310,6 +311,41 @@ func test_settings_and_left_hand() -> bool:
 	check_eq(m.money, 50, "первое нажатие только спрашивает")
 	m.menu._reset()
 	check(m.money == 0 and m.done.is_empty(), "второе — сбрасывает")
+	m.queue_free()
+	return ok()
+
+
+## Заказ 2 («Школа музыки», не больше 6 труб): напор в норме при 7 трубах,
+## а игрок не видел почему. Теперь счётчик «труб 7/6» и реплика с числами.
+func test_max_pipes_counter_shows_why() -> bool:
+	var Order = load("res://game/logic/order.gd")
+	var m := _make()
+	m.save_path = "user://test_progress_orders.json"
+	m.load_pack(m.levels, 1)
+	var o: Dictionary = m.level.order
+	check_eq(String(o["hard"]["type"]), "max_pipes", "у заказа 2 условие на число труб")
+	var n := int(o["hard"]["n"])
+	var sols: Array = Order.analyze(m.level)
+	var over := -1
+	var fit := -1
+	for k in sols.size():
+		if int(sols[k]["pipes"]) > n and over < 0:
+			over = k
+		if int(sols[k]["pipes"]) <= n and fit < 0:
+			fit = k
+	check(over >= 0 and fit >= 0, "есть решение с лишними трубами и подходящее")
+	if over < 0 or fit < 0:
+		return ok()
+	_tap_to(m, sols[over]["plan"])
+	check(m.result["win"] and not m.won, "напор в норме, но заказ не засчитан")
+	var want := "труб %d/%d" % [int(sols[over]["pipes"]), n]
+	check_eq(m.card.meas_l.text, want, "счётчик на плашке условия")
+	check(not m.card.data["measure_ok"], "плашка красная")
+	check(m.card.said_l.text.contains("труб %d" % int(sols[over]["pipes"])), "реплика называет число труб")
+	m.reset()
+	_tap_to(m, sols[fit]["plan"])
+	check(m.won, "уложились в %d труб — заказ выполнен" % n)
+	check(m.card.data["measure_ok"], "плашка зелёная")
 	m.queue_free()
 	return ok()
 

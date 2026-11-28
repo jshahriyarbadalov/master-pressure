@@ -34,6 +34,8 @@ var order_state := {} ## Order.check для текущего положения
 var texts = null
 var sound_on := true
 var vibration_on := true
+## Тесты и скриншоты могут скрыть строку отладки и в отладочной сборке.
+var show_debug := true
 var settings := {"sound": true, "vibration": true, "left_hand": false}
 var done := {}             ## индекс уровня -> 1 выполнен, 2 выполнен с премией
 var menu: Menu
@@ -362,10 +364,11 @@ func _update_info() -> void:
 		var c: Dictionary = texts.client(o)
 		var said: String = c["complaint"]
 		var err := false
+		var meas: Dictionary = Order.measure(level, o, result)
 		if won:
 			said = c["thanks"]
 		elif result["win"]:
-			said = texts.ui("hard_failed")
+			said = texts.fail_text(meas)
 			err = true
 		card.show_order({
 			"theme": c.get("theme", ""), "name": c["name"], "place": c["place"],
@@ -375,6 +378,7 @@ func _update_info() -> void:
 			"money": money, "call_no": int(o.get("client_id", 0)) % 1000,
 			"done": won, "bonus_ok": won and order_state.get("bonus_ok", false),
 			"status": _taps_line(),
+			"measure": texts.measure_text(meas), "measure_ok": meas.get("ok", true),
 		})
 	else:
 		lines.append("Уровень %d/%d · поле %d×%d · ходов %d" % [index + 1, levels.size(), level.w, level.h, moves])
@@ -383,6 +387,8 @@ func _update_info() -> void:
 		lines.append("Решено! Жми «Дальше»." if won else "Участок −1, поворот −1, развилка −1 за лишний конец.")
 	info.text = "\n".join(lines)
 	debug.text = _debug_line()
+	# отладочная строка с seed — только в отладочных сборках, в релизе её нет
+	debug.visible = OS.is_debug_build() and show_debug
 
 
 func _count_ok() -> int:
