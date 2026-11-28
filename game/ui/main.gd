@@ -9,6 +9,8 @@ const JsonIo = preload("res://addons/master_core/level/json_io.gd")
 const Order = preload("res://game/logic/order.gd")
 const OrderTexts = preload("res://game/logic/order_texts.gd")
 const PixelArt = preload("res://game/ui/pixel_art.gd")
+const Themes = preload("res://game/ui/themes.gd")
+const OrderCard = preload("res://game/ui/order_card.gd")
 
 const BAR_H := 140.0
 const PACK_PATH := "res://levels/packs/proto.json"
@@ -32,6 +34,8 @@ var texts = null
 var board: BoardView
 var info: Label
 var debug: Label
+var card: OrderCard
+var bg: ColorRect
 var btn_undo: Button
 var btn_reset: Button
 var btn_next: Button
@@ -42,7 +46,7 @@ func _ready() -> void:
 		return  # уже инициализирован (тесты вызывают _ready вручную)
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	texts = OrderTexts.new("ru")
-	var bg := ColorRect.new()
+	bg = ColorRect.new()
 	bg.color = PixelArt.C["bg"]
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -53,6 +57,8 @@ func _ready() -> void:
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD
 	info.clip_text = true
 	add_child(info)
+	card = OrderCard.new()
+	add_child(card)
 	debug = Label.new()
 	debug.add_theme_font_size_override("font_size", 18)
 	debug.add_theme_color_override("font_color", PixelArt.C["text_dim"])
@@ -119,6 +125,9 @@ func _layout() -> void:
 	var top := floorf(size.y / 3.0)
 	info.position = Vector2(24, 20)
 	info.size = Vector2(size.x - 48, top - 52)
+	card.position = Vector2(0, 0)
+	card.size = Vector2(size.x, top - 28)
+	card.relayout()
 	debug.position = Vector2(24, top - 30)
 	debug.size = Vector2(size.x - 48, 24)
 	board.position = Vector2(0, top)
@@ -146,6 +155,11 @@ func _load_current() -> void:
 	moves = 0
 	won = false
 	paid = false
+	var th := Themes.by_index(index)
+	if not level.order.is_empty():
+		th = String(texts.client(level.order).get("theme", th))
+	board.room = th
+	bg.color = Themes.BG.get(th, PixelArt.C["bg"])
 	board.set_level(level)
 	_refresh()
 
@@ -211,23 +225,27 @@ func _refresh() -> void:
 
 func _update_info() -> void:
 	var lines := PackedStringArray()
-	if not level.order.is_empty():
+	card.visible = not level.order.is_empty()
+	info.visible = not card.visible
+	if card.visible:
 		var o: Dictionary = level.order
 		var c: Dictionary = texts.client(o)
-		lines.append("%s · %s" % [c["name"], c["place"]])
-		lines.append("«%s»" % c["complaint"])
-		var hard: String = texts.hard_text(o)
-		if hard != "":
-			lines.append("⚠ " + hard)
-		lines.append("★ " + texts.bonus_text(o))
-		lines.append("Поворотов %d из %d · %s · %s" % [moves, int(o["bonus"]["n"]), texts.ui("pay", {"pay": o.get("pay", 0)}), texts.ui("wallet", {"money": money})])
+		var said: String = c["complaint"]
+		var err := false
 		if won:
-			var key := "done_bonus" if order_state["bonus_ok"] else "done"
-			lines.append("«%s» %s" % [c["thanks"], texts.ui(key, {"pay": order_state["pay"]})])
+			said = c["thanks"]
 		elif result["win"]:
-			lines.append(texts.ui("hard_failed"))
-		else:
-			lines.append(_taps_line())
+			said = texts.ui("hard_failed")
+			err = true
+		card.show_order({
+			"theme": c.get("theme", ""), "name": c["name"], "place": c["place"],
+			"said": said, "said_is_error": err, "hard": texts.hard_text(o),
+			"bonus_n": int(o["bonus"]["n"]), "moves": moves,
+			"pay": int(order_state["pay"]) if won else int(o.get("pay", 0)),
+			"money": money, "call_no": int(o.get("client_id", 0)) % 1000,
+			"done": won, "bonus_ok": won and order_state.get("bonus_ok", false),
+			"status": _taps_line(),
+		})
 	else:
 		lines.append("Уровень %d/%d · поле %d×%d · ходов %d" % [index + 1, levels.size(), level.w, level.h, moves])
 		lines.append("Напор источника %d − протечки %d×%d = %d" % [level.H, result["leaks"], level.L, result["heff"]])

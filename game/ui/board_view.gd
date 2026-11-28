@@ -7,6 +7,7 @@ signal cell_tapped(index: int)
 const Pieces = preload("res://game/logic/pieces.gd")
 const Dir = preload("res://addons/master_core/grid/dir.gd")
 const PixelArt = preload("res://game/ui/pixel_art.gd")
+const Themes = preload("res://game/ui/themes.gd")
 
 ## Минимальный размер клетки в пикселях дизайна (ширина 720): ≈48 dp на телефоне 360 dp.
 const MIN_CELL := 96.0
@@ -24,6 +25,7 @@ const COL_LEAK := Color("ff4d6d")
 const UNREACHED := -1000000
 
 var level = null
+var room := "kitchen"  ## помещение клиента: пол под трубами (не «theme» — так называется свойство Control)
 var result := {}  ## результат PressureEval.evaluate для текущих поворотов
 var cell := MIN_CELL
 var origin := Vector2.ZERO
@@ -85,7 +87,7 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO, size), PixelArt.C["bg"])
+	draw_rect(Rect2(Vector2.ZERO, size), Themes.BG.get(room, PixelArt.C["bg"]))
 	if level == null or cell < 8.0:
 		return
 	for i in level.w * level.h:
@@ -100,9 +102,9 @@ func _draw_cell(i: int) -> void:
 		draw_texture_rect(PixelArt.cell_tile("wall"), r, false)
 		return
 	if k == Pieces.EMPTY:
-		draw_texture_rect(PixelArt.cell_tile("empty"), r, false)
+		draw_texture_rect(Themes.floor_tile(room, false), r, false, Color(0.78, 0.78, 0.78))
 		return
-	draw_texture_rect(PixelArt.cell_tile("floor"), r, false)
+	draw_texture_rect(Themes.floor_tile(room, true), r, false)
 	if Pieces.is_pipe(k):
 		var m := Pieces.mask(k, level.rots[i])
 		draw_texture_rect(PixelArt.pipe(m), r, false)

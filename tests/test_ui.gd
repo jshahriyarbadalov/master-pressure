@@ -140,7 +140,7 @@ func test_order_screen_pay_and_bonus() -> bool:
 	m.load_pack(m.levels, 0)
 	var lv = m.level
 	check(not lv.order.is_empty(), "у уровня пака есть заказ")
-	check(m.info.text.contains("«"), "на экране реплика клиента")
+	check(m.card.visible and m.card.said_l.text.contains("«"), "на карточке реплика клиента")
 	var sols: Array = Order.analyze(lv)
 	_tap_to(m, sols[0]["plan"])
 	check(m.won, "заказ выполнен самым коротким решением")
@@ -189,9 +189,23 @@ func test_order_hard_condition_blocks_win() -> bool:
 	_tap_to(m, sols[leaky]["plan"])
 	check(m.result["win"], "напор в норме")
 	check(not m.won, "но условие «без протечек» не выполнено — заказ не засчитан")
-	check(m.info.text.contains("условие клиента"), "игроку сказано, что не так")
+	check(m.card.said_l.text.contains("условие клиента"), "игроку сказано, что не так")
 	m.reset()
 	_tap_to(m, sols[clean]["plan"])
 	check(m.won, "без протечек — заказ выполнен")
+	m.queue_free()
+	return ok()
+
+
+func test_rooms_change_every_level() -> bool:
+	var m := _make()
+	var prev := ""
+	var clients := {}
+	for k in m.levels.size():
+		m.load_pack(m.levels, k)
+		check(m.board.room != prev, "уровень %d: помещение сменилось (%s)" % [k + 1, m.board.room])
+		prev = m.board.room
+		clients[int(m.level.order["client_id"]) % 30] = true
+	check_eq(clients.size(), 30, "все 30 клиентов разные")
 	m.queue_free()
 	return ok()
