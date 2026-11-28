@@ -12,6 +12,7 @@ const PixelArt = preload("res://game/ui/pixel_art.gd")
 const Themes = preload("res://game/ui/themes.gd")
 const OrderCard = preload("res://game/ui/order_card.gd")
 const Sfx = preload("res://game/ui/sfx.gd")
+const Menu = preload("res://game/ui/menu.gd")
 
 const BAR_H := 140.0
 const PACK_PATH := "res://levels/packs/proto.json"
@@ -31,8 +32,12 @@ var money := 0        ## кошелёк мастера, сохраняется
 var paid := false     ## оплата за текущий заказ уже начислена
 var order_state := {} ## Order.check для текущего положения
 var texts = null
-var sound_on := true      ## переключатели — в меню (T-22)
+var sound_on := true
 var vibration_on := true
+var settings := {"sound": true, "vibration": true, "left_hand": false}
+var done := {}             ## индекс уровня -> 1 выполнен, 2 выполнен с премией
+var menu: Menu
+var btn_menu: Button
 var _players: Array[AudioStreamPlayer] = []
 var _prev_ok := 0          ## кранов в норме на прошлом шаге (для «плинк»)
 var _prev_hard_fail := false
@@ -76,6 +81,7 @@ func _ready() -> void:
 	board = BoardView.new()
 	add_child(board)
 	board.cell_tapped.connect(_on_cell_tapped)
+	btn_menu = _button("≡", open_menu)
 	btn_undo = _button("Отменить", undo)
 	btn_reset = _button("Заново", reset)
 	btn_next = _button("Дальше", next_level)
@@ -83,6 +89,13 @@ func _ready() -> void:
 	_layout()
 	var pack := _load_pack_levels()
 	load_pack(pack, _load_progress(pack.size()))
+	apply_settings()
+	menu = Menu.new()
+	menu.game = self
+	add_child(menu)
+	_layout()
+	menu.play_requested.connect(_on_play_requested)
+	menu.open("home")
 
 
 func _button(text: String, cb: Callable) -> Button:
@@ -123,12 +136,77 @@ func _load_progress(n: int) -> int:
 	var d = JsonIo.read(save_path)
 	if d is Dictionary:
 		money = int(d.get("money", 0))
+		done = {}
+		for k in d.get("done", {}):
+			done[int(k)] = int(d["done"][k])
+		var st: Dictionary = d.get("settings", {})
+		for k in settings:
+			if st.has(k):
+				settings[k] = bool(st[k])
 		return clampi(int(d.get("index", 0)), 0, maxi(0, n - 1))
 	return 0
 
 
 func save_progress() -> void:
-	JsonIo.write(save_path, {"index": index, "total": levels.size(), "money": money})
+	var dd := {}
+	for k in done:
+		dd[str(k)] = done[k]
+	JsonIo.write(save_path, {"index": index, "total": levels.size(), "money": money, "done": dd, "settings": settings})
+
+
+## --- для меню ---
+func level_status(i: int) -> int:
+	return int(done.get(i, 0))
+
+
+func solved_count() -> int:
+	return done.size()
+
+
+## Открыты все выполненные и следующий за последним выполненным.
+func unlocked_count() -> int:
+	var hi := -1
+	for k in done:
+		hi = maxi(hi, int(k))
+	return mini(levels.size(), hi + 2)
+
+
+func next_unsolved() -> int:
+	for i in unlocked_count():
+		if not done.has(i):
+			return i
+	return clampi(index, 0, levels.size() - 1)
+
+
+func room_of(i: int) -> String:
+	var o: Dictionary = levels[i].get("order", {})
+	if o.is_empty():
+		return Themes.by_index(i)
+	return String(texts.client(o).get("theme", Themes.by_index(i)))
+
+
+func apply_settings() -> void:
+	sound_on = settings["sound"]
+	vibration_on = settings["vibration"]
+	_layout()
+
+
+func reset_progress() -> void:
+	done = {}
+	money = 0
+	index = 0
+	save_progress()
+	_load_current()
+
+
+func open_menu() -> void:
+	menu.open("home")
+
+
+func _on_play_requested(i: int) -> void:
+	menu.close()
+	index = clampi(i, 0, levels.size() - 1)
+	_load_current()
 
 
 func _layout() -> void:
@@ -143,13 +221,25 @@ func _layout() -> void:
 	board.position = Vector2(0, top)
 	board.size = Vector2(size.x, size.y - top - BAR_H)
 	board.refit()
-	var bw := (size.x - PAD * 4) / 3.0
+	if menu != null:
+		menu.position = Vector2.ZERO
+		menu.size = size
+	# нижняя полоса: ≡ узкая, остальные поровну; для левши — зеркально
 	var y := size.y - BAR_H + PAD
 	var bh := BAR_H - PAD * 2
-	for k in 3:
-		var b: Button = [btn_undo, btn_reset, btn_next][k]
-		b.position = Vector2(PAD + k * (bw + PAD), y)
-		b.size = Vector2(bw, bh)
+	var menu_w := 96.0
+	var bw := (size.x - PAD * 5 - menu_w) / 3.0
+	var order := [btn_menu, btn_undo, btn_reset, btn_next]
+	if settings.get("left_hand", false):
+		order.reverse()
+	var x := PAD
+	for b in order:
+		if b == null:
+			continue
+		var bwid := menu_w if b == btn_menu else bw
+		b.position = Vector2(x, y)
+		b.size = Vector2(bwid, bh)
+		x += bwid + PAD
 
 
 func load_pack(dicts: Array, start_index: int = 0) -> void:
@@ -215,7 +305,11 @@ func reset() -> void:
 func next_level() -> void:
 	if not won:
 		return
-	index = (index + 1) % levels.size()
+	if index + 1 >= levels.size():
+		save_progress()
+		open_menu()
+		return
+	index += 1
 	save_progress()
 	_load_current()
 
@@ -231,15 +325,19 @@ func _refresh() -> void:
 		var was := won
 		won = result["win"]
 		if won and not was:
+			done[index] = maxi(int(done.get(index, 0)), 1)
 			_celebrate(false)
 	else:
 		order_state = Order.check(level, level.order, result, moves)
 		won = order_state["done"]
 		if won and not paid:
 			paid = true
-			money += int(order_state["pay"])
+			var first := not done.has(index)
+			if first:
+				money += int(order_state["pay"])  # повтор заказа денег не даёт
+			done[index] = maxi(int(done.get(index, 0)), 2 if order_state["bonus_ok"] else 1)
 			save_progress()
-			_celebrate(true)
+			_celebrate(first)
 		var hard_fail: bool = result["win"] and not won
 		if hard_fail and not _prev_hard_fail:
 			play("fail")
