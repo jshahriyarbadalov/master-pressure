@@ -34,7 +34,7 @@ var order_state := {} ## Order.check для текущего положения
 var texts = null
 var sound_on := true
 var vibration_on := true
-var settings := {"sound": true, "vibration": true, "left_hand": false}
+var settings := {"sound": true, "vibration": true, "left_hand": false, "seen_howto": false}
 var done := {}             ## индекс уровня -> 1 выполнен, 2 выполнен с премией
 var menu: Menu
 var btn_menu: Button
@@ -95,7 +95,7 @@ func _ready() -> void:
 	add_child(menu)
 	_layout()
 	menu.play_requested.connect(_on_play_requested)
-	menu.open("home")
+	menu.open("home" if settings.get("seen_howto", false) else "howto")
 
 
 func _button(text: String, cb: Callable) -> Button:

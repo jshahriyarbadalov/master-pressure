@@ -4,6 +4,11 @@ config_version=5
 config/name="Давление"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 run/main_scene="res://game/ui/main.tscn"
+config/icon="res://assets/icons/icon_192.png"
+boot_splash/bg_color=Color(0.0784, 0.0941, 0.1294, 1)
+boot_splash/image="res://assets/icons/splash.png"
+boot_splash/fullsize=false
+boot_splash/use_filter=false
 
 [display]
 window/size/viewport_width=720
